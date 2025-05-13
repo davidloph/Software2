@@ -9,5 +9,4 @@ public class AsistenciaucoMsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AsistenciaucoMsApplication.class, args);
 	}
-
 }
