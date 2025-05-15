@@ -14,24 +14,24 @@ import jakarta.persistence.Table;
 
 @Entity
 //TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-@Table(name = EstudianteConstants.TABLE_ESTUDIANTE)
-public final class EstudianteEntity {
+@Table(name = ProfesorConstants.TABLE_PROFESOR)
+public final class ProfesorEntity {
 	@Id
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = EstudianteConstants.COLUMN_ID)
+	@Column(name = ProfesorConstants.COLUMN_ID)
 	private UUID id;
 	@ManyToOne
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-    @JoinColumn(name = EstudianteConstants.COLUMN_TIPO_IDENTIFICACION)
+    @JoinColumn(name = ProfesorConstants.COLUMN_TIPO_IDENTIFICACION)
 	private TipoIdentificacionEntity tipoIdentificacion;
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = EstudianteConstants.COLUMN_NUMERO_IDENTIFICACION)
+	@Column(name = ProfesorConstants.COLUMN_NUMERO_IDENTIFICACION)
 	private String numeroIdentificacion;
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = EstudianteConstants.COLUMN_NOMBRES_COMPLETOS)
+	@Column(name = ProfesorConstants.COLUMN_NOMBRES_COMPLETOS)
 	private String nombresCompletos;
 	
-	public EstudianteEntity() {
+	public ProfesorEntity() {
 		setDefaultId();
 		setDefaultTipoIdentificacion();
 		setDefaultNumeroIdentificacion();
@@ -39,14 +39,14 @@ public final class EstudianteEntity {
 	}
 	
 	
-	public EstudianteEntity(final UUID id) {
+	public ProfesorEntity(final UUID id) {
 		setId(id);
 		setDefaultTipoIdentificacion();
 		setDefaultNumeroIdentificacion();
 		setDefaultNombresCompletos();
 	}
 	
-	public EstudianteEntity(final UUID id, final TipoIdentificacionEntity tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos) {
+	public ProfesorEntity(final UUID id, final TipoIdentificacionEntity tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos) {
 		setId(id);
 		setTipoIdentificacion(tipoIdentificacion);
 		setNumeroIdentificacion(numeroIdentificacion);

@@ -9,14 +9,14 @@ import jakarta.persistence.Table;
 
 @Entity
 //TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-@Table(name = "TipoIdentificacion")
+@Table(name = TipoIdentificacionConstants.TABLE_TIPO_IDENTIFICACION)
 public final class TipoIdentificacionEntity {
 	@Id
-	@Column(name = "id")
+	@Column(name = TipoIdentificacionConstants.COLUMN_ID)
 	private UUID id;
-	@Column(name = "clave")
+	@Column(name = TipoIdentificacionConstants.COLUMN_CLAVE)
 	private String clave;
-	@Column(name = "nombre")
+	@Column(name = TipoIdentificacionConstants.COLUMN_NOMBRE)
 	private String nombre;
 	
 	public TipoIdentificacionEntity() {

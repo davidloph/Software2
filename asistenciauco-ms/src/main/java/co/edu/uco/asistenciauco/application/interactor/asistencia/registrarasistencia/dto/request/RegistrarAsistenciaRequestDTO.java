@@ -43,15 +43,26 @@ public final class RegistrarAsistenciaRequestDTO {
 	}
 
 
-	
-
-
 	public class Estudiante {
 		private UUID id;
 		private boolean asistio;
+		private boolean asistioFlag;
 		//TODO: SABER SI EL "ASISTIÓ" FUE POR DEFECTO O REALMENTE NO ASISTIÓ.
+		
+		
 		public Estudiante() {
-			//TODO: SETDEFAULT()
+			setDefaultId();
+			setDefaultAsistio();
+		}
+		
+		public Estudiante(final UUID id) {
+			setId(id);
+			setDefaultAsistio();
+		}
+
+		public Estudiante(final UUID id, final boolean asistio) {
+			setId(id);
+			setAsistio(asistio);
 		}
 
 		public UUID getId() {
@@ -62,14 +73,28 @@ public final class RegistrarAsistenciaRequestDTO {
 			this.id = id;
 		}
 
+		public void setDefaultId() {
+			UUID defaultValue = null;
+			setId(defaultValue);
+		}
+
 		public boolean isAsistio() {
 			return asistio;
 		}
 
 		public void setAsistio(final boolean asistio) {
+			this.asistioFlag = true;
 			this.asistio = asistio;
 		}
 		
+		public void setDefaultAsistio() {
+			this.asistioFlag = false;
+			this.asistio = asistio;
+		}
+
+		public boolean isAsistioFlag() {
+			return asistioFlag;
+		}
 		
 	}
 }
