@@ -30,7 +30,9 @@ public final class AsistenciaEntity {
 	private SesionEntity sesion;
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = AsistenciaConstants.COLUMN_ASISTIO)
-	private Boolean asistio;
+	private boolean asistio;
+	
+	private boolean asistioDefault = true;
 	
 	
 	public AsistenciaEntity() {
@@ -95,9 +97,10 @@ public final class AsistenciaEntity {
 	public Boolean getAsistio() {
 		return asistio;
 	}
-	public void setAsistio(final Boolean asistio) {
+	public void setAsistio(final boolean asistio) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.asistio = ObjectHelper.getDefault(asistio, BooleanHelper.FALSE);
+		asistioDefault = false;
 	}
 	private void setDefaultAsistio() {
 		setAsistio(BooleanHelper.FALSE);
