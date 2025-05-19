@@ -1,8 +1,7 @@
-package co.edu.uco.asistenciauco.application.outputport.entity;
+package co.edu.uco.asistenciauco.application.outputport.dto;
 
 import java.util.UUID;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.constants.EstudianteConstants;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
@@ -13,26 +12,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
-@Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-@Table(name = EstudianteConstants.TABLE_ESTUDIANTE)
-public final class EstudianteEntity {
-	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = EstudianteConstants.COLUMN_ID)
-	private UUID id;
-	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-    @JoinColumn(name = EstudianteConstants.COLUMN_TIPO_IDENTIFICACION)
-	private TipoIdentificacionEntity tipoIdentificacion;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = EstudianteConstants.COLUMN_NUMERO_IDENTIFICACION)
+public final class ProfesorDTO {
+
+	private String id;
+	private TipoIdentificacionDTO tipoIdentificacion;
 	private String numeroIdentificacion;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = EstudianteConstants.COLUMN_NOMBRES_COMPLETOS)
 	private String nombresCompletos;
 	
-	public EstudianteEntity() {
+	public ProfesorDTO() {
 		setDefaultId();
 		setDefaultTipoIdentificacion();
 		setDefaultNumeroIdentificacion();
@@ -40,14 +27,14 @@ public final class EstudianteEntity {
 	}
 	
 	
-	public EstudianteEntity(final UUID id) {
+	public ProfesorDTO(final String id) {
 		setId(id);
 		setDefaultTipoIdentificacion();
 		setDefaultNumeroIdentificacion();
 		setDefaultNombresCompletos();
 	}
 	
-	public EstudianteEntity(final UUID id, final TipoIdentificacionEntity tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos) {
+	public ProfesorDTO(final String id, final TipoIdentificacionDTO tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos) {
 		setId(id);
 		setTipoIdentificacion(tipoIdentificacion);
 		setNumeroIdentificacion(numeroIdentificacion);
@@ -55,29 +42,29 @@ public final class EstudianteEntity {
 	}
 
 	
-	public UUID getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(final UUID id) {
-		this.id = UUIDHelper.getDefault(id, UUIDHelper.getDefault());
+	public void setId(final String id) {
+		this.id = TextHelper.getDefault(TextHelper.applyTrim(id), UUIDHelper.getDefaultAsString());
 	}
 	
 	private void setDefaultId() {
 		//TODO: OBTENER VALOR POR DEFECTO*******
 		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
-		UUID defaultValue = UUIDHelper.getDefault();
+		String defaultValue = UUIDHelper.getDefaultAsString();
 		setId(defaultValue);
 	}
 	
-	public TipoIdentificacionEntity getTipoIdentificacion() {
+	public TipoIdentificacionDTO getTipoIdentificacion() {
 		return tipoIdentificacion;
 	}
-	public void setTipoIdentificacion(final TipoIdentificacionEntity tipoIdentificacion) {
+	public void setTipoIdentificacion(final TipoIdentificacionDTO tipoIdentificacion) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
-		this.tipoIdentificacion = ObjectHelper.getDefault(tipoIdentificacion, new TipoIdentificacionEntity());
+		this.tipoIdentificacion = ObjectHelper.getDefault(tipoIdentificacion, new TipoIdentificacionDTO());
 	}
 	private void setDefaultTipoIdentificacion() {
-		setTipoIdentificacion(new TipoIdentificacionEntity());
+		setTipoIdentificacion(new TipoIdentificacionDTO());
 	}
 	
 	public String getNumeroIdentificacion() {
@@ -85,7 +72,7 @@ public final class EstudianteEntity {
 	}
 	public void setNumeroIdentificacion(final String numeroIdentificacion) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
-		this.numeroIdentificacion = TextHelper.applyTrim(TextHelper.getDefault(numeroIdentificacion));;
+		this.numeroIdentificacion = TextHelper.applyTrim(TextHelper.getDefault(numeroIdentificacion));
 	}
 	private void setDefaultNumeroIdentificacion() {
 		//TODO: OBTENER VALOR POR DEFECTO???
@@ -99,7 +86,7 @@ public final class EstudianteEntity {
 	}
 	public void setNombresCompletos(final String nombresCompletos) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
-		this.nombresCompletos = TextHelper.applyTrim(TextHelper.getDefault(nombresCompletos));;
+		this.nombresCompletos = TextHelper.applyTrim(TextHelper.getDefault(nombresCompletos));
 	}
 	private void setDefaultNombresCompletos() {
 		//TODO: OBTENER VALOR POR DEFECTO???????????

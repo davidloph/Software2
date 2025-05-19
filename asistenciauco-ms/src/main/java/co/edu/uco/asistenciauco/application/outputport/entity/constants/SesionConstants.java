@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.outputport.entity;
+package co.edu.uco.asistenciauco.application.outputport.entity.constants;
 
 public class SesionConstants {
 

@@ -2,6 +2,7 @@ package co.edu.uco.asistenciauco.application.outputport.entity;
 
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.EstudianteGrupoConstants;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 import jakarta.persistence.Entity;

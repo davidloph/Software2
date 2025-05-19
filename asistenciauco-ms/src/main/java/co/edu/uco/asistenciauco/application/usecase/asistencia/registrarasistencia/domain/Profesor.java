@@ -2,12 +2,13 @@ package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasisten
 
 import java.util.UUID;
 
+import co.edu.uco.crosscutting.helpers.UUIDHelper;
+
 public class Profesor {
 
 	private UUID id;
 
 	public Profesor(final UUID id) {
-		super();
 		setId(id);
 	}
 
@@ -16,7 +17,11 @@ public class Profesor {
 	}
 
 	private void setId(final UUID id) {
-		this.id = id;
+		this.id = UUIDHelper.getDefault(id, UUIDHelper.getDefault());
+	}
+	
+	private void setDefaultId() {
+		this.id = UUIDHelper.getDefault();
 	}
 	
 	

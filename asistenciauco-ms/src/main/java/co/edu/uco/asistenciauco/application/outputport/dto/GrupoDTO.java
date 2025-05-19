@@ -1,8 +1,7 @@
-package co.edu.uco.asistenciauco.application.outputport.entity;
+package co.edu.uco.asistenciauco.application.outputport.dto;
 
 import java.util.UUID;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.constants.GrupoConstants;
 import co.edu.uco.crosscutting.helpers.NumericHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
@@ -14,27 +13,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
-@Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-@Table(name = GrupoConstants.TABLE_GRUPO)
-public final class GrupoEntity {
-	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = GrupoConstants.COLUMN_ID)
-	private UUID id;
-	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-    @JoinColumn(name = GrupoConstants.COLUMN_PROFESOR)
-	private ProfesorEntity profesor;
-	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = GrupoConstants.COLUMN_MATERIA)
-	private MateriaEntity materia;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = GrupoConstants.COLUMN_CANTIDADESTUDIANTES)
+public final class GrupoDTO {
+
+	private String id;
+	private ProfesorDTO profesor;
+	private MateriaDTO materia;
 	private Integer cantidadEstudiantes;
 	
-	public GrupoEntity() {
+	public GrupoDTO() {
 		setDefaultId();
 		setDefaultProfesor();
 		setDefaultMateria();
@@ -42,14 +28,14 @@ public final class GrupoEntity {
 	}
 	
 	
-	public GrupoEntity(final UUID id) {
+	public GrupoDTO(final UUID id) {
 		setId(id);
 		setDefaultProfesor();
 		setDefaultMateria();
 		setDefaultCantidadEstudiantes();
 	}
 	
-	public GrupoEntity(final UUID id, final ProfesorEntity profesor, final MateriaEntity materia, final int cantidadEstudiantes) {
+	public GrupoDTO(final String id, final ProfesorDTO profesor, final MateriaDTO materia, final int cantidadEstudiantes) {
 		setId(id);
 		setProfesor(profesor);
 		setMateria(materia);
@@ -57,42 +43,42 @@ public final class GrupoEntity {
 	}
 
 	
-	public UUID getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(final UUID id) {
-		this.id = UUIDHelper.getDefault(id, UUIDHelper.getDefault());
+	public void setId(final String id) {
+		this.id = TextHelper.getDefault(TextHelper.applyTrim(id), UUIDHelper.getDefaultAsString());
 	}
 	
 	private void setDefaultId() {
 		//TODO: OBTENER VALOR POR DEFECTO*******
 		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
-		UUID defaultValue = UUIDHelper.getDefault();
+		String defaultValue = UUIDHelper.getDefaultAsString();
 		setId(defaultValue);
 	}
 	
-	public ProfesorEntity getProfesor() {
+	public ProfesorDTO getProfesor() {
 		return profesor;
 	}
-	public void setProfesor(final ProfesorEntity profesor) {
+	public void setProfesor(final ProfesorDTO profesor) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
-		this.profesor = ObjectHelper.getDefault(profesor, new ProfesorEntity());
+		this.profesor = ObjectHelper.getDefault(profesor, new ProfesorDTO());
 	}
 	private void setDefaultProfesor() {
-		setProfesor(new ProfesorEntity());
+		setProfesor(new ProfesorDTO());
 	}
 	
-	public MateriaEntity getMateria() {
+	public MateriaDTO getMateria() {
 		return materia;
 	}
-	public void setMateria(final MateriaEntity materia) {
+	public void setMateria(final MateriaDTO materia) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
-		this.materia = ObjectHelper.getDefault(materia, new MateriaEntity());
+		this.materia = ObjectHelper.getDefault(materia, new MateriaDTO());
 	}
 	private void setDefaultMateria() {
 		//TODO: OBTENER VALOR POR DEFECTO???
 		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??
-		setMateria(new MateriaEntity());
+		setMateria(new MateriaDTO());
 	}
 	
 	public Integer getCantidadEstudiantes() {

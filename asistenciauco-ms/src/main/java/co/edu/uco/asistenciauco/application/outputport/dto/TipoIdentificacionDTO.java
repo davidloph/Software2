@@ -1,9 +1,7 @@
-package co.edu.uco.asistenciauco.application.outputport.entity;
+package co.edu.uco.asistenciauco.application.outputport.dto;
 
 import java.util.UUID;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.constants.TipoIdentificacionConstants;
-import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 import jakarta.persistence.Entity;
@@ -11,43 +9,37 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
-@Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-@Table(name = TipoIdentificacionConstants.TABLE_TIPO_IDENTIFICACION)
-public final class TipoIdentificacionEntity {
-	@Id
-	@Column(name = TipoIdentificacionConstants.COLUMN_ID)
-	private UUID id;
-	@Column(name = TipoIdentificacionConstants.COLUMN_CLAVE)
+public final class TipoIdentificacionDTO {
+
+	private String id;
 	private String clave;
-	@Column(name = TipoIdentificacionConstants.COLUMN_NOMBRE)
 	private String nombre;
 	
-	public TipoIdentificacionEntity() {
+	public TipoIdentificacionDTO() {
 		setDefaultId();
 		setDefaultClave();
 		setDefaultNombre();
 	}
 	
 	
-	public TipoIdentificacionEntity(final UUID id) {
+	public TipoIdentificacionDTO(final String id) {
 		setId(id);
 		setDefaultClave();
 		setDefaultNombre();
 	}
 	
-	public TipoIdentificacionEntity(final UUID id, final String clave, final String nombre) {
+	public TipoIdentificacionDTO(final String id, final String clave, final String nombre) {
 		setId(id);
 		setClave(clave);
 		setNombre(nombre);
 	}
 
 
-	public UUID getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(final UUID id) {
-		this.id = ObjectHelper.getDefault(id, UUIDHelper.getDefault());
+	public void setId(final String id) {
+		this.id = TextHelper.getDefault(TextHelper.applyTrim(id), UUIDHelper.getDefaultAsString());
 	}
 	public String getClave() {
 		return clave;
@@ -65,9 +57,9 @@ public final class TipoIdentificacionEntity {
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.******
-		UUID defaultValue = UUIDHelper.getDefault();
+		//TODO: OBTENER VALOR POR DEFECTO
+		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
+		String defaultValue = UUIDHelper.getDefaultAsString();
 		setId(defaultValue);
 	}
 	public void setDefaultClave() {

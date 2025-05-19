@@ -3,6 +3,7 @@ package co.edu.uco.asistenciauco.application.outputport.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.SesionConstants;
 import co.edu.uco.crosscutting.helpers.NumericHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;

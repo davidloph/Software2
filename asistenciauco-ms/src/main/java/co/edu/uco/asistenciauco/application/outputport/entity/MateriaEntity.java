@@ -2,6 +2,7 @@ package co.edu.uco.asistenciauco.application.outputport.entity;
 
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.MateriaConstants;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
@@ -67,10 +68,10 @@ public final class MateriaEntity {
 	}
 	public void setClave(final String clave) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
-		this.clave = TextHelper.applyTrim(clave);
+		this.clave = TextHelper.applyTrim(TextHelper.getDefault(clave));;
 	}
 	private void setDefaultClave() {
-		setClave(TextHelper.EMPTY));
+		setClave(TextHelper.EMPTY);
 	}
 	
 	public String getNombre() {
@@ -78,7 +79,7 @@ public final class MateriaEntity {
 	}
 	public void setNombre(final String nombre) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
-		this.nombre = TextHelper.applyTrim(nombre);
+		this.nombre = TextHelper.applyTrim(TextHelper.getDefault(nombre));;
 	}
 	private void setDefaultNombre() {
 		//TODO: OBTENER VALOR POR DEFECTO???

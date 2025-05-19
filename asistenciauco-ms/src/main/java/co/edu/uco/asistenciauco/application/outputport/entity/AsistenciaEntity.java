@@ -2,6 +2,7 @@ package co.edu.uco.asistenciauco.application.outputport.entity;
 
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.AsistenciaConstants;
 import co.edu.uco.crosscutting.helpers.BooleanHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;

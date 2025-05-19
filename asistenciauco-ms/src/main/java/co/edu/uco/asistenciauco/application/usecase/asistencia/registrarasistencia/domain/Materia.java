@@ -4,19 +4,19 @@ import java.util.UUID;
 
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
-public class Sesion {
+public class Materia {
 
 	private UUID id;
 
-	public Sesion () {
+	public Materia () {
 		setDefaultId();
 	}
 	
-	public Sesion(final UUID id) {
+	public Materia(final UUID id) {
 		setId(id);
 	}
 
-	public UUID getId() {
+	private UUID getId() {
 		return id;
 	}
 

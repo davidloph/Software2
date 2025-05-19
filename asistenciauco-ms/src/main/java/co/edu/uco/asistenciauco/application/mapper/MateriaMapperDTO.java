@@ -8,21 +8,22 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Materia;
 import co.edu.uco.asistenciauco.application.outputport.dto.AsistenciaDTO;
+import co.edu.uco.asistenciauco.application.outputport.dto.MateriaDTO;
 
 @Mapper(componentModel = "spring")
-public interface AsistenciaMapperDTO {
+public interface MateriaMapperDTO {
 
 	@Mappings({
 		@Mapping(source = "id", target = "id"),
-		@Mapping(source = "sesion", target = "sesion"),
-		@Mapping(source = "profesor", target = "profesor"),
-		@Mapping(source = "estudiantes", target = "estudiantes"),
+		@Mapping(source = "clave", target = "clave"),
+		@Mapping(source = "nombre", target = "nombre")
 	})
-	Asistencia toAsistencia(AsistenciaDTO asistenciaDTO);
-	List<Asistencia> toAsistencias(List<AsistenciaDTO> asistenciasDTO);
+	Materia toMateria(MateriaDTO materiaDTO);
+	List<Materia> toMaterias(List<MateriaDTO> materiasDTO);
 	
 	@InheritInverseConfiguration
-	AsistenciaDTO toAsistenciaDTO(Asistencia asistencia);
-	List<AsistenciaDTO> toAsistenciasDTO(List<Asistencia> asistenciasDTO);
+	MateriaDTO toMateriaDTO(Materia materia);
+	List<MateriaDTO> toMateriaDTO(List<Materia> materiaDTO);
 }

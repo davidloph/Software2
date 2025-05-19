@@ -2,6 +2,7 @@ package co.edu.uco.asistenciauco.application.outputport.entity;
 
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.ProfesorConstants;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
@@ -84,7 +85,7 @@ public final class ProfesorEntity {
 	}
 	public void setNumeroIdentificacion(final String numeroIdentificacion) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
-		this.numeroIdentificacion = TextHelper.applyTrim(numeroIdentificacion);
+		this.numeroIdentificacion = TextHelper.applyTrim(TextHelper.getDefault(numeroIdentificacion));;
 	}
 	private void setDefaultNumeroIdentificacion() {
 		//TODO: OBTENER VALOR POR DEFECTO???
@@ -98,7 +99,7 @@ public final class ProfesorEntity {
 	}
 	public void setNombresCompletos(final String nombresCompletos) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
-		this.nombresCompletos = TextHelper.applyTrim(nombresCompletos);
+		this.nombresCompletos = TextHelper.applyTrim(TextHelper.getDefault(nombresCompletos));;
 	}
 	private void setDefaultNombresCompletos() {
 		//TODO: OBTENER VALOR POR DEFECTO???????????
