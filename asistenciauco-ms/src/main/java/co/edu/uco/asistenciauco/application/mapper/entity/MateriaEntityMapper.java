@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper;
+package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import co.edu.uco.asistenciauco.application.outputport.entity.MateriaEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Materia;
 
 @Mapper(componentModel = "spring")
-public interface MateriaMapperEntity {
+public interface MateriaEntityMapper {
 
 	@Mappings({
 		@Mapping(source = "id", target = "id"),

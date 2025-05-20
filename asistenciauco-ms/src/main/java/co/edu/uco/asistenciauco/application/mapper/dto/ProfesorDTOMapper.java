@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper;
+package co.edu.uco.asistenciauco.application.mapper.dto;
 
 import java.util.List;
 
@@ -7,11 +7,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.MateriaEntity;
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Materia;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Profesor;
+import co.edu.uco.asistenciauco.application.outputport.dto.ProfesorDTO;
 
 @Mapper(componentModel = "spring")
-public interface ProfesorMapperEntity {
+public interface ProfesorDTOMapper {
 
 	@Mappings({
 		@Mapping(source = "id", target = "id"),
@@ -19,10 +19,10 @@ public interface ProfesorMapperEntity {
 		@Mapping(source = "numeroIdentificacion", target = "numeroIdentificacion"),
 		@Mapping(source = "nombresCompletos", target = "nombresCompletos")
 	})
-	Materia toMateria(MateriaEntity MateriaEntity);
-	List<Materia> toMaterias(List<MateriaEntity> MateriasEntity);
+	Profesor toProfesor(ProfesorDTO profesorDTO);
+	List<Profesor> toProfesors(List<ProfesorDTO> profesorsDTO);
 	
 	@InheritInverseConfiguration
-	MateriaEntity toMateriaEntity(Materia Materia);
-	List<MateriaEntity> toMateriasEntity(List<Materia> Materias);
+	ProfesorDTO toProfesorDTO(Profesor profesor);
+	List<ProfesorDTO> toProfesorDTO(List<Profesor> profesorDTO);
 }

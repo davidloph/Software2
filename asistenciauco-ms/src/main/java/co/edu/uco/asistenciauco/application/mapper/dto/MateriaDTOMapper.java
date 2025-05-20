@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper;
+package co.edu.uco.asistenciauco.application.mapper.dto;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import co.edu.uco.asistenciauco.application.outputport.dto.AsistenciaDTO;
 import co.edu.uco.asistenciauco.application.outputport.dto.MateriaDTO;
 
 @Mapper(componentModel = "spring")
-public interface MateriaMapperDTO {
+public interface MateriaDTOMapper {
 
 	@Mappings({
 		@Mapping(source = "id", target = "id"),
