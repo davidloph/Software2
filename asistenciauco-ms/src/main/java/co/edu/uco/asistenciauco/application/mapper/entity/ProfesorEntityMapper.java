@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 import co.edu.uco.asistenciauco.application.outputport.entity.ProfesorEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Profesor;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = TipoIdentificacionEntityMapper.class)
 public interface ProfesorEntityMapper {
 
 	@Mappings({

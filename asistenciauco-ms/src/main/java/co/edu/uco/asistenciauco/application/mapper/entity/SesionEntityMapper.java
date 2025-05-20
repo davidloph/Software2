@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 import co.edu.uco.asistenciauco.application.outputport.entity.SesionEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Sesion;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = GrupoEntityMapper.class)
 public interface SesionEntityMapper {
 
 	@Mappings({
