@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 import co.edu.uco.asistenciauco.application.outputport.dto.SesionDTO;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Sesion;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = GrupoDTOMapper.class)
 public interface SesionDTOMapper {
 
 	@Mappings({

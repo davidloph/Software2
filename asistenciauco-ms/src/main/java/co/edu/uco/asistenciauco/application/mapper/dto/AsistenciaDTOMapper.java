@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.outputport.dto.AsistenciaDTO;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {SesionDTOMapper.class, ProfesorDTOMapper.class, EstudianteDTOMapper.class})
 public interface AsistenciaDTOMapper {
 
 	@Mappings({
