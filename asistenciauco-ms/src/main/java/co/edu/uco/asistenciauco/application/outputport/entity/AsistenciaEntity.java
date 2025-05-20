@@ -106,4 +106,5 @@ public final class AsistenciaEntity {
 	private void setDefaultAsistio() {
 		setAsistio(BooleanHelper.FALSE);
 	}
+
 }
