@@ -35,7 +35,15 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+      - name: Analizar CrossCutting
+        working-directory: CrossCutting
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=davidloph_Software2
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=ORG_CrossCutting -Dsonar.organization=ORG -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+
+      - name: Analizar asistenciauco-ms
+        working-directory: asistenciauco-ms
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=ORG_asistenciauco-ms -Dsonar.organization=ORG -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+
