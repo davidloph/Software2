@@ -5,6 +5,10 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>crosscutting</name>
   <description>Componente encargado de ofrecer funcionalidades generales, transversales y comunes que pueden ser utilizadas por cualquier proyecto construido en java.</description>
+  <properties>
+    <sonar.organization>davidloph</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+  </properties>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
