@@ -44,20 +44,23 @@ jobs:
         working-directory: CrossCutting
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify sonar:sonar \
-          -Dsonar.projectKey=ORG_CrossCutting \
-          -Dsonar.organization=ORG \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=$SONAR_TOKEN \
-          -Dsonar.branch.name=${{ github.ref_name }}
-
+        run: |
+          mvn -B verify sonar:sonar \
+            -Dsonar.projectKey=ORG_CrossCutting \
+            -Dsonar.organization=ORG \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.branch.name=${{ github.ref_name }}
+      
       - name: Analizar asistenciauco-ms
         working-directory: asistenciauco-ms
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify sonar:sonar \
-          -Dsonar.projectKey=ORG_asistenciauco-ms \
-          -Dsonar.organization=ORG \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=$SONAR_TOKEN \
-          -Dsonar.branch.name=${{ github.ref_name }}
+        run: |
+          mvn -B verify sonar:sonar \
+            -Dsonar.projectKey=ORG_asistenciauco-ms \
+            -Dsonar.organization=ORG \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.branch.name=${{ github.ref_name }}
+
