@@ -1,32 +1,32 @@
-name: SonarQube
+name: SonarCloud Analysis
+
 on:
   push:
     branches:
-      - main
       - dev
-      - feature/**
-      - feature_baseline
-      - fix-pom-issue
       - uat
+      - feature/**
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  build:
-    name: Build and analyze
+  sonarcloud:
+    name: Build and Analyze with SonarCloud
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Necesario para un análisis completo
 
-      - name: Set up JDK 24
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Para que SonarCloud detecte bien el historial git
+
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: 24
-          distribution: 'zulu'
+          java-version: '17'
+          distribution: 'temurin'
 
-      - name: Cache SonarQube packages
+      - name: Cache SonarCloud packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
@@ -40,7 +40,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Analizar CrossCutting
+      # 🔍 Análisis del módulo CrossCutting
+      - name: SonarCloud Analysis - CrossCutting
         working-directory: CrossCutting
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -51,8 +52,9 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN \
             -Dsonar.branch.name=${{ github.ref_name }}
-      
-      - name: Analizar asistenciauco-ms
+
+      # 🔍 Análisis del módulo asistenciauco-ms
+      - name: SonarCloud Analysis - asistenciauco-ms
         working-directory: asistenciauco-ms
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -63,4 +65,3 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN \
             -Dsonar.branch.name=${{ github.ref_name }}
-
