@@ -10,6 +10,7 @@ on:
       - uat
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
     name: Build and analyze
@@ -17,33 +18,46 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  # Necesario para un análisis completo
+
       - name: Set up JDK 24
         uses: actions/setup-java@v4
         with:
           java-version: 24
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'zulu'
+
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
       - name: Analizar CrossCutting
         working-directory: CrossCutting
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=ORG_CrossCutting -Dsonar.organization=ORG -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+        run: mvn -B verify sonar:sonar \
+          -Dsonar.projectKey=ORG_CrossCutting \
+          -Dsonar.organization=ORG \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=$SONAR_TOKEN \
+          -Dsonar.branch.name=${{ github.ref_name }}
 
       - name: Analizar asistenciauco-ms
         working-directory: asistenciauco-ms
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=ORG_asistenciauco-ms -Dsonar.organization=ORG -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
-
+        run: mvn -B verify sonar:sonar \
+          -Dsonar.projectKey=ORG_asistenciauco-ms \
+          -Dsonar.organization=ORG \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=$SONAR_TOKEN \
+          -Dsonar.branch.name=${{ github.ref_name }}
