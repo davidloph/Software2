@@ -28,7 +28,7 @@ public final class GrupoDTO {
 	}
 	
 	
-	public GrupoDTO(final UUID id) {
+	public GrupoDTO(final String id) {
 		setId(id);
 		setDefaultProfesor();
 		setDefaultMateria();
