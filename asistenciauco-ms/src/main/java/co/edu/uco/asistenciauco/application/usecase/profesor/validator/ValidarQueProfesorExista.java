@@ -11,12 +11,12 @@ import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 @Service
 public class ValidarQueProfesorExista implements Validator<UUID, ValidationResultVO>{
 
-	private ProfesorRepository estudianteRepository;
+	private ProfesorRepository profesorRepository;
 	
 	
 	
-	public ValidarQueProfesorExista(ProfesorRepository estudianteRepository) {
-		this.estudianteRepository = estudianteRepository;
+	public ValidarQueProfesorExista(ProfesorRepository profesorRepository) {
+		this.profesorRepository = profesorRepository;
 	}
 
 
@@ -26,9 +26,9 @@ public class ValidarQueProfesorExista implements Validator<UUID, ValidationResul
 		
 		var resultadoValidacion = new ValidationResultVO();
 		
-		if(!estudianteRepository.existsById(data)) {
+		if(!profesorRepository.existsById(data)) {
 			//TODO: El mensaje debería estar en el catálogo de mensajes.
-			resultadoValidacion.agregarMensaje("No existe un estudiante con el identificador " + data);
+			resultadoValidacion.agregarMensaje("No existe un profesor con el identificador " + data);
 		}
 		
 		return resultadoValidacion;

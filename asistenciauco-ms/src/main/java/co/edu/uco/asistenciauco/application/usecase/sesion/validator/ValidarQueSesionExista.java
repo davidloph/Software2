@@ -17,6 +17,7 @@ public class ValidarQueSesionExista implements Validator<UUID, ValidationResultV
 	
 	
 	public ValidarQueSesionExista(SesionRepository sesionRepository) {
+
 		this.sesionRepository = sesionRepository;
 	}
 
