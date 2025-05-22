@@ -28,11 +28,16 @@ public final class EstudianteGrupoEntity {
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = EstudianteGrupoConstants.COLUMN_ESTUDIANTE)
 	private EstudianteEntity estudiante;
+	@ManyToOne
+	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
+	@Column(name = EstudianteGrupoConstants.COLUMN_CANCELO)
+	private CanceloEntity cancelo;
 	
 	public EstudianteGrupoEntity() {
 		setDefaultId();
 		setDefaultGrupo();
 		setDefaultEstudiante();
+		setDefaultCancelo();
 	}
 	
 	
@@ -40,12 +45,14 @@ public final class EstudianteGrupoEntity {
 		setId(id);
 		setDefaultGrupo();
 		setDefaultEstudiante();
+		setDefaultCancelo();
 	}
 	
-	public EstudianteGrupoEntity(final UUID id, final GrupoEntity grupo, final EstudianteEntity estudiante) {
+	public EstudianteGrupoEntity(final UUID id, final GrupoEntity grupo, final EstudianteEntity estudiante,  final CanceloEntity canelo) {
 		setId(id);
 		setGrupo(grupo);
 		setEstudiante(estudiante);
+		setCancelo(cancelo);
 	}
 
 	
@@ -84,4 +91,16 @@ public final class EstudianteGrupoEntity {
 	private void setDefaultEstudiante() {
 		setEstudiante(new EstudianteEntity());
 	}
+
+	public CanceloEntity getCancelo() {
+		return cancelo;
+	}
+	public void setCancelo(final CanceloEntity cancelo) {
+		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
+		this.cancelo = ObjectHelper.getDefault(cancelo, new CanceloEntity());
+	}
+	private void setDefaultCancelo() {
+		setCancelo(new CanceloEntity());
+	}
+
 }

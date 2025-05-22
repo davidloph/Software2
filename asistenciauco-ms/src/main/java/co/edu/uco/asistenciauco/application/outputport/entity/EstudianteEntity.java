@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 @Entity
 //TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = EstudianteConstants.TABLE_ESTUDIANTE)
-public final class EstudianteEntity {
+public final class EstudianteEntity extends UsuarioEntity{
 	@Id
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = EstudianteConstants.COLUMN_ID)
@@ -31,80 +31,5 @@ public final class EstudianteEntity {
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = EstudianteConstants.COLUMN_NOMBRES_COMPLETOS)
 	private String nombresCompletos;
-	
-	public EstudianteEntity() {
-		setDefaultId();
-		setDefaultTipoIdentificacion();
-		setDefaultNumeroIdentificacion();
-		setDefaultNombresCompletos();
-	}
-	
-	
-	public EstudianteEntity(final UUID id) {
-		setId(id);
-		setDefaultTipoIdentificacion();
-		setDefaultNumeroIdentificacion();
-		setDefaultNombresCompletos();
-	}
-	
-	public EstudianteEntity(final UUID id, final TipoIdentificacionEntity tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos) {
-		setId(id);
-		setTipoIdentificacion(tipoIdentificacion);
-		setNumeroIdentificacion(numeroIdentificacion);
-		setNombresCompletos(nombresCompletos);
-	}
 
-	
-	public UUID getId() {
-		return id;
-	}
-	public void setId(final UUID id) {
-		this.id = UUIDHelper.getDefault(id, UUIDHelper.getDefault());
-	}
-	
-	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
-		UUID defaultValue = UUIDHelper.getDefault();
-		setId(defaultValue);
-	}
-	
-	public TipoIdentificacionEntity getTipoIdentificacion() {
-		return tipoIdentificacion;
-	}
-	public void setTipoIdentificacion(final TipoIdentificacionEntity tipoIdentificacion) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
-		this.tipoIdentificacion = ObjectHelper.getDefault(tipoIdentificacion, new TipoIdentificacionEntity());
-	}
-	private void setDefaultTipoIdentificacion() {
-		setTipoIdentificacion(new TipoIdentificacionEntity());
-	}
-	
-	public String getNumeroIdentificacion() {
-		return numeroIdentificacion;
-	}
-	public void setNumeroIdentificacion(final String numeroIdentificacion) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
-		this.numeroIdentificacion = TextHelper.applyTrim(TextHelper.getDefault(numeroIdentificacion));;
-	}
-	private void setDefaultNumeroIdentificacion() {
-		//TODO: OBTENER VALOR POR DEFECTO???
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??
-		String defaultValue = TextHelper.EMPTY;
-		setNumeroIdentificacion(defaultValue);
-	}
-	
-	public String getNombresCompletos() {
-		return nombresCompletos;
-	}
-	public void setNombresCompletos(final String nombresCompletos) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
-		this.nombresCompletos = TextHelper.applyTrim(TextHelper.getDefault(nombresCompletos));;
-	}
-	private void setDefaultNombresCompletos() {
-		//TODO: OBTENER VALOR POR DEFECTO???????????
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??????
-		String defaultValue = TextHelper.EMPTY;
-		setNombresCompletos(defaultValue);
-	}
 }

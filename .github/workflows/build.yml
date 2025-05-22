@@ -1,0 +1,67 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - dev
+      - uat
+      - feature/**
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarcloud:
+    name: Build and Analyze with SonarCloud
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Para que SonarCloud detecte bien el historial git
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '24'
+          distribution: 'temurin'
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      # 🔍 Análisis del módulo CrossCutting
+      - name: SonarCloud Analysis - CrossCutting
+        working-directory: CrossCutting
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn -B verify sonar:sonar \
+            -Dsonar.projectKey=ORG_CrossCutting \
+            -Dsonar.organization=ORG \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.branch.name=${{ github.ref_name }}
+
+      # 🔍 Análisis del módulo asistenciauco-ms
+      - name: SonarCloud Analysis - asistenciauco-ms
+        working-directory: asistenciauco-ms
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn -B verify sonar:sonar \
+            -Dsonar.projectKey=ORG_asistenciauco-ms \
+            -Dsonar.organization=ORG \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.branch.name=${{ github.ref_name }}
