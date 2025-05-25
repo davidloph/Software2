@@ -125,14 +125,14 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 				if(!idCancelados.contains(estudiante.getId()))
 					estudiantes.add(estudiante);
 			}
-			registrarAsistenciaEstudiantes(estudiantes);
+			registrarAsistenciaEstudiantes(estudiantes, dominio);
 		}
 		
 		//Retorno de resultado
 		return resultado;
 	}
 	
-	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes) {
+	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes, Asistencia asistencia) {
 		for (Estudiante estudiante : estudiantes) {
 			var registrarAsistenciaResponseEstudianteVO = new RegistrarAsistenciaResponseVO();
 			
@@ -153,7 +153,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 			
 			// 4. Registrar asistencia por cada estudiante.
 			if(registrarAsistenciaResponseEstudianteVO.isValidacionCorrecta()) {
-				registrarAsistenciaEstudiante(estudiante);
+				registrarAsistenciaEstudiante(asistencia);
 			}
 			// 5. Registrar asistencias
 			resultado.agregarMensajes(registrarAsistenciaResponseEstudianteVO.getMensajes());
@@ -164,13 +164,13 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		resultado.agregarMensajes(estudianteExiste.validate(idEstudiante).getMensajes());
 	}
 	
-	private void registrarAsistenciaEstudiante(Estudiante estudiante) {
+	private void registrarAsistenciaEstudiante(Asistencia asistencia) {
 		// 1. Registrar Asistencia
 		
 		// 2. Enviar la notificación de correo al estudiante porque no asistió.
-		/*if(!estudiante.isAsistio()) {
+		if(!asistencia.isAsistio()) {
 			
-		}*/
+		}
 	}
 
 }
