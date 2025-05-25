@@ -20,7 +20,6 @@ public final class CanceloEntity {
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = CanceloConstants.COLUMN_ESTUDIANTE_GRUPO)
 	private EstudianteGrupoEntity estudianteGrupo;
-	@ManyToOne
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = CanceloConstants.COLUMN_FECHA)
 	private LocalDate fecha;

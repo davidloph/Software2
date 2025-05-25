@@ -28,7 +28,7 @@ public final class GrupoEntity {
 	private ProfesorEntity profesor;
 	@ManyToOne
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = GrupoConstants.COLUMN_MATERIA)
+	@JoinColumn(name = GrupoConstants.COLUMN_MATERIA)
 	private MateriaEntity materia;
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = GrupoConstants.COLUMN_CANTIDADESTUDIANTES)

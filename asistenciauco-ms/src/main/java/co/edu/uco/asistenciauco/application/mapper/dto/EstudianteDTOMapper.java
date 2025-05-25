@@ -2,27 +2,26 @@ package co.edu.uco.asistenciauco.application.mapper.dto;
 
 import java.util.List;
 
+import co.edu.uco.asistenciauco.application.outputport.dto.EstudianteDTO;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Estudiante;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import co.edu.uco.asistenciauco.application.outputport.dto.AsistenciaDTO;
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.AsistenciaDomainTest;
 
-@Mapper(componentModel = "spring", uses = TipoIdentificacionDTOMapper.class)
+@Mapper(componentModel = "spring", uses = UsuarioDTOMapper.class)
 public interface EstudianteDTOMapper {
 
 	@Mappings({
 		@Mapping(source = "id", target = "id"),
-		@Mapping(source = "tipoIdentificacion", target = "tipoIdentificacion"),
-		@Mapping(source = "numeroIdentificacion", target = "numeroIdentificacion"),
-		@Mapping(source = "nombresCompletos", target = "nombresCompletos"),
+		@Mapping(source = "usuario", target = "usuario")
 	})
-	Asistencia toAsistencia(AsistenciaDTO asistenciaDTO);
-	List<Asistencia> toAsistencias(List<AsistenciaDTO> asistenciasDTO);
+    AsistenciaDomainTest toEstudiante(EstudianteDTO estudianteDTO);
+	List<AsistenciaDomainTest> toEstudiantes(List<EstudianteDTO> estudiantesDTO);
 	
 	@InheritInverseConfiguration
-	AsistenciaDTO toAsistenciaDTO(Asistencia asistencia);
-	List<AsistenciaDTO> toAsistenciasDTO(List<Asistencia> asistencias);
+	EstudianteDTO toEstudianteDTO(Estudiante estudiante);
+	List<EstudianteDTO> toEstudiantesDTO(List<Estudiante> estudiantes);
 }

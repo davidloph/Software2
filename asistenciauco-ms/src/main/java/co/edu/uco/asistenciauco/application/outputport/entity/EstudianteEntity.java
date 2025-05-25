@@ -6,30 +6,60 @@ import co.edu.uco.asistenciauco.application.outputport.entity.constants.Estudian
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 //TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = EstudianteConstants.TABLE_ESTUDIANTE)
-public final class EstudianteEntity extends UsuarioEntity{
+public final class EstudianteEntity{
 	@Id
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = EstudianteConstants.COLUMN_ID)
 	private UUID id;
-	@ManyToOne
+	@OneToOne
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-    @JoinColumn(name = EstudianteConstants.COLUMN_TIPO_IDENTIFICACION)
-	private TipoIdentificacionEntity tipoIdentificacion;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = EstudianteConstants.COLUMN_NUMERO_IDENTIFICACION)
-	private String numeroIdentificacion;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = EstudianteConstants.COLUMN_NOMBRES_COMPLETOS)
-	private String nombresCompletos;
+    @JoinColumn(name = EstudianteConstants.COLUMN_USUARIO)
+	private UsuarioEntity usuario;
 
+	public EstudianteEntity() {
+		setDefaultId();
+		setDefaultUsuario();
+	}
+
+	public EstudianteEntity(UUID id) {
+		setId(id);
+		setDefaultUsuario();
+	}
+
+	public EstudianteEntity(final UUID id, final UsuarioEntity usuario) {
+		setId(id);
+		setUsuario(usuario);
+	}
+
+	public UUID getId() {
+		return id;
+	}
+	private void setId(final UUID id) {
+		this.id = UUIDHelper.getDefault(id, UUIDHelper.getDefault());
+	}
+
+	private void setDefaultId() {
+		//TODO: OBTENER VALOR POR DEFECTO*******
+		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
+		UUID defaultValue = UUIDHelper.getDefault();
+		setId(defaultValue);
+	}
+
+	public UsuarioEntity getUsuario() {
+		return usuario;
+	}
+
+	private void setUsuario(UsuarioEntity usuario) {
+		this.usuario = ObjectHelper.getDefault(usuario, new UsuarioEntity());
+	}
+
+	private void setDefaultUsuario() {
+
+		setUsuario(new UsuarioEntity());
+	}
 }

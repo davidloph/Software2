@@ -14,30 +14,34 @@ import jakarta.persistence.Table;
 
 public final class EstudianteDTO extends UsuarioDTO{
 
-	private String id;
-	private TipoIdentificacionDTO tipoIdentificacion;
-	private String numeroIdentificacion;
-	private String nombresCompletos;
+	private UsuarioDTO usuario;
 
 	public EstudianteDTO() {
-		setDefaultId();
-		setDefaultNumeroIdentificacion();
-		setDefaultNumeroIdentificacion();
-		setDefaultNombresCompletos();
+		super();
+		setDefaultUsuario();
 	}
 
 
 	public EstudianteDTO(final String id) {
-		setId(id);
-		setDefaultTipoIdentificacion();
-		setDefaultNumeroIdentificacion();
-		setDefaultNombresCompletos();
+		super(id);
+		setDefaultUsuario();
 	}
 
-	public EstudianteDTO(final String id, final TipoIdentificacionDTO tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos) {
-		setId(id);
-		setTipoIdentificacion(tipoIdentificacion);
-		setNumeroIdentificacion(numeroIdentificacion);
-		setNombresCompletos(nombresCompletos);
+	public EstudianteDTO(final String id, final TipoIdentificacionDTO tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos, final String correo, final UsuarioDTO usuario) {
+		super(id, tipoIdentificacion, numeroIdentificacion, nombresCompletos, correo);
+		setUsuario(usuario);
+	}
+
+	public UsuarioDTO getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(UsuarioDTO usuario) {
+		this.usuario = ObjectHelper.getDefault(usuario, new UsuarioDTO());
+	}
+
+	private void setDefaultUsuario() {
+
+		setUsuario(new UsuarioDTO());
 	}
 }

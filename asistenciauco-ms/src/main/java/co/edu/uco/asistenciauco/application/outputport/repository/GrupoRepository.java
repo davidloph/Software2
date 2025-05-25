@@ -11,5 +11,5 @@ public interface GrupoRepository extends JpaRepository<GrupoEntity, UUID>{
 
     boolean existsByIdAndActivoTrue(UUID idGrupo);
 
-    boolean existsByProfesorAndGrupo(UUID idProfesor, UUID idGrupo);
+    boolean existsByProfesor_IdAndGrupo_Id(UUID idProfesor, UUID idGrupo);
 }

@@ -2,6 +2,7 @@ package co.edu.uco.asistenciauco.application.outputport.repository;
 
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Estudiante;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
