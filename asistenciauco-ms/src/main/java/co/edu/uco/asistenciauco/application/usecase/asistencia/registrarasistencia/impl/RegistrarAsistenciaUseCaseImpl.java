@@ -11,6 +11,7 @@ import co.edu.uco.asistenciauco.application.outputport.repository.CanceloReposit
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteGrupoRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.AsistenciaDomainTest;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
 import co.edu.uco.asistenciauco.application.usecase.cancelo.validator.ValidarQueNoCancelo;
 import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.ValidarQueEstudianteRegistradoAGrupo;
@@ -76,7 +77,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 
 
 	@Override
-	public RegistrarAsistenciaResponseVO ejecutar(Asistencia dominio) {
+	public RegistrarAsistenciaResponseVO ejecutar(AsistenciaDomainTest dominio) {
 		
 		// 1. Validar integridad del objeto a nivel de tipo de datos, es defecto, longitud, obligatoriedad, formato, rango...
 		
@@ -113,7 +114,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		// 8. Validar que estudiantes sean consistentes para el registro de asistencia.
 		// SE OBTUVIERON TODOS LOS ESTUDIANTES DE UN GRUPO QUE NO HAN CANCELADO!
 		if(resultado.isValidacionCorrecta()) {
-			// Obtención de estudiantes de un grupo que cancelaron.
+			/*// Obtención de estudiantes de un grupo que cancelaron.
 			List<UUID> idCancelados = canceloRepository.findIdEstudiantesCancelaronByGrupo(dominio.getEstudianteGrupo().getGrupo().getId());
 			// Obtención de estudiantes de un grupo
 			List<UUID> idEstudiantes = estudianteGrupoRepository.findEstudiante_IdByGrupo_Id(dominio.getEstudianteGrupo().getGrupo().getId());
@@ -124,15 +125,15 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 				Estudiante estudiante = estudianteOptional.orElse(new Estudiante());
 				if(!idCancelados.contains(estudiante.getId()))
 					estudiantes.add(estudiante);
-			}
-			registrarAsistenciaEstudiantes(estudiantes, dominio);
+			}*/
+			registrarAsistenciaEstudiantes(dominio.getEstudiantes());
 		}
 		
 		//Retorno de resultado
 		return resultado;
 	}
 	
-	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes, Asistencia asistencia) {
+	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes) {
 		for (Estudiante estudiante : estudiantes) {
 			var registrarAsistenciaResponseEstudianteVO = new RegistrarAsistenciaResponseVO();
 			
@@ -153,7 +154,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 			
 			// 4. Registrar asistencia por cada estudiante.
 			if(registrarAsistenciaResponseEstudianteVO.isValidacionCorrecta()) {
-				registrarAsistenciaEstudiante(asistencia);
+				registrarAsistenciaEstudiante(estudiante);
 			}
 			// 5. Registrar asistencias
 			resultado.agregarMensajes(registrarAsistenciaResponseEstudianteVO.getMensajes());
@@ -164,11 +165,11 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		resultado.agregarMensajes(estudianteExiste.validate(idEstudiante).getMensajes());
 	}
 	
-	private void registrarAsistenciaEstudiante(Asistencia asistencia) {
+	private void registrarAsistenciaEstudiante(Estudiante estudiante) {
 		// 1. Registrar Asistencia
 		
 		// 2. Enviar la notificación de correo al estudiante porque no asistió.
-		if(!asistencia.isAsistio()) {
+		if(!estudiante.isAsistio()) {
 			
 		}
 	}

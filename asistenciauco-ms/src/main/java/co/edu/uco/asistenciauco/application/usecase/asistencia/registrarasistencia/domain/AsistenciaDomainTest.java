@@ -31,7 +31,7 @@ public class AsistenciaDomainTest {
 
 
 
-	public void setId(UUID id) {
+	private                                                                                                                                                                                                            void setId(UUID id) {
 		this.id = UUIDHelper.getDefault(id, UUIDHelper.getDefault());
 	}
 
