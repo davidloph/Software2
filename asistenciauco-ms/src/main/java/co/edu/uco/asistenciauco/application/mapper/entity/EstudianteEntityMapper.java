@@ -9,17 +9,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.AsistenciaEntity;
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
-
-@Mapper(componentModel = "spring", uses = TipoIdentificacionEntityMapper.class)
+@Mapper(componentModel = "spring", uses = UsuarioEntityMapper.class)
 public interface EstudianteEntityMapper {
 
 	@Mappings({
 		@Mapping(source = "id", target = "id"),
-		@Mapping(source = "tipoIdentificacion", target = "tipoIdentificacion"),
-		@Mapping(source = "numeroIdentificacion", target = "numeroIdentificacion"),
-		@Mapping(source = "nombresCompletos", target = "nombresCompletos"),
+		@Mapping(source = "usuario", target = "usuario"),
 	})
 	Estudiante toEstudiante(EstudianteEntity asistenciaEntity);
 	List<Estudiante> toEstudiantes(List<EstudianteEntity> estudiantesEntity);

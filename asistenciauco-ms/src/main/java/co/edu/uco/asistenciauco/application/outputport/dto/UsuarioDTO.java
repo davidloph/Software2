@@ -8,17 +8,19 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
-public abstract class UsuarioDTO {
+public class UsuarioDTO {
 	private String id;
 	private TipoIdentificacionDTO tipoIdentificacion;
 	private String numeroIdentificacion;
 	private String nombresCompletos;
-	
+	private String correo;
+
 	public UsuarioDTO() {
 		setDefaultId();
 		setDefaultTipoIdentificacion();
 		setDefaultNumeroIdentificacion();
 		setDefaultNombresCompletos();
+		setDefaultCorreo();
 	}
 	
 	
@@ -27,13 +29,15 @@ public abstract class UsuarioDTO {
 		setDefaultTipoIdentificacion();
 		setDefaultNumeroIdentificacion();
 		setDefaultNombresCompletos();
+		setDefaultCorreo();
 	}
 	
-	public UsuarioDTO(final String id, final TipoIdentificacionDTO tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos) {
+	public UsuarioDTO(final String id, final TipoIdentificacionDTO tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos, final String correo) {
 		setId(id);
 		setTipoIdentificacion(tipoIdentificacion);
 		setNumeroIdentificacion(numeroIdentificacion);
 		setNombresCompletos(nombresCompletos);
+		setCorreo(correo);
 	}
 
 	
@@ -88,5 +92,20 @@ public abstract class UsuarioDTO {
 		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??????
 		String defaultValue = TextHelper.EMPTY;
 		setNombresCompletos(defaultValue);
+	}
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = TextHelper.applyTrim(TextHelper.getDefault(correo));
+	}
+
+	protected void setDefaultCorreo() {
+		//TODO: OBTENER VALOR POR DEFECTO???????????
+		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??????
+		String defaultValue = TextHelper.EMPTY;
+		setCorreo(defaultValue);
 	}
 }

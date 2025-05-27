@@ -2,27 +2,55 @@ package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasisten
 
 import java.util.UUID;
 
+import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
 public class Profesor {
 
 	private UUID id;
+	private Usuario usuario;
 
-	public Profesor(final UUID id) {
-		setId(id);
+	public Profesor() {
+		setDefaultId();
+		setDefaultUsuario();
 	}
 
-	private UUID getId() {
+	public Profesor(UUID id) {
+		setId(id);
+		setDefaultUsuario();
+	}
+
+	public Profesor(final UUID id, final Usuario usuario) {
+		setId(id);
+		setUsuario(usuario);
+	}
+
+	public UUID getId() {
+
 		return id;
 	}
-
 	private void setId(final UUID id) {
+
 		this.id = UUIDHelper.getDefault(id, UUIDHelper.getDefault());
 	}
-	
+
 	private void setDefaultId() {
-		this.id = UUIDHelper.getDefault();
+		//TODO: OBTENER VALOR POR DEFECTO*******
+		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
+		UUID defaultValue = UUIDHelper.getDefault();
+		setId(defaultValue);
 	}
-	
-	
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	private void setUsuario(Usuario usuario) {
+		this.usuario = ObjectHelper.getDefault(usuario, new Usuario());
+	}
+
+	private void setDefaultUsuario() {
+
+		setUsuario(new Usuario());
+	}
 }

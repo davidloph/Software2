@@ -1,55 +1,43 @@
-package co.edu.uco.asistenciauco.application.outputport.entity;
+package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.TipoIdentificacionEntity;
 import co.edu.uco.asistenciauco.application.outputport.entity.constants.UsuarioConstants;
-import co.edu.uco.asistenciauco.application.outputport.entity.constants.UsuarioConstants;
-import co.edu.uco.crosscutting.helpers.BooleanHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import java.util.UUID;
 
-@Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-@Table(name = UsuarioConstants.TABLE_USUARIO)
-public class UsuarioEntity {
-	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = UsuarioConstants.COLUMN_ID)
+public class Usuario {
+
 	private UUID id;
-	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-    @JoinColumn(name = UsuarioConstants.COLUMN_TIPO_IDENTIFICACION)
-	private TipoIdentificacionEntity tipoIdentificacion;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = UsuarioConstants.COLUMN_NUMERO_IDENTIFICACION)
+	private TipoIdentificacion tipoIdentificacion;
 	private String numeroIdentificacion;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = UsuarioConstants.COLUMN_NOMBRES_COMPLETOS)
 	private String nombresCompletos;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = UsuarioConstants.COLUMN_CORREO)
 	private String correo;
-	
-	public UsuarioEntity() {
+
+	public Usuario() {
 		setDefaultId();
 		setDefaultTipoIdentificacion();
 		setDefaultNumeroIdentificacion();
 		setDefaultNombresCompletos();
 		setDefaultCorreo();
 	}
-	
-	
-	public UsuarioEntity(final UUID id) {
+
+
+	public Usuario(final UUID id) {
 		setId(id);
 		setDefaultTipoIdentificacion();
 		setDefaultNumeroIdentificacion();
 		setDefaultNombresCompletos();
 		setDefaultCorreo();
 	}
-	
-	public UsuarioEntity(final UUID id, final TipoIdentificacionEntity tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos, final String correo) {
+
+	public Usuario(final UUID id, final TipoIdentificacion tipoIdentificacion, final String numeroIdentificacion, final String nombresCompletos, final String correo) {
 		setId(id);
 		setTipoIdentificacion(tipoIdentificacion);
 		setNumeroIdentificacion(numeroIdentificacion);
@@ -57,7 +45,7 @@ public class UsuarioEntity {
 		setCorreo(correo);
 	}
 
-	
+
 	public UUID getId() {
 		return id;
 	}
@@ -71,18 +59,18 @@ public class UsuarioEntity {
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}
-	
-	public TipoIdentificacionEntity getTipoIdentificacion() {
+
+	public TipoIdentificacion getTipoIdentificacion() {
 		return tipoIdentificacion;
 	}
-	protected void setTipoIdentificacion(final TipoIdentificacionEntity tipoIdentificacion) {
+	protected void setTipoIdentificacion(final TipoIdentificacion tipoIdentificacion) {
 		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
-		this.tipoIdentificacion = ObjectHelper.getDefault(tipoIdentificacion, new TipoIdentificacionEntity());
+		this.tipoIdentificacion = ObjectHelper.getDefault(tipoIdentificacion, new TipoIdentificacion());
 	}
 	protected void setDefaultTipoIdentificacion() {
-		setTipoIdentificacion(new TipoIdentificacionEntity());
+		setTipoIdentificacion(new TipoIdentificacion());
 	}
-	
+
 	public String getNumeroIdentificacion() {
 		return numeroIdentificacion;
 	}
@@ -96,7 +84,7 @@ public class UsuarioEntity {
 		String defaultValue = TextHelper.EMPTY;
 		setNumeroIdentificacion(defaultValue);
 	}
-	
+
 	public String getNombresCompletos() {
 		return nombresCompletos;
 	}
@@ -122,4 +110,5 @@ public class UsuarioEntity {
 	protected void setDefaultCorreo() {
 		this.correo = TextHelper.EMPTY;
 	}
+
 }

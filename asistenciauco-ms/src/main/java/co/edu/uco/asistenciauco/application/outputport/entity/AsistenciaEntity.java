@@ -27,12 +27,13 @@ public final class AsistenciaEntity {
 	private EstudianteGrupoEntity estudianteGrupo;
 	@ManyToOne
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = AsistenciaConstants.COLUMN_SESION)
+	@JoinColumn(name = AsistenciaConstants.COLUMN_SESION)
 	private SesionEntity sesion;
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = AsistenciaConstants.COLUMN_ASISTIO)
 	private boolean asistio;
-	
+	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
+	// @Column(name = AsistenciaConstants.COLUMN_ASISTIO_IS_DEFAULT)
 	private boolean asistioDefault = true;
 	
 	

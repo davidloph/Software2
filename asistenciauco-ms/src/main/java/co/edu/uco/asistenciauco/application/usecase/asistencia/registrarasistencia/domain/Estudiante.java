@@ -2,54 +2,54 @@ package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasisten
 
 import java.util.UUID;
 
-import co.edu.uco.crosscutting.helpers.BooleanHelper;
+import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
 public class Estudiante {
 
 	private UUID id;
-	private boolean asistio;
-	private boolean asistioDefault = true;
+	private Usuario usuario;
 
 	public Estudiante() {
 		setDefaultId();
-		setDefaultAsistio();
+		setDefaultUsuario();
 	}
-	
-	public Estudiante(final UUID id) {
+
+	public Estudiante (UUID id) {
 		setId(id);
-		setDefaultAsistio();
+		setDefaultUsuario();
 	}
-	
-	public Estudiante(final UUID id, final boolean asistio) {
+
+	public Estudiante(final UUID id, final Usuario usuario) {
 		setId(id);
-		setAsistio(asistio);
+		setUsuario(usuario);
 	}
 
 	public UUID getId() {
 		return id;
 	}
-
 	private void setId(final UUID id) {
 		this.id = UUIDHelper.getDefault(id, UUIDHelper.getDefault());
 	}
 
-	public boolean isAsistio() {
-		return asistio;
+	private void setDefaultId() {
+		//TODO: OBTENER VALOR POR DEFECTO*******
+		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
+		UUID defaultValue = UUIDHelper.getDefault();
+		setId(defaultValue);
 	}
 
-	private void setAsistio(final boolean asistio) {
-		this.asistio = asistio;
-		asistioDefault = false;
+	public Usuario getUsuario() {
+		return usuario;
 	}
-	
-	private void setDefaultAsistio() {
-		this.asistio = BooleanHelper.FALSE;
+
+	private void setUsuario(Usuario usuario) {
+		this.usuario = ObjectHelper.getDefault(usuario, new Usuario());
 	}
-	
-	private void setDefaultId() {
-		this.id = UUIDHelper.getDefault();
+
+	private void setDefaultUsuario() {
+
+		setUsuario(new Usuario());
 	}
-	
 	
 }
