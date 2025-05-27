@@ -13,7 +13,7 @@ public interface EstudianteGrupoRepository extends JpaRepository<EstudianteGrupo
 
     boolean existsByEstudiante_IdAndGrupo_Id(UUID idGrupo, UUID idEstudiante);
 
-    @Query("SELECT eg.estudiante.id FROM EstudianteGrupo eg WHERE eg.grupo.id = :idGrupo")
+    @Query("SELECT eg.estudiante.id FROM EstudianteGrupoEntity eg WHERE eg.grupo.id = :idGrupo")
     List<UUID> findEstudiante_IdByGrupo_Id(UUID idGrupo);
 
 }

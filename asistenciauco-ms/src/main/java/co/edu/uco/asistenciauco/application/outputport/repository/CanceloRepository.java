@@ -15,7 +15,7 @@ public interface CanceloRepository extends JpaRepository<CanceloEntity, UUID>{
 
     boolean existsByEstudianteGrupo_IdAndActivoTrue(UUID idEstudianteGrupo);
 
-    @Query("SELECT eg.estudiante.id FROM Cancelo c JOIN c.estudianteGrupo eg " +
+    @Query("SELECT eg.estudiante.id FROM CanceloEntity c JOIN c.estudianteGrupo eg " +
             "WHERE c.activo = false AND eg.grupo.id = :idGrupo")
     List<UUID> findIdEstudiantesCancelaronByGrupo(UUID idGrupo);
 }
