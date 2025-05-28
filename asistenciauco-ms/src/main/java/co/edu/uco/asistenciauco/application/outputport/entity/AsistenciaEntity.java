@@ -14,26 +14,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = AsistenciaConstants.TABLE_ASISTENCIA)
 public final class AsistenciaEntity {
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = AsistenciaConstants.COLUMN_ID)
 	private UUID id;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = AsistenciaConstants.COLUMN_ESTUDIANTE_GRUPO)
 	private EstudianteGrupoEntity estudianteGrupo;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@JoinColumn(name = AsistenciaConstants.COLUMN_SESION)
 	private SesionEntity sesion;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = AsistenciaConstants.COLUMN_ASISTIO)
 	private boolean asistio;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	// @Column(name = AsistenciaConstants.COLUMN_ASISTIO_IS_DEFAULT)
 	private boolean asistioDefault = true;
 	
 	

@@ -119,19 +119,11 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		// 8. Validar que estudiantes sean consistentes para el registro de asistencia.
 		// SE OBTUVIERON TODOS LOS ESTUDIANTES DE UN GRUPO QUE NO HAN CANCELADO!
 		if(resultado.isValidacionCorrecta()) {
-			/*// Obtención de estudiantes de un grupo que cancelaron.
-			List<UUID> idCancelados = canceloRepository.findIdEstudiantesCancelaronByGrupo(dominio.getEstudianteGrupo().getGrupo().getId());
-			// Obtención de estudiantes de un grupo
-			List<UUID> idEstudiantes = estudianteGrupoRepository.findEstudiante_IdByGrupo_Id(dominio.getEstudianteGrupo().getGrupo().getId());
-			ArrayList<Estudiante> estudiantes = new ArrayList<>();
-			for(UUID idEstudiante : idEstudiantes) {
-				Optional<EstudianteEntity> estudianteEntity = estudianteRepository.findById(idEstudiante);
-				Optional<Estudiante> estudianteOptional = estudianteEntity.map(estudianteEntityMapper::toEstudiante);
-				Estudiante estudiante = estudianteOptional.orElse(new Estudiante());
-				if(!idCancelados.contains(estudiante.getId()))
-					estudiantes.add(estudiante);
-			}*/
-			registrarAsistenciaEstudiantes(dominio.getEstudiantes());
+			// Obtención de estudiantes de un grupo que no cancelaron.
+			List<Estudiante> estudiantes = canceloRepository.findIdEstudiantesNoCancelaronBySesion(dominio.getSesion().getId());
+
+			//registrarAsistenciaEstudiantes(dominio.getEstudiantes());
+			registrarAsistenciaEstudiantes((estudiantes));
 		}
 		
 		//Retorno de resultado

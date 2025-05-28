@@ -10,12 +10,11 @@ import org.mapstruct.Mappings;
 import co.edu.uco.asistenciauco.application.outputport.entity.ProfesorEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Profesor;
 
-@Mapper(componentModel = "spring", uses = UsuarioEntityMapper.class)
+@Mapper(componentModel = "spring")
 public interface ProfesorEntityMapper {
 
 	@Mappings({
-		@Mapping(source = "id", target = "id"),
-		@Mapping(source = "usuario", target = "usuario"),
+		@Mapping(source = "id", target = "id")
 	})
 	Profesor toProfesor(ProfesorEntity profesorEntity);
 	List<Profesor> toProfesors(List<ProfesorEntity> profesoresEntity);

@@ -8,21 +8,17 @@ import co.edu.uco.crosscutting.helpers.UUIDHelper;
 public final class Profesor {
 
 	private UUID id;
-	private Usuario usuario;
 
 	public Profesor() {
 		setDefaultId();
-		setDefaultUsuario();
 	}
 
 	public Profesor(UUID id) {
 		setId(id);
-		setDefaultUsuario();
 	}
 
 	public Profesor(final UUID id, final Usuario usuario) {
 		setId(id);
-		setUsuario(usuario);
 	}
 
 	public UUID getId() {
@@ -39,18 +35,5 @@ public final class Profesor {
 		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	private void setUsuario(Usuario usuario) {
-		this.usuario = ObjectHelper.getDefault(usuario, new Usuario());
-	}
-
-	private void setDefaultUsuario() {
-
-		setUsuario(new Usuario());
 	}
 }

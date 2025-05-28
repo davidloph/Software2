@@ -48,7 +48,7 @@ public final class RegistrarAsistenciaRequestDTO {
 	public class Estudiante {
 		private UUID id;
 		private boolean asistio;
-		private boolean asistioFlag;
+		private boolean asistioFlag = false;
 		//TODO: SABER SI EL "ASISTIÓ" FUE POR DEFECTO O REALMENTE NO ASISTIÓ.
 		
 		
