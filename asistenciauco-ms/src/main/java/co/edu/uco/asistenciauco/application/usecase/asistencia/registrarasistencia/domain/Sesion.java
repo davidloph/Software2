@@ -6,7 +6,7 @@ import java.util.UUID;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
-public class Sesion {
+public final class Sesion {
 
 	private UUID id;
 

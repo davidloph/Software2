@@ -5,7 +5,7 @@ import java.util.UUID;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
-public class Profesor {
+public final class Profesor {
 
 	private UUID id;
 	private Usuario usuario;

@@ -6,7 +6,7 @@ import co.edu.uco.crosscutting.helpers.BooleanHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
-public class Estudiante {
+public final class Estudiante {
 
 	private UUID id;
 	private boolean asistio;

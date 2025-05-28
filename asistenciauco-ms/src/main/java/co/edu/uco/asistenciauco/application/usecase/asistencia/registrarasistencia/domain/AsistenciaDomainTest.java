@@ -7,7 +7,7 @@ import java.util.UUID;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
-public class AsistenciaDomainTest {
+public final class AsistenciaDomainTest {
 
 	private UUID id;
 	private Sesion sesion;
