@@ -15,22 +15,17 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = GrupoConstants.TABLE_GRUPO)
 public final class GrupoEntity {
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = GrupoConstants.COLUMN_ID)
 	private UUID id;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = GrupoConstants.COLUMN_PROFESOR)
 	private ProfesorEntity profesor;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@JoinColumn(name = GrupoConstants.COLUMN_MATERIA)
 	private MateriaEntity materia;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = GrupoConstants.COLUMN_CANTIDADESTUDIANTES)
 	private Integer cantidadEstudiantes;
 	

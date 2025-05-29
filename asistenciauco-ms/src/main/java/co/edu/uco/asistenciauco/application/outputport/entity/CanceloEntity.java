@@ -14,7 +14,7 @@ public final class CanceloEntity {
 	@Id
 	@Column(name = CanceloConstants.COLUMN_ID)
 	private UUID id;
-	@ManyToOne
+	@OneToOne
     @JoinColumn(name = CanceloConstants.COLUMN_ESTUDIANTE_GRUPO)
 	private EstudianteGrupoEntity estudianteGrupo;
 	@Column(name = CanceloConstants.COLUMN_FECHA)

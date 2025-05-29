@@ -12,7 +12,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = TipoIdentificacionConstants.TABLE_TIPO_IDENTIFICACION)
 public final class TipoIdentificacionEntity {
 	@Id

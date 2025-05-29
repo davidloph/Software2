@@ -10,7 +10,6 @@ import co.edu.uco.crosscutting.helpers.UUIDHelper;
 import jakarta.persistence.*;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = ProfesorConstants.TABLE_PROFESOR)
 public final class ProfesorEntity{
 	@Id

@@ -11,24 +11,18 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = UsuarioConstants.TABLE_USUARIO)
 public class UsuarioEntity {
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = UsuarioConstants.COLUMN_ID)
 	private UUID id;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = UsuarioConstants.COLUMN_TIPO_IDENTIFICACION)
 	private TipoIdentificacionEntity tipoIdentificacion;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = UsuarioConstants.COLUMN_NUMERO_IDENTIFICACION)
 	private String numeroIdentificacion;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = UsuarioConstants.COLUMN_NOMBRES_COMPLETOS)
 	private String nombresCompletos;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = UsuarioConstants.COLUMN_CORREO)
 	private String correo;
 	

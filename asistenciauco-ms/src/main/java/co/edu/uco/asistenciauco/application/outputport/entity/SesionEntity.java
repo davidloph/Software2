@@ -16,18 +16,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = SesionConstants.TABLE_SESION)
 public final class SesionEntity {
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = SesionConstants.COLUMN_ID)
 	private UUID id;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = SesionConstants.COLUMN_GRUPO)
 	private GrupoEntity grupo;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = SesionConstants.COLUMN_FECHA_HORA)
 	private LocalDateTime fechaHora;
 	

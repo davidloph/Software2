@@ -9,7 +9,6 @@ import co.edu.uco.crosscutting.helpers.UUIDHelper;
 import jakarta.persistence.*;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = EstudianteConstants.TABLE_ESTUDIANTE)
 public final class EstudianteEntity{
 	@Id

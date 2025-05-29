@@ -13,23 +13,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = EstudianteGrupoConstants.TABLE_ESTUDIANTE_GRUPO)
 public final class EstudianteGrupoEntity {
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = EstudianteGrupoConstants.COLUMN_ID)
 	private UUID id;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = EstudianteGrupoConstants.COLUMN_GRUPO)
 	private GrupoEntity grupo;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@JoinColumn(name = EstudianteGrupoConstants.COLUMN_ESTUDIANTE)
 	private EstudianteEntity estudiante;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@JoinColumn(name = EstudianteGrupoConstants.COLUMN_CANCELO)
 	private CanceloEntity cancelo;
 	
