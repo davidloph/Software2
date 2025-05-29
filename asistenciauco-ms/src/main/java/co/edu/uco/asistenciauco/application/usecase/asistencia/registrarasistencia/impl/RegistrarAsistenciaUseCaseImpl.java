@@ -119,18 +119,16 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		// 8. Validar que estudiantes sean consistentes para el registro de asistencia.
 		// SE OBTUVIERON TODOS LOS ESTUDIANTES DE UN GRUPO QUE NO HAN CANCELADO!
 		if(resultado.isValidacionCorrecta()) {
-			// Obtención de estudiantes de un grupo que no cancelaron.
-			List<Estudiante> estudiantes = canceloRepository.findIdEstudiantesNoCancelaronBySesion(dominio.getSesion().getId());
 
 			//registrarAsistenciaEstudiantes(dominio.getEstudiantes());
-			registrarAsistenciaEstudiantes((estudiantes));
+			registrarAsistenciaEstudiantes(dominio.getEstudiantes(), dominio.getSesion().getId());
 		}
 		
 		//Retorno de resultado
 		return resultado;
 	}
 	
-	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes) {
+	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes, UUID idSesion) {
 		for (Estudiante estudiante : estudiantes) {
 			var registrarAsistenciaResponseEstudianteVO = new RegistrarAsistenciaResponseVO();
 			
@@ -140,13 +138,13 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 			//Se Validó en 8.
 			// 2. Validar que el estudiante esté registrado en el grupo.
 			if(registrarAsistenciaResponseEstudianteVO.isValidacionCorrecta()) {
-				//estudianteEnGrupo(estudiante.getId())
+				validarQueEstudianteRegistradoEnGrupo(idSesion, estudiante.getId());
 			}
 
 			//Se validó en 8.
 			// 3. Validar que el estudiante no tenga la materia cancelada por alguna novedad.
 			if(registrarAsistenciaResponseEstudianteVO.isValidacionCorrecta()) {
-				//validarQueNoCancelo(idEstudianteGrupo)
+				validarQueEstudianteNoCancelo(estudiante.getId(), idSesion);
 			}
 			
 			// 4. Registrar asistencia por cada estudiante.
@@ -160,6 +158,14 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	
 	private void validarQueEstudianteExiste(UUID idEstudiante) {
 		resultado.agregarMensajes(estudianteExiste.validate(idEstudiante).getMensajes());
+	}
+
+	private void validarQueEstudianteRegistradoEnGrupo(UUID idSesion, UUID idEstudiante) {
+		resultado.agregarMensajes(estudianteEnGrupo.validate(new ArrayList<>(List.of(idSesion, idEstudiante))).getMensajes());
+	}
+
+	private void validarQueEstudianteNoCancelo(UUID idEstudiante, UUID idSesion) {
+		resultado.agregarMensajes(validarQueNoCancelo.validate(new ArrayList<UUID>(List.of(idEstudiante, idSesion))).getMensajes());
 	}
 	
 	private void registrarAsistenciaEstudiante(Estudiante estudiante) {
