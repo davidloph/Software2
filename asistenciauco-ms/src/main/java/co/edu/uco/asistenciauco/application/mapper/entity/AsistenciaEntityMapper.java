@@ -2,6 +2,9 @@ package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import java.util.List;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.CanceloEntity;
+import co.edu.uco.asistenciauco.application.outputport.entity.GrupoEntity;
+import co.edu.uco.asistenciauco.application.outputport.entity.ProfesorEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,12 +20,17 @@ public interface AsistenciaEntityMapper {
 		@Mapping(source = "id", target = "id"),
 		@Mapping(source = "estudianteGrupo", target = "estudianteGrupo"),
 		@Mapping(source = "sesion", target = "sesion"),
-		@Mapping(source = "asistio", target = "asistio"),
+		@Mapping(expression = "java(source.getProfesor())", target = "profesor"),
 	})
-    AsistenciaDomainTest toAsistencia(AsistenciaEntity asistenciaEntity);
-	List<AsistenciaDomainTest> toAsistencias(List<AsistenciaEntity> asistenciasEntity);
-	
-	@InheritInverseConfiguration
+    AsistenciaDomainTest toAsistencia(AsistenciaEntity asistenciaEntity, GrupoEntity grupoEntity);
+	List<AsistenciaDomainTest> toAsistencias(List<AsistenciaEntity> asistenciasEntity, List<GrupoEntity> grupoEntities);
+
+
+
+	@Mapping(source = "id",target = "id")
 	AsistenciaEntity toAsistenciaEntity(AsistenciaDomainTest asistencia);
-	List<AsistenciaEntity> toAsistenciasEntity(List<AsistenciaDomainTest> asistencias);
+
+	@Mapping(source = "sesion", target = "sesion")
+	AsistenciaEntity toAsistenciasEntity(AsistenciaDomainTest asistencias);
+
 }

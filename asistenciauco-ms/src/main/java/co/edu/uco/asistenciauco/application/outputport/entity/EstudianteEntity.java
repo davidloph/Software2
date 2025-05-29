@@ -13,11 +13,9 @@ import jakarta.persistence.*;
 @Table(name = EstudianteConstants.TABLE_ESTUDIANTE)
 public final class EstudianteEntity{
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = EstudianteConstants.COLUMN_ID)
 	private UUID id;
 	@OneToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = EstudianteConstants.COLUMN_USUARIO)
 	private UsuarioEntity usuario;
 

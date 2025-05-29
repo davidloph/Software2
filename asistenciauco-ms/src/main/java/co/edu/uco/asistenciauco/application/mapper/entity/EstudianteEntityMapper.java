@@ -2,6 +2,8 @@ package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import java.util.List;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.AsistenciaEntity;
+import co.edu.uco.asistenciauco.application.outputport.entity.CanceloEntity;
 import co.edu.uco.asistenciauco.application.outputport.entity.EstudianteEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Estudiante;
 import org.mapstruct.InheritInverseConfiguration;
@@ -14,10 +16,10 @@ public interface EstudianteEntityMapper {
 
 	@Mappings({
 		@Mapping(source = "id", target = "id"),
-		@Mapping(source = "usuario", target = "usuario"),
+		@Mapping(expression = "java(source.getAsistio())", target = "asistio"),
 	})
-	Estudiante toEstudiante(EstudianteEntity asistenciaEntity);
-	List<Estudiante> toEstudiantes(List<EstudianteEntity> estudiantesEntity);
+	Estudiante toEstudiante(EstudianteEntity estudianteEntity, AsistenciaEntity asistenciaEntity);
+	List<Estudiante> toEstudiantes(List<EstudianteEntity> estudiantesEntity, List<AsistenciaEntity> asistenciaEntities);
 	
 	@InheritInverseConfiguration
 	EstudianteEntity toEstudianteEntity(Estudiante estudiante);
