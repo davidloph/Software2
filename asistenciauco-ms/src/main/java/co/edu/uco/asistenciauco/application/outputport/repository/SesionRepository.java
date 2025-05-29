@@ -24,4 +24,11 @@ public interface SesionRepository extends JpaRepository<SesionEntity, UUID>{
 """)
     UUID findProfesorIdBySesionId(@Param("idSesion") UUID idSesion);
 
+    @Query("""
+        SELECT COUNT(s) > 0
+        FROM SesionEntity s
+        WHERE s.id = :idSesion
+          AND s.grupo.activo = true
+    """)
+    boolean isGrupoActivoBySesionId(@Param("idSesion") UUID idSesion);
 }

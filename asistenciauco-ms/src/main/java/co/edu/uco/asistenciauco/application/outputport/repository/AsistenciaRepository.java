@@ -11,4 +11,6 @@ import co.edu.uco.asistenciauco.application.outputport.entity.AsistenciaEntity;
 public interface AsistenciaRepository extends JpaRepository<AsistenciaEntity, UUID>{
 
     boolean existsBySesion_Id(UUID idSesion);
+
+    void actualizarEstadoAsistencia(UUID idEstudiante, UUID idSesion, boolean asistio, boolean asistioFlag);
 }

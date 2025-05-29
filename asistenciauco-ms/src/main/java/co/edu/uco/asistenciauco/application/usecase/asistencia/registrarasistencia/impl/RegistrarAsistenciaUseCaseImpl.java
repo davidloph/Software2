@@ -18,6 +18,7 @@ import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQuePr
 import co.edu.uco.asistenciauco.application.usecase.profesor.validator.ValidarQueProfesorExista;
 import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarProfesorAsociadoASesion;
 import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarQueAsistenciaDentroDelPlazo;
+import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarSesionAsociadaAGrupoActivo;
 import org.springframework.stereotype.Service;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.AsistenciaRepository;
@@ -33,7 +34,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private ValidarQueEstudianteExista estudianteExiste;
 	private ValidarQueSesionExista sesionExiste;
 	private ValidarQueProfesorExista profesorExiste;
-	private ValidarQueGrupoEstaActivoBySesion grupoEstaActivo;
+	private ValidarSesionAsociadaAGrupoActivo grupoEstaActivo;
 	private ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada;
 	private ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo;
 	private ValidarProfesorAsociadoASesion profesorAsociadoASesion;
@@ -51,7 +52,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	
 	public RegistrarAsistenciaUseCaseImpl(AsistenciaRepository asistenciaRepository, ValidarQueEstudianteExista estudianteExiste,
 										  ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste,
-										  ValidarQueGrupoEstaActivoBySesion grupoEstaActivo, ValidarQueProfesorEstaAsociadoAGrupo profesorEstaAsociadoAGrupo,
+										  ValidarSesionAsociadaAGrupoActivo grupoEstaActivo, ValidarQueProfesorEstaAsociadoAGrupo profesorEstaAsociadoAGrupo,
 										  ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada, ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo,
 										  ValidarQueEstudianteRegistradoAGrupo estudianteRegistradoAGrupo, ValidarQueNoCancelo validarQueNoCancelo,
 										  EstudianteGrupoRepository estudianteGrupoRepository, EstudianteRepository estudianteRepository,
@@ -121,18 +122,22 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		if(resultado.isValidacionCorrecta()) {
 			// Obtención de estudiantes de un grupo que no cancelaron.
 			List<Estudiante> estudiantes = canceloRepository.findIdEstudiantesNoCancelaronBySesion(dominio.getSesion().getId());
+			UUID sesionid = dominio.getSesion().getId();
 
 			//registrarAsistenciaEstudiantes(dominio.getEstudiantes());
-			registrarAsistenciaEstudiantes((estudiantes));
+			registrarAsistenciaEstudiantes(estudiantes,sesionid);
 		}
 		
 		//Retorno de resultado
 		return resultado;
 	}
 	
-	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes) {
+	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes, UUID sesionid) {
 		for (Estudiante estudiante : estudiantes) {
 			var registrarAsistenciaResponseEstudianteVO = new RegistrarAsistenciaResponseVO();
+			ArrayList<UUID> datos = new ArrayList<>();
+			datos.add(estudiante.getId());
+			datos.add(sesionid);
 			
 			// 1. Validar que el estudiante exista.
 			validarQueEstudianteExiste(estudiante.getId());
@@ -140,13 +145,13 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 			//Se Validó en 8.
 			// 2. Validar que el estudiante esté registrado en el grupo.
 			if(registrarAsistenciaResponseEstudianteVO.isValidacionCorrecta()) {
-				//estudianteEnGrupo(estudiante.getId())
+				resultado.agregarMensajes(estudianteEnGrupo.validate(datos).getMensajes());
 			}
 
 			//Se validó en 8.
 			// 3. Validar que el estudiante no tenga la materia cancelada por alguna novedad.
 			if(registrarAsistenciaResponseEstudianteVO.isValidacionCorrecta()) {
-				//validarQueNoCancelo(idEstudianteGrupo)
+				resultado.agregarMensajes(validarQueNoCancelo.validate(estudiante.getId()).getMensajes());
 			}
 			
 			// 4. Registrar asistencia por cada estudiante.
@@ -157,13 +162,14 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 			resultado.agregarMensajes(registrarAsistenciaResponseEstudianteVO.getMensajes());
 		}
 	}
-	
+
 	private void validarQueEstudianteExiste(UUID idEstudiante) {
 		resultado.agregarMensajes(estudianteExiste.validate(idEstudiante).getMensajes());
 	}
 	
 	private void registrarAsistenciaEstudiante(Estudiante estudiante) {
 		// 1. Registrar Asistencia
+		 estudiante.getId();
 		
 		// 2. Enviar la notificación de correo al estudiante porque no asistió.
 		if(!estudiante.isAsistio()) {

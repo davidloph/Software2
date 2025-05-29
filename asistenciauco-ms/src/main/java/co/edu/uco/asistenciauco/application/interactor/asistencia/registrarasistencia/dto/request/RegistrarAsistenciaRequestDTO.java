@@ -1,6 +1,8 @@
 package co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasistencia.dto.request;
 
 import co.edu.uco.asistenciauco.application.outputport.dto.EstudianteDTO;
+import co.edu.uco.crosscutting.helpers.BooleanHelper;
+import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,16 +44,16 @@ public final class RegistrarAsistenciaRequestDTO {
 
 	public void setEstudiantes(final List<EstudianteDTO> estudiantes) {
 		this.estudiantes = estudiantes;
+
 	}
 
 
 	public class Estudiante {
 		private UUID id;
 		private boolean asistio;
-		private boolean asistioFlag = false;
+		private boolean asistioFlag = BooleanHelper.FALSE;
 		//TODO: SABER SI EL "ASISTIÓ" FUE POR DEFECTO O REALMENTE NO ASISTIÓ.
-		
-		
+
 		public Estudiante() {
 			setDefaultId();
 			setDefaultAsistio();
@@ -76,7 +78,7 @@ public final class RegistrarAsistenciaRequestDTO {
 		}
 
 		public void setDefaultId() {
-			UUID defaultValue = null;
+			UUID defaultValue = UUIDHelper.getDefault();
 			setId(defaultValue);
 		}
 
@@ -85,12 +87,12 @@ public final class RegistrarAsistenciaRequestDTO {
 		}
 
 		public void setAsistio(final boolean asistio) {
-			this.asistioFlag = true;
+			this.asistioFlag = BooleanHelper.TRUE;
 			this.asistio = asistio;
 		}
 		
 		public void setDefaultAsistio() {
-			this.asistioFlag = false;
+			this.asistioFlag = BooleanHelper.FALSE;
 			this.asistio = asistio;
 		}
 

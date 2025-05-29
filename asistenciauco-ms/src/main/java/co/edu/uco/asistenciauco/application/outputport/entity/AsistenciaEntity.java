@@ -27,7 +27,7 @@ public final class AsistenciaEntity {
 	private SesionEntity sesion;
 	@Column(name = AsistenciaConstants.COLUMN_ASISTIO)
 	private boolean asistio;
-	private boolean asistioDefault = true;
+	private boolean asistioDefault = BooleanHelper.FALSE;
 	
 	
 	public AsistenciaEntity() {
@@ -61,8 +61,6 @@ public final class AsistenciaEntity {
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}
@@ -71,7 +69,6 @@ public final class AsistenciaEntity {
 		return estudianteGrupo;
 	}
 	public void setEstudianteGrupo(final EstudianteGrupoEntity estudianteGrupo) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.estudianteGrupo = ObjectHelper.getDefault(estudianteGrupo, new EstudianteGrupoEntity());
 	}
 	private void setDefaultEstudianteGrupo() {
@@ -82,7 +79,6 @@ public final class AsistenciaEntity {
 		return sesion;
 	}
 	public void setSesion(final SesionEntity sesion) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.sesion = ObjectHelper.getDefault(sesion, new SesionEntity());
 	}
 	private void setDefaultSesion() {
@@ -93,9 +89,8 @@ public final class AsistenciaEntity {
 		return asistio;
 	}
 	public void setAsistio(final boolean asistio) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.asistio = ObjectHelper.getDefault(asistio, BooleanHelper.FALSE);
-		asistioDefault = false;
+		asistioDefault = BooleanHelper.FALSE;
 	}
 	private void setDefaultAsistio() {
 		setAsistio(BooleanHelper.FALSE);
