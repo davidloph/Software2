@@ -4,6 +4,7 @@ import co.edu.uco.asistenciauco.application.outputport.entity.CanceloEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Estudiante;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -17,12 +18,15 @@ public interface CanceloRepository extends JpaRepository<CanceloEntity, UUID>{
     boolean existsByEstudianteGrupo_IdAndActivoTrue(UUID idEstudianteGrupo);
 
     @Query("""
-    SELECT eg.estudiante
+    SELECT COUNT(c) > 0
     FROM CanceloEntity c
-    JOIN c.estudianteGrupo eg
-    JOIN eg.grupo g
-    JOIN SesionEntity s ON s.grupo.id = g.id
-    WHERE c.activo = true AND s.id = :idSesion
+    WHERE c.estudianteGrupo.estudiante.id = :idEstudiante
+      AND c.estudianteGrupo.grupo.id = (
+            SELECT s.grupo.id
+            FROM SesionEntity s
+            WHERE s.id = :idSesion
+      )
+      AND c.activo = false
 """)
-    List<Estudiante> findIdEstudiantesNoCancelaronBySesion(UUID idSesion);
+    boolean estudianteCanceloInactivo(@Param("idEstudiante") UUID idEstudiante, @Param("idSesion") UUID idSesion);
 }
