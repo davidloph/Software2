@@ -34,7 +34,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private ValidarQueEstudianteExista estudianteExiste;
 	private ValidarQueSesionExista sesionExiste;
 	private ValidarQueProfesorExista profesorExiste;
-	private ValidarSesionAsociadaAGrupoActivo grupoEstaActivo;
+	//private ValidarSesionAsociadaAGrupoActivo grupoEstaActivo;
 	private ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada;
 	private ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo;
 	private ValidarProfesorAsociadoASesion profesorAsociadoASesion;
@@ -51,8 +51,8 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	//TODO: Demás validator que se usarán.
 	
 	public RegistrarAsistenciaUseCaseImpl(AsistenciaRepository asistenciaRepository, ValidarQueEstudianteExista estudianteExiste,
-										  ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste,
-										  ValidarSesionAsociadaAGrupoActivo grupoEstaActivo, ValidarQueProfesorEstaAsociadoAGrupo profesorEstaAsociadoAGrupo,
+										  ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste/*,
+										  ValidarSesionAsociadaAGrupoActivo */, ValidarQueProfesorEstaAsociadoAGrupo profesorEstaAsociadoAGrupo,
 										  ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada, ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo,
 										  ValidarQueEstudianteRegistradoAGrupo estudianteRegistradoAGrupo, ValidarQueNoCancelo validarQueNoCancelo,
 										  EstudianteGrupoRepository estudianteGrupoRepository, EstudianteRepository estudianteRepository,
@@ -69,7 +69,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		this.sesionExiste = sesionExiste;
 		this.profesorAsociadoASesion = profesorAsociadoASesion;
 		this.profesorExiste = profesorExiste;
-		this.grupoEstaActivo = grupoEstaActivo;
+		//this.grupoEstaActivo = grupoEstaActivo;
 		this.sesionExiste = sesionExiste;
 		this.estudianteRegistradoAGrupo = estudianteRegistradoAGrupo;
 		this.validarQueNoCancelo = validarQueNoCancelo;
@@ -98,9 +98,9 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		}
 		
 		// 4. El grupo debe estar activo
-		if(resultado.isValidacionCorrecta()) {
+		/*if(resultado.isValidacionCorrecta()) {
 			resultado.agregarMensajes(grupoEstaActivo.validate(dominio.getSesion().getId()).getMensajes());
-		}
+		}*/
 		
 		// 5. El profesor debe estar asignado al grupo.
 		if(resultado.isValidacionCorrecta()) {

@@ -12,5 +12,4 @@ public interface AsistenciaRepository extends JpaRepository<AsistenciaEntity, UU
 
     boolean existsBySesion_Id(UUID idSesion);
 
-    void actualizarEstadoAsistencia(UUID idEstudiante, UUID idSesion, boolean asistio, boolean asistioFlag);
 }
