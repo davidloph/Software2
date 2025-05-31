@@ -2,6 +2,7 @@ package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasisten
 
 import java.util.UUID;
 
+import co.edu.uco.crosscutting.helpers.BooleanHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 import jakarta.persistence.Column;
@@ -14,7 +15,7 @@ public class EstudianteGrupo {
 	private UUID id;
 	private Grupo grupo;
 	private Estudiante estudiante;
-	private Cancelo cancelo;
+	private boolean cancelo;
 
 	public EstudianteGrupo() {
 		setDefaultId();
@@ -31,7 +32,7 @@ public class EstudianteGrupo {
 		setDefaultCancelo();
 	}
 
-	public EstudianteGrupo(final UUID id, final Grupo grupo, final Estudiante estudiante,  final Cancelo canelo) {
+	public EstudianteGrupo(final UUID id, final Grupo grupo, final Estudiante estudiante,  final boolean cancelo) {
 		setId(id);
 		setGrupo(grupo);
 		setEstudiante(estudiante);
@@ -47,8 +48,6 @@ public class EstudianteGrupo {
 	}
 
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}
@@ -57,7 +56,6 @@ public class EstudianteGrupo {
 		return grupo;
 	}
 	public void setGrupo(final Grupo grupo) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.grupo = ObjectHelper.getDefault(grupo, new Grupo());
 	}
 	private void setDefaultGrupo() {
@@ -68,23 +66,20 @@ public class EstudianteGrupo {
 		return estudiante;
 	}
 	public void setEstudiante(final Estudiante estudiante) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.estudiante = ObjectHelper.getDefault(estudiante, new Estudiante());
 	}
 	private void setDefaultEstudiante() {
 		setEstudiante(new Estudiante());
 	}
 
-	public Cancelo getCancelo() {
+	public boolean getCancelo() {
 		return cancelo;
 	}
-	public void setCancelo(final Cancelo cancelo) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
-		this.cancelo = ObjectHelper.getDefault(cancelo, new Cancelo());
+	public void setCancelo(final boolean cancelo) {
+		this.cancelo = ObjectHelper.getDefault(cancelo, BooleanHelper.FALSE);
 	}
 	private void setDefaultCancelo() {
-		setCancelo(new Cancelo());
+		setCancelo(BooleanHelper.FALSE);
 	}
-
 
 }
