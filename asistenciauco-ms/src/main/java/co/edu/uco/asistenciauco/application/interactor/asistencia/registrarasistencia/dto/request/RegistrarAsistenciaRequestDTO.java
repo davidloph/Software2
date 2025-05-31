@@ -1,5 +1,7 @@
 package co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasistencia.dto.request;
 
+import co.edu.uco.asistenciauco.application.outputport.dto.EstudianteDTO;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -7,7 +9,7 @@ public final class RegistrarAsistenciaRequestDTO {
 
 	private UUID sesion;
 	private UUID profesor;
-	private List<Estudiante> estudiantes;
+	private List<EstudianteDTO> estudiantes;
 	
 	public RegistrarAsistenciaRequestDTO() {
 		super();
@@ -33,12 +35,12 @@ public final class RegistrarAsistenciaRequestDTO {
 	}
 
 
-	public List<Estudiante> getEstudiantes() {
+	public List<EstudianteDTO> getEstudiantes() {
 		return estudiantes;
 	}
 
 
-	public void setEstudiantes(final List<Estudiante> estudiantes) {
+	public void setEstudiantes(final List<EstudianteDTO> estudiantes) {
 		this.estudiantes = estudiantes;
 	}
 
@@ -46,7 +48,7 @@ public final class RegistrarAsistenciaRequestDTO {
 	public class Estudiante {
 		private UUID id;
 		private boolean asistio;
-		private boolean asistioFlag;
+		private boolean asistioFlag = false;
 		//TODO: SABER SI EL "ASISTIÓ" FUE POR DEFECTO O REALMENTE NO ASISTIÓ.
 		
 		

@@ -26,11 +26,11 @@ public final class EstudianteGrupoEntity {
 	private GrupoEntity grupo;
 	@ManyToOne
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = EstudianteGrupoConstants.COLUMN_ESTUDIANTE)
+	@JoinColumn(name = EstudianteGrupoConstants.COLUMN_ESTUDIANTE)
 	private EstudianteEntity estudiante;
 	@ManyToOne
 	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@Column(name = EstudianteGrupoConstants.COLUMN_CANCELO)
+	@JoinColumn(name = EstudianteGrupoConstants.COLUMN_CANCELO)
 	private CanceloEntity cancelo;
 	
 	public EstudianteGrupoEntity() {

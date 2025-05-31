@@ -1,6 +1,7 @@
 package co.edu.uco.asistenciauco.application.usecase.grupo.validator;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
+import co.edu.uco.asistenciauco.application.outputport.repository.GrupoRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 import org.springframework.stereotype.Service;
@@ -10,12 +11,12 @@ import java.util.UUID;
 @Service
 public class ValidarQueGrupoExista implements Validator<UUID, ValidationResultVO>{
 
-	private EstudianteRepository estudianteRepository;
+	private GrupoRepository grupoRepository;
 
 
 
-	public ValidarQueGrupoExista(EstudianteRepository estudianteRepository) {
-		this.estudianteRepository = estudianteRepository;
+	public ValidarQueGrupoExista(GrupoRepository grupoRepository) {
+		this.grupoRepository = grupoRepository;
 	}
 
 
@@ -25,7 +26,7 @@ public class ValidarQueGrupoExista implements Validator<UUID, ValidationResultVO
 		
 		var resultadoValidacion = new ValidationResultVO();
 		
-		if(!estudianteRepository.existsById(data)) {
+		if(!grupoRepository.existsById(data)) {
 			//TODO: El mensaje debería estar en el catálogo de mensajes.
 			resultadoValidacion.agregarMensaje("No existe un estudiante con el identificador " + data);
 		}

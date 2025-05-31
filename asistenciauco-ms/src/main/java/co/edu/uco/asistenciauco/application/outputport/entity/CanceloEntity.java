@@ -9,25 +9,18 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = CanceloConstants.TABLE_CANCELO)
 public final class CanceloEntity {
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = CanceloConstants.COLUMN_ID)
 	private UUID id;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = CanceloConstants.COLUMN_ESTUDIANTE_GRUPO)
 	private EstudianteGrupoEntity estudianteGrupo;
-	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = CanceloConstants.COLUMN_FECHA)
 	private LocalDate fecha;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = CanceloConstants.COLUMN_MOTIVO)
 	private String motivo;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = CanceloConstants.COLUMN_ACTIVO)
 	private boolean activo = false;
 	private boolean activoDefault = true;
