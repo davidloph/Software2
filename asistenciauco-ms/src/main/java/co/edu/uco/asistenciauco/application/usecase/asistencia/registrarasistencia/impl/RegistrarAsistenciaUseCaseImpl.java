@@ -12,6 +12,7 @@ import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistenc
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
 import co.edu.uco.asistenciauco.application.usecase.cancelo.validator.ValidarQueNoCancelo;
 import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarQueEstudianteEnGrupo;
+import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.ValidarQueEstudianteNoCancelo;
 import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.ValidarQueEstudianteRegistradoAGrupo;
 import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQueGrupoEstaActivoBySesion;
 import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQueProfesorEstaAsociadoAGrupo;
@@ -39,6 +40,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo;
 	private ValidarProfesorAsociadoASesion profesorAsociadoASesion;
 	private ValidarQueEstudianteEnGrupo estudianteEnGrupo;
+	private ValidarQueEstudianteNoCancelo estudianteNoCancelo;
 	private ValidarQueGrupoEstaActivoBySesion grupoEstaActivoBySesion;
 	private ValidarQueEstudianteRegistradoAGrupo estudianteRegistradoAGrupo;
 	private EstudianteGrupoRepository estudianteGrupoRepository;
@@ -58,7 +60,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 										  EstudianteGrupoRepository estudianteGrupoRepository, EstudianteRepository estudianteRepository,
 										  EstudianteEntityMapper estudianteEntityMapper, CanceloRepository canceloRepository,
 										  ValidarProfesorAsociadoASesion profesorAsociadoASesion, ValidarQueGrupoEstaActivoBySesion grupoEstaActivoBySesion,
-										  ValidarQueEstudianteEnGrupo estudianteEnGrupo) {
+										  ValidarQueEstudianteEnGrupo estudianteEnGrupo, ValidarQueEstudianteNoCancelo estudianteNoCancelo) {
 		this.asistenciaRepository = asistenciaRepository;
 		this.estudianteGrupoRepository = estudianteGrupoRepository;
 		this.estudianteRepository = estudianteRepository;
@@ -66,6 +68,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		this.estudianteExiste = estudianteExiste;
 		this.grupoEstaActivoBySesion = grupoEstaActivoBySesion;
 		this.estudianteEnGrupo = estudianteEnGrupo;
+		this.estudianteNoCancelo = estudianteNoCancelo;
 		this.sesionExiste = sesionExiste;
 		this.profesorAsociadoASesion = profesorAsociadoASesion;
 		this.profesorExiste = profesorExiste;
@@ -132,12 +135,12 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		return resultado;
 	}
 	
-	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes, UUID sesionid) {
+	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes, UUID idSesion) {
 		for (Estudiante estudiante : estudiantes) {
 			var registrarAsistenciaResponseEstudianteVO = new RegistrarAsistenciaResponseVO();
 			ArrayList<UUID> datos = new ArrayList<>();
 			datos.add(estudiante.getId());
-			datos.add(sesionid);
+			datos.add(idSesion);
 			
 			// 1. Validar que el estudiante exista.
 			validarQueEstudianteExiste(estudiante.getId());
@@ -151,7 +154,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 			//Se validó en 8.
 			// 3. Validar que el estudiante no tenga la materia cancelada por alguna novedad.
 			if(registrarAsistenciaResponseEstudianteVO.isValidacionCorrecta()) {
-				resultado.agregarMensajes(validarQueNoCancelo.validate(estudiante.getId()).getMensajes());
+				resultado.agregarMensajes(estudianteNoCancelo.validate(new ArrayList<>(List.of(estudiante.getId(), idSesion))).getMensajes());
 			}
 			
 			// 4. Registrar asistencia por cada estudiante.

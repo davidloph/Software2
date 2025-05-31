@@ -16,8 +16,7 @@ public interface EstudianteGrupoDTOMapper {
 	@Mappings({
 		@Mapping(source = "id", target = "id"),
 		@Mapping(source = "grupo", target = "grupo"),
-		@Mapping(source = "estudiante", target = "estudiante"),
-		@Mapping(source = "cancelo", target = "cancelo")
+		@Mapping(source = "estudiante", target = "estudiante")
 	})
 	EstudianteGrupo toEstudianteGrupo(EstudianteGrupoDTO estudianteGrupoDTO);
 	List<EstudianteGrupo> toEstudianteGrupos(List<EstudianteGrupoDTO> estudianteGruposDTO);

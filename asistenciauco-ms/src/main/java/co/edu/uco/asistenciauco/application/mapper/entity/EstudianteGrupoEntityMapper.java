@@ -16,8 +16,7 @@ public interface EstudianteGrupoEntityMapper {
 	@Mappings({
 		@Mapping(source = "id", target = "id"),
 		@Mapping(source = "grupo", target = "grupo"),
-		@Mapping(source = "estudiante", target = "estudiante"),
-		@Mapping(source = "cancelo", target = "cancelo")
+		@Mapping(source = "estudiante", target = "estudiante")
 	})
 	EstudianteGrupo toEstudianteGrupo(EstudianteGrupoEntity estudianteGrupoEntity);
 	List<EstudianteGrupo> toEstudianteGrupos(List<EstudianteGrupoEntity> estudianteGruposEntity);

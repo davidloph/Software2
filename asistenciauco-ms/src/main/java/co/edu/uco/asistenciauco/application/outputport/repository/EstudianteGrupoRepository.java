@@ -3,6 +3,7 @@ package co.edu.uco.asistenciauco.application.outputport.repository;
 import co.edu.uco.asistenciauco.application.outputport.entity.EstudianteGrupoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,4 +17,12 @@ public interface EstudianteGrupoRepository extends JpaRepository<EstudianteGrupo
     @Query("SELECT eg.estudiante.id FROM EstudianteGrupoEntity eg WHERE eg.grupo.id = :idGrupo")
     List<UUID> findEstudiante_IdByGrupo_Id(UUID idGrupo);
 
+    @Query("""
+    SELECT COUNT(eg) > 0
+    FROM EstudianteGrupo eg
+    WHERE eg.estudiante.id = :idEstudiante
+      AND eg.grupo.sesion.id = :idSesion
+      AND eg.activo = true
+""")
+    boolean existsByEstudiante_IdAndGrupo_IdAndActivoTrue(@Param("idEstudiante") UUID idEstudiante, @Param("idSesion") UUID idSesion);
 }
