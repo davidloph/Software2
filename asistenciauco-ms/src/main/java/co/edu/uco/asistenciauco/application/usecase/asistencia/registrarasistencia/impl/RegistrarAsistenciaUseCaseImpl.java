@@ -8,7 +8,7 @@ import co.edu.uco.asistenciauco.application.mapper.entity.EstudianteEntityMapper
 import co.edu.uco.asistenciauco.application.outputport.repository.CanceloRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteGrupoRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.AsistenciaDomainTest;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
 import co.edu.uco.asistenciauco.application.usecase.cancelo.validator.ValidarQueNoCancelo;
 import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarQueEstudianteEnGrupo;
@@ -82,7 +82,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 
 
 	@Override
-	public RegistrarAsistenciaResponseVO ejecutar(AsistenciaDomainTest dominio) {
+	public RegistrarAsistenciaResponseVO ejecutar(Asistencia dominio) {
 		
 		// 1. Validar integridad del objeto a nivel de tipo de datos, es defecto, longitud, obligatoriedad, formato, rango...
 		

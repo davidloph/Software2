@@ -1,7 +1,6 @@
 package co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteGrupoRepository;
-import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,6 @@ public class ValidarQueEstudianteGrupoExista implements Validator<UUID, Validati
 			//TODO: El mensaje debería estar en el catálogo de mensajes.
 			resultadoValidacion.agregarMensaje("No existe un estudiante por grupo con el identificador " + data);
 		}
-		
 		return resultadoValidacion;
 	}
 

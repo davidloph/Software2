@@ -6,9 +6,6 @@ import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.UUID;
 
 @Service

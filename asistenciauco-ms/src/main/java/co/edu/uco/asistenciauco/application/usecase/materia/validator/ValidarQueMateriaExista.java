@@ -1,7 +1,6 @@
 package co.edu.uco.asistenciauco.application.usecase.materia.validator;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.MateriaRepository;
-import co.edu.uco.asistenciauco.application.outputport.repository.SesionRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 import org.springframework.stereotype.Service;

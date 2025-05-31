@@ -1,6 +1,5 @@
 package co.edu.uco.asistenciauco.application.usecase.tipoidentificacion.validator;
 
-import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.TipoIdentificacionRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;

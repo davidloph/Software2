@@ -8,7 +8,7 @@ import co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasist
 import co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasistencia.dto.request.RegistrarAsistenciaRequestDTO;
 import co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasistencia.dto.response.RegistrarAsistenciaResponseDTO;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.RegistrarAsistenciaUseCase;
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.AsistenciaDomainTest;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -32,7 +32,7 @@ public class RegistrarAsistenciaInteractorImpl implements RegistrarAsistenciaInt
 	@Override
 	@Transactional
 	public RegistrarAsistenciaResponseDTO ejecutar(final RegistrarAsistenciaRequestDTO dto) {
-		AsistenciaDomainTest asistencia = registrarAsistenciaRequestDTOMapper.toAsistenciaTest(dto);  //OBTENER ASISTENCIA CON UN MAPPER (MAPSTRUCT) DESDE DTO HACEEEER ESTOOOOO********
+		Asistencia asistencia = registrarAsistenciaRequestDTOMapper.toAsistenciaTest(dto);  //OBTENER ASISTENCIA CON UN MAPPER (MAPSTRUCT) DESDE DTO HACEEEER ESTOOOOO********
 		
 		// LLAMAR AL CASO DE USO
 		var resultadoVO = registrarAsistenciaUseCase.ejecutar(asistencia);

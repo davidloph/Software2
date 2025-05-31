@@ -7,7 +7,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.outputport.dto.AsistenciaDTO;
 
 @Mapper(componentModel = "spring", uses = {SesionDTOMapper.class, ProfesorDTOMapper.class, EstudianteDTOMapper.class})

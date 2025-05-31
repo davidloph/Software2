@@ -1,7 +1,7 @@
 package co.edu.uco.asistenciauco.application.mapper.dto;
 
 import co.edu.uco.asistenciauco.application.outputport.dto.AsistenciaDTO;
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.AsistenciaDomainTest;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,10 +19,10 @@ public interface UsuarioDTOMapper {
 		@Mapping(source = "nombresCompletos", target = "nombresCompletos"),
 		@Mapping(source = "correo", target = "correo"),
 	})
-    AsistenciaDomainTest toAsistencia(AsistenciaDTO asistenciaDTO);
-	List<AsistenciaDomainTest> toAsistencias(List<AsistenciaDTO> asistenciasDTO);
+    Asistencia toAsistencia(AsistenciaDTO asistenciaDTO);
+	List<Asistencia> toAsistencias(List<AsistenciaDTO> asistenciasDTO);
 	
 	@InheritInverseConfiguration
-	AsistenciaDTO toAsistenciaDTO(AsistenciaDomainTest asistencia);
-	List<AsistenciaDTO> toAsistenciasDTO(List<AsistenciaDomainTest> asistencias);
+	AsistenciaDTO toAsistenciaDTO(Asistencia asistencia);
+	List<AsistenciaDTO> toAsistenciasDTO(List<Asistencia> asistencias);
 }

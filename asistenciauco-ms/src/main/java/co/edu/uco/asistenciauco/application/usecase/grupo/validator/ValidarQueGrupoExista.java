@@ -1,6 +1,5 @@
 package co.edu.uco.asistenciauco.application.usecase.grupo.validator;
 
-import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.GrupoRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;

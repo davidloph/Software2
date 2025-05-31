@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.AsistenciaDomainTest;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 
 @Mapper(componentModel = "spring", uses = UsuarioDTOMapper.class)
 public interface EstudianteDTOMapper {
@@ -18,8 +18,8 @@ public interface EstudianteDTOMapper {
 		@Mapping(source = "id", target = "id"),
 		@Mapping(source = "usuario", target = "usuario")
 	})
-    AsistenciaDomainTest toEstudiante(EstudianteDTO estudianteDTO);
-	List<AsistenciaDomainTest> toEstudiantes(List<EstudianteDTO> estudiantesDTO);
+	Asistencia toEstudiante(EstudianteDTO estudianteDTO);
+	List<Asistencia> toEstudiantes(List<EstudianteDTO> estudiantesDTO);
 	
 	@InheritInverseConfiguration
 	EstudianteDTO toEstudianteDTO(Estudiante estudiante);

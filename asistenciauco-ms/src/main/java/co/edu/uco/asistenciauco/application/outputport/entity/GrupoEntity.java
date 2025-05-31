@@ -28,6 +28,8 @@ public final class GrupoEntity {
 	private MateriaEntity materia;
 	@Column(name = GrupoConstants.COLUMN_CANTIDADESTUDIANTES)
 	private Integer cantidadEstudiantes;
+	@Column(name = GrupoConstants.COLUMN_ACTIVO)
+	private boolean activo;
 	
 	public GrupoEntity() {
 		setDefaultId();
@@ -60,8 +62,6 @@ public final class GrupoEntity {
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}
@@ -70,7 +70,6 @@ public final class GrupoEntity {
 		return profesor;
 	}
 	public void setProfesor(final ProfesorEntity profesor) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.profesor = ObjectHelper.getDefault(profesor, new ProfesorEntity());
 	}
 	private void setDefaultProfesor() {
@@ -81,12 +80,9 @@ public final class GrupoEntity {
 		return materia;
 	}
 	public void setMateria(final MateriaEntity materia) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
 		this.materia = ObjectHelper.getDefault(materia, new MateriaEntity());
 	}
 	private void setDefaultMateria() {
-		//TODO: OBTENER VALOR POR DEFECTO???
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??
 		setMateria(new MateriaEntity());
 	}
 	
@@ -94,12 +90,9 @@ public final class GrupoEntity {
 		return cantidadEstudiantes;
 	}
 	public void setCantidadEstudiantes(final Integer cantidadEstudiantes) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.?????????
 		this.cantidadEstudiantes = ObjectHelper.getDefault(cantidadEstudiantes, NumericHelper.ZERO);
 	}
 	private void setDefaultCantidadEstudiantes() {
-		//TODO: OBTENER VALOR POR DEFECTO???????????
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??????
 		Integer defaultValue = NumericHelper.ZERO;
 		setCantidadEstudiantes(defaultValue);
 	}
