@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.UUID;
 
 import co.edu.uco.asistenciauco.application.mapper.entity.EstudianteEntityMapper;
-import co.edu.uco.asistenciauco.application.outputport.repository.CanceloRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteGrupoRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.AsistenciaDomainTest;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
-import co.edu.uco.asistenciauco.application.usecase.cancelo.validator.ValidarQueNoCancelo;
+import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQueGrupoActivo;
 import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarQueEstudianteEnGrupo;
 import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.ValidarQueEstudianteNoCancelo;
 import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.ValidarQueEstudianteRegistradoAGrupo;
@@ -19,7 +18,6 @@ import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQuePr
 import co.edu.uco.asistenciauco.application.usecase.profesor.validator.ValidarQueProfesorExista;
 import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarProfesorAsociadoASesion;
 import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarQueAsistenciaDentroDelPlazo;
-import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarSesionAsociadaAGrupoActivo;
 import org.springframework.stereotype.Service;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.AsistenciaRepository;
@@ -44,10 +42,9 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private ValidarQueGrupoEstaActivoBySesion grupoEstaActivoBySesion;
 	private ValidarQueEstudianteRegistradoAGrupo estudianteRegistradoAGrupo;
 	private EstudianteGrupoRepository estudianteGrupoRepository;
-	private ValidarQueNoCancelo validarQueNoCancelo;
+	private ValidarQueGrupoActivo validarQueGrupoActivo;
 	private EstudianteRepository estudianteRepository;
 	private AsistenciaRepository asistenciaRepository;
-	private CanceloRepository canceloRepository;
 	private EstudianteEntityMapper estudianteEntityMapper;
 	private RegistrarAsistenciaResponseVO resultado;
 	//TODO: Demás validator que se usarán.
@@ -56,15 +53,15 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 										  ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste/*,
 										  ValidarSesionAsociadaAGrupoActivo */, ValidarQueProfesorEstaAsociadoAGrupo profesorEstaAsociadoAGrupo,
 										  ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada, ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo,
-										  ValidarQueEstudianteRegistradoAGrupo estudianteRegistradoAGrupo, ValidarQueNoCancelo validarQueNoCancelo,
+										  ValidarQueEstudianteRegistradoAGrupo estudianteRegistradoAGrupo, ValidarQueGrupoActivo validarQueNoCancelo,
 										  EstudianteGrupoRepository estudianteGrupoRepository, EstudianteRepository estudianteRepository,
-										  EstudianteEntityMapper estudianteEntityMapper, CanceloRepository canceloRepository,
+										  EstudianteEntityMapper estudianteEntityMapper,
 										  ValidarProfesorAsociadoASesion profesorAsociadoASesion, ValidarQueGrupoEstaActivoBySesion grupoEstaActivoBySesion,
-										  ValidarQueEstudianteEnGrupo estudianteEnGrupo, ValidarQueEstudianteNoCancelo estudianteNoCancelo) {
+										  ValidarQueEstudianteEnGrupo estudianteEnGrupo, ValidarQueEstudianteNoCancelo estudianteNoCancelo,
+										  ValidarQueGrupoActivo validarQueGrupoActivo) {
 		this.asistenciaRepository = asistenciaRepository;
 		this.estudianteGrupoRepository = estudianteGrupoRepository;
 		this.estudianteRepository = estudianteRepository;
-		this.canceloRepository = canceloRepository;
 		this.estudianteExiste = estudianteExiste;
 		this.grupoEstaActivoBySesion = grupoEstaActivoBySesion;
 		this.estudianteEnGrupo = estudianteEnGrupo;
@@ -75,7 +72,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		//this.grupoEstaActivo = grupoEstaActivo;
 		this.sesionExiste = sesionExiste;
 		this.estudianteRegistradoAGrupo = estudianteRegistradoAGrupo;
-		this.validarQueNoCancelo = validarQueNoCancelo;
+		this.validarQueGrupoActivo = validarQueGrupoActivo;
 		this.asistenciaNoRegistrada = asistenciaNoRegistrada;
 		this.asistenciaDentroDelPlazo = asistenciaDentroDelPlazo;
 		this.estudianteEntityMapper = estudianteEntityMapper;
@@ -101,9 +98,9 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		}
 		
 		// 4. El grupo debe estar activo
-		/*if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(grupoEstaActivo.validate(dominio.getSesion().getId()).getMensajes());
-		}*/
+		if(resultado.isValidacionCorrecta()) {
+			resultado.agregarMensajes(validarQueGrupoActivo.validate(dominio.getSesion().getId()).getMensajes());
+		}
 		
 		// 5. El profesor debe estar asignado al grupo.
 		if(resultado.isValidacionCorrecta()) {
@@ -124,11 +121,9 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		// SE OBTUVIERON TODOS LOS ESTUDIANTES DE UN GRUPO QUE NO HAN CANCELADO!
 		if(resultado.isValidacionCorrecta()) {
 			// Obtención de estudiantes de un grupo que no cancelaron.
-			List<Estudiante> estudiantes = canceloRepository.findIdEstudiantesNoCancelaronBySesion(dominio.getSesion().getId());
-			UUID sesionid = dominio.getSesion().getId();
 
 			//registrarAsistenciaEstudiantes(dominio.getEstudiantes());
-			registrarAsistenciaEstudiantes(estudiantes,sesionid);
+			registrarAsistenciaEstudiantes(dominio.getEstudiantes(), dominio.getSesion().getId());
 		}
 		
 		//Retorno de resultado
