@@ -27,6 +27,7 @@ public final class AsistenciaEntity {
 	private SesionEntity sesion;
 	@Column(name = AsistenciaConstants.COLUMN_ASISTIO)
 	private boolean asistio;
+	@Column(name = AsistenciaConstants.COLUMN_ASISTIO_IS_DEFAULT)
 	private boolean asistioDefault = BooleanHelper.FALSE;
 	
 	

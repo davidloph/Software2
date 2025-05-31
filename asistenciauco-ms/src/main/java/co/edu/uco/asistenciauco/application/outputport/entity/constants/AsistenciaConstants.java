@@ -8,4 +8,5 @@ public class AsistenciaConstants {
 	public static final String COLUMN_SESION = "sesion_id";
 	public static final String COLUMN_ASISTIO = "asistio";
 	public static final String COLUMN_ASISTIO_IS_DEFAULT = "asistioIsDefault";
+
 }
