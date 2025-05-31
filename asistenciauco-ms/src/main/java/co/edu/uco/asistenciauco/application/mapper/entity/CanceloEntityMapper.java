@@ -1,6 +1,5 @@
 package co.edu.uco.asistenciauco.application.mapper.entity;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.CanceloEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Cancelo;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

@@ -3,7 +3,6 @@ package co.edu.uco.asistenciauco.application.mapper.entity;
 import java.util.List;
 
 import co.edu.uco.asistenciauco.application.outputport.entity.AsistenciaEntity;
-import co.edu.uco.asistenciauco.application.outputport.entity.CanceloEntity;
 import co.edu.uco.asistenciauco.application.outputport.entity.EstudianteEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Estudiante;
 import org.mapstruct.InheritInverseConfiguration;

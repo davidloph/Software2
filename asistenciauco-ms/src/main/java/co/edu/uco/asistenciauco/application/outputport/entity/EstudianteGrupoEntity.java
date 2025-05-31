@@ -3,6 +3,7 @@ package co.edu.uco.asistenciauco.application.outputport.entity;
 import java.util.UUID;
 
 import co.edu.uco.asistenciauco.application.outputport.entity.constants.EstudianteGrupoConstants;
+import co.edu.uco.crosscutting.helpers.BooleanHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 import jakarta.persistence.Entity;
@@ -13,25 +14,20 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = EstudianteGrupoConstants.TABLE_ESTUDIANTE_GRUPO)
 public final class EstudianteGrupoEntity {
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = EstudianteGrupoConstants.COLUMN_ID)
 	private UUID id;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = EstudianteGrupoConstants.COLUMN_GRUPO)
 	private GrupoEntity grupo;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@JoinColumn(name = EstudianteGrupoConstants.COLUMN_ESTUDIANTE)
 	private EstudianteEntity estudiante;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	@JoinColumn(name = EstudianteGrupoConstants.COLUMN_CANCELO)
-	private CanceloEntity cancelo;
+	@Column(name = EstudianteGrupoConstants.COLUMN_CANCELO)
+	private boolean cancelo;
 	
 	public EstudianteGrupoEntity() {
 		setDefaultId();
@@ -48,7 +44,7 @@ public final class EstudianteGrupoEntity {
 		setDefaultCancelo();
 	}
 	
-	public EstudianteGrupoEntity(final UUID id, final GrupoEntity grupo, final EstudianteEntity estudiante,  final CanceloEntity canelo) {
+	public EstudianteGrupoEntity(final UUID id, final GrupoEntity grupo, final EstudianteEntity estudiante,  final boolean cancelo) {
 		setId(id);
 		setGrupo(grupo);
 		setEstudiante(estudiante);
@@ -64,8 +60,6 @@ public final class EstudianteGrupoEntity {
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}
@@ -74,7 +68,6 @@ public final class EstudianteGrupoEntity {
 		return grupo;
 	}
 	public void setGrupo(final GrupoEntity grupo) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.grupo = ObjectHelper.getDefault(grupo, new GrupoEntity());
 	}
 	private void setDefaultGrupo() {
@@ -85,22 +78,20 @@ public final class EstudianteGrupoEntity {
 		return estudiante;
 	}
 	public void setEstudiante(final EstudianteEntity estudiante) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.estudiante = ObjectHelper.getDefault(estudiante, new EstudianteEntity());
 	}
 	private void setDefaultEstudiante() {
 		setEstudiante(new EstudianteEntity());
 	}
 
-	public CanceloEntity getCancelo() {
+	public boolean getCancelo() {
 		return cancelo;
 	}
-	public void setCancelo(final CanceloEntity cancelo) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
-		this.cancelo = ObjectHelper.getDefault(cancelo, new CanceloEntity());
+	public void setCancelo(final boolean cancelo) {
+		this.cancelo = ObjectHelper.getDefault(cancelo, BooleanHelper.FALSE);
 	}
 	private void setDefaultCancelo() {
-		setCancelo(new CanceloEntity());
+		setCancelo(BooleanHelper.FALSE);
 	}
 
 }

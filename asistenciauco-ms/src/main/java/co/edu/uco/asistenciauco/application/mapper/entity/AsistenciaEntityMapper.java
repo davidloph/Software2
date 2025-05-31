@@ -2,10 +2,7 @@ package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import java.util.List;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.CanceloEntity;
 import co.edu.uco.asistenciauco.application.outputport.entity.GrupoEntity;
-import co.edu.uco.asistenciauco.application.outputport.entity.ProfesorEntity;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
