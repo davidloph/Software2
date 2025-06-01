@@ -1,103 +1,65 @@
 package co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasistencia.dto.request;
 
 import co.edu.uco.crosscutting.helpers.BooleanHelper;
+import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.UUID;
 
 public final class RegistrarAsistenciaRequestDTO {
 
-	private UUID sesion;
-	private UUID profesor;
-	private List<EstudianteDTORequest> estudiantes;
-	
-	public RegistrarAsistenciaRequestDTO() {
-		super();
+	private final UUID sesion;
+	private final UUID profesor;
+	private final List<EstudianteDTORequest> estudiantes;
+
+	@JsonCreator
+	public RegistrarAsistenciaRequestDTO(
+			@JsonProperty("sesion") UUID sesion,
+			@JsonProperty("profesor") UUID profesor,
+			@JsonProperty("estudiantes") List<EstudianteDTORequest> estudiantes) {
+		this.sesion = ObjectHelper.getDefault(sesion, UUIDHelper.getDefault());
+		this.profesor = ObjectHelper.getDefault(profesor, UUIDHelper.getDefault());
+		this.estudiantes = estudiantes;
 	}
-	
+
 	public UUID getSesion() {
 		return sesion;
 	}
-
-
-	public void setSesion(final UUID sesion) {
-		this.sesion = sesion;
-	}
-
 
 	public UUID getProfesor() {
 		return profesor;
 	}
 
-
-	private void setProfesor(final UUID profesor) {
-		this.profesor = profesor;
-	}
-
-
 	public List<EstudianteDTORequest> getEstudiantes() {
 		return estudiantes;
 	}
 
+	public static class EstudianteDTORequest {
+		private final UUID id;
+		private final boolean asistio;
+		private final boolean asistioFlag;
 
-	public void setEstudiantes(final List<EstudianteDTORequest> estudiantes) {
-		this.estudiantes = estudiantes;
-
-	}
-
-
-	public class EstudianteDTORequest {
-		private UUID id;
-		private boolean asistio;
-		private boolean asistioFlag = BooleanHelper.FALSE;
-		//TODO: SABER SI EL "ASISTIÓ" FUE POR DEFECTO O REALMENTE NO ASISTIÓ.
-
-		public EstudianteDTORequest() {
-			setDefaultId();
-			setDefaultAsistio();
-		}
-		
-		public EstudianteDTORequest(final UUID id) {
-			setId(id);
-			setDefaultAsistio();
-		}
-
-		public EstudianteDTORequest(final UUID id, final boolean asistio) {
-			setId(id);
-			setAsistio(asistio);
+		@JsonCreator
+		public EstudianteDTORequest(
+				@JsonProperty("id") UUID id,
+				@JsonProperty("asistio") boolean asistio) {
+			this.id = ObjectHelper.getDefault(id, UUIDHelper.getDefault());
+			this.asistio = ObjectHelper.getDefault(asistio, BooleanHelper.FALSE);
+			this.asistioFlag = true; // como vino en el JSON, se marcó explícitamente
 		}
 
 		public UUID getId() {
 			return id;
 		}
 
-		public void setId(final UUID id) {
-			this.id = id;
-		}
-
-		public void setDefaultId() {
-			UUID defaultValue = UUIDHelper.getDefault();
-			setId(defaultValue);
-		}
-
 		public boolean isAsistio() {
 			return asistio;
-		}
-
-		public void setAsistio(final boolean asistio) {
-			this.asistioFlag = BooleanHelper.TRUE;
-			this.asistio = asistio;
-		}
-		
-		public void setDefaultAsistio() {
-			this.asistioFlag = BooleanHelper.FALSE;
-			this.asistio = asistio;
 		}
 
 		public boolean isAsistioFlag() {
 			return asistioFlag;
 		}
-		
 	}
 }
