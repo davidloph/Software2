@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper.entity;
+/*package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import java.util.List;
 
@@ -23,3 +23,4 @@ public interface ProfesorEntityMapper {
 	ProfesorEntity toProfesorEntity(Profesor profesor);
 	List<ProfesorEntity> toProfesorsEntity(List<Profesor> profesores);
 }
+*/

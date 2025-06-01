@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper.dto;
+/*package co.edu.uco.asistenciauco.application.mapper.dto;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 import co.edu.uco.asistenciauco.application.outputport.dto.GrupoDTO;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Grupo;
 
-@Mapper(componentModel = "spring", uses = {ProfesorDTOMapper.class, MateriaDTOMapper.class})
+@Mapper(componentModel = "spring", uses = {MateriaDTOMapper.class})
 public interface GrupoDTOMapper {
 
 	@Mappings({
@@ -26,3 +26,4 @@ public interface GrupoDTOMapper {
 	GrupoDTO toGrupoDTO(Grupo grupo);
 	List<GrupoDTO> toGruposDTO(List<Grupo> grupos);
 }
+*/

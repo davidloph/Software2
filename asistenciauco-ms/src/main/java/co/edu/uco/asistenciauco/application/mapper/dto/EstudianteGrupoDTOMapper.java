@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper.dto;
+/*/package co.edu.uco.asistenciauco.application.mapper.dto;
 
 import java.util.List;
 
@@ -25,3 +25,4 @@ public interface EstudianteGrupoDTOMapper {
 	EstudianteGrupoDTO toEstudianteGrupoDTO(EstudianteGrupo estudianteGrupo);
 	List<EstudianteGrupoDTO> toEstudianteGruposDTO(List<EstudianteGrupo> estudianteGrupos);
 }
+*/

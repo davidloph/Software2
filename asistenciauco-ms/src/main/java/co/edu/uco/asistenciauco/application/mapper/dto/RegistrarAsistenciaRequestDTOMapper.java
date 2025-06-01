@@ -16,14 +16,10 @@ import java.util.UUID;
 public interface RegistrarAsistenciaRequestDTOMapper {
 
 	@Mappings({
-		@Mapping(target = "sesion", expression = "java(new Sesion(asistenciaRequestDTO.getSesion().getId())"),
-		@Mapping(target = "profesor", expression = "java(new Profesor(asistenciaRequestDTO.getProfesor().getId())"),
+		@Mapping(target = "sesion", expression = "java(new Sesion(asistenciaRequestDTO.getSesion()))"),
+		@Mapping(target = "profesor", expression = "java(new Profesor(asistenciaRequestDTO.getProfesor()))"),
 		@Mapping(source = "estudiantes", target = "estudiantes")
 	})
 	Asistencia toAsistenciaTest(RegistrarAsistenciaRequestDTO asistenciaRequestDTO);
 	List<Asistencia> toAsistenciasTest(List<RegistrarAsistenciaRequestDTO> asistenciasRequestDTO);
-	
-	@InheritInverseConfiguration
-	RegistrarAsistenciaRequestDTO toAsistenciaRequestDTO(Asistencia asistenciaTest);
-	List<RegistrarAsistenciaRequestDTO> toAsistenciasRequestDTO(List<Asistencia> asistenciasTest);
 }

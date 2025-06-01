@@ -14,7 +14,7 @@ public interface RegistrarAsistenciaResponseDTOMapper {
 
 	@Mappings({
 		@Mapping(source = "mensajes", target = "mensajes"),
-		@Mapping(target = "transaccionExitosa", expression = "java(source.isValidacionCorrecta())")
+		@Mapping(target = "transaccionExitosa", expression = "java(asistenciaRequestDTO.isValidacionCorrecta())")
 	})
 	RegistrarAsistenciaResponseDTO toAsistenciaTest(RegistrarAsistenciaResponseVO asistenciaRequestDTO);
 	List<RegistrarAsistenciaResponseDTO> toAsistenciasTest(List<RegistrarAsistenciaResponseVO> asistenciasRequestDTO);

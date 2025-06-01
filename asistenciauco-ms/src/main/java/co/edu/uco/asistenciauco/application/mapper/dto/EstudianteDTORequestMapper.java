@@ -1,26 +1,31 @@
 package co.edu.uco.asistenciauco.application.mapper.dto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasistencia.dto.request.RegistrarAsistenciaRequestDTO;
-import co.edu.uco.asistenciauco.application.outputport.dto.EstudianteDTO;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Estudiante;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
-public interface EstudianteDTORequestMapper {
+public abstract class EstudianteDTORequestMapper {
 
-	@Mappings({
-		@Mapping(target = "id", expression = ""),
-		@Mapping(source = "asistio", target = "asistio")
-	})
-    Estudiante toEstudiante(RegistrarAsistenciaRequestDTO.EstudianteDTORequest estudianteDTO);
-	List<Estudiante> toEstudiantes(List<RegistrarAsistenciaRequestDTO.EstudianteDTORequest> estudiantesDTO);
-	
-	@InheritInverseConfiguration
-	RegistrarAsistenciaRequestDTO.EstudianteDTORequest toEstudianteDTO(Estudiante estudiante);
-	List<RegistrarAsistenciaRequestDTO.EstudianteDTORequest> toEstudiantesDTO(List<Estudiante> estudiantes);
+	// Método principal que usará la implementación manual
+	public abstract Estudiante toEstudiante(RegistrarAsistenciaRequestDTO.EstudianteDTORequest estudianteDTO);
+
+	public List<Estudiante> toEstudiantes(List<RegistrarAsistenciaRequestDTO.EstudianteDTORequest> estudiantesDTO) {
+		if (estudiantesDTO == null) {
+			return null;
+		}
+		return estudiantesDTO.stream()
+				.map(this::mapEstudiante)
+				.collect(Collectors.toList());
+	}
+
+	private Estudiante mapEstudiante(RegistrarAsistenciaRequestDTO.EstudianteDTORequest dto) {
+		if (dto == null) {
+			return null;
+		}
+		return new Estudiante(dto.getId(), dto.isAsistio());
+	}
 }

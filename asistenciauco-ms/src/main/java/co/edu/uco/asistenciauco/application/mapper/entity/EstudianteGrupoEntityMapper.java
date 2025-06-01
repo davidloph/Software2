@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper.entity;
+/*package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import java.util.List;
 
@@ -25,3 +25,4 @@ public interface EstudianteGrupoEntityMapper {
 	EstudianteGrupoEntity toEstudianteGrupoEntity(EstudianteGrupo estudianteGrupo);
 	List<EstudianteGrupoEntity> toEstudianteGruposEntity(List<EstudianteGrupo> estudianteGrupos);
 }
+*/

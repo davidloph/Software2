@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper.entity;
+/*package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 import co.edu.uco.asistenciauco.application.outputport.entity.GrupoEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Grupo;
 
-@Mapper(componentModel = "spring", uses = {ProfesorEntityMapper.class, MateriaEntityMapper.class})
+@Mapper(componentModel = "spring", uses = {MateriaEntityMapper.class})
 public interface GrupoEntityMapper {
 
 	@Mappings({
@@ -26,3 +26,4 @@ public interface GrupoEntityMapper {
 	GrupoEntity toGrupoEntity(Grupo grupo);
 	List<GrupoEntity> toGruposEntity(List<Grupo> grupos);
 }
+*/

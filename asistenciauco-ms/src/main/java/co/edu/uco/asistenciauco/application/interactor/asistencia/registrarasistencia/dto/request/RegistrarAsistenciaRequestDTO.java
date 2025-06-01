@@ -31,7 +31,7 @@ public final class RegistrarAsistenciaRequestDTO {
 	}
 
 
-	public void setProfesor(final UUID profesor) {
+	private void setProfesor(final UUID profesor) {
 		this.profesor = profesor;
 	}
 
