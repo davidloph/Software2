@@ -4,23 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import co.edu.uco.asistenciauco.application.mapper.entity.EstudianteEntityMapper;
-import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteGrupoRepository;
-import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.AsistenciaDomainTest;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
 import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQueGrupoActivo;
 import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarQueEstudianteEnGrupo;
 import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.ValidarQueEstudianteNoCancelo;
-import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.ValidarQueEstudianteRegistradoAGrupo;
-import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQueGrupoEstaActivoBySesion;
-import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQueProfesorEstaAsociadoAGrupo;
 import co.edu.uco.asistenciauco.application.usecase.profesor.validator.ValidarQueProfesorExista;
 import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarProfesorAsociadoASesion;
 import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarQueAsistenciaDentroDelPlazo;
 import org.springframework.stereotype.Service;
 
-import co.edu.uco.asistenciauco.application.outputport.repository.AsistenciaRepository;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.RegistrarAsistenciaUseCase;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Estudiante;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.RegistrarAsistenciaResponseVO;
@@ -33,49 +26,30 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private ValidarQueEstudianteExista estudianteExiste;
 	private ValidarQueSesionExista sesionExiste;
 	private ValidarQueProfesorExista profesorExiste;
-	//private ValidarSesionAsociadaAGrupoActivo grupoEstaActivo;
 	private ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada;
 	private ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo;
 	private ValidarProfesorAsociadoASesion profesorAsociadoASesion;
 	private ValidarQueEstudianteEnGrupo estudianteEnGrupo;
 	private ValidarQueEstudianteNoCancelo estudianteNoCancelo;
-	private ValidarQueGrupoEstaActivoBySesion grupoEstaActivoBySesion;
-	private ValidarQueEstudianteRegistradoAGrupo estudianteRegistradoAGrupo;
-	private EstudianteGrupoRepository estudianteGrupoRepository;
 	private ValidarQueGrupoActivo validarQueGrupoActivo;
-	private EstudianteRepository estudianteRepository;
-	private AsistenciaRepository asistenciaRepository;
-	private EstudianteEntityMapper estudianteEntityMapper;
 	private RegistrarAsistenciaResponseVO resultado;
 	//TODO: Demás validator que se usarán.
 	
-	public RegistrarAsistenciaUseCaseImpl(AsistenciaRepository asistenciaRepository, ValidarQueEstudianteExista estudianteExiste,
-										  ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste/*,
-										  ValidarSesionAsociadaAGrupoActivo */, ValidarQueProfesorEstaAsociadoAGrupo profesorEstaAsociadoAGrupo,
+	public RegistrarAsistenciaUseCaseImpl(ValidarQueEstudianteExista estudianteExiste,
+										  ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste,
 										  ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada, ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo,
-										  ValidarQueEstudianteRegistradoAGrupo estudianteRegistradoAGrupo, ValidarQueGrupoActivo validarQueNoCancelo,
-										  EstudianteGrupoRepository estudianteGrupoRepository, EstudianteRepository estudianteRepository,
-										  EstudianteEntityMapper estudianteEntityMapper,
-										  ValidarProfesorAsociadoASesion profesorAsociadoASesion, ValidarQueGrupoEstaActivoBySesion grupoEstaActivoBySesion,
+										  ValidarProfesorAsociadoASesion profesorAsociadoASesion,
 										  ValidarQueEstudianteEnGrupo estudianteEnGrupo, ValidarQueEstudianteNoCancelo estudianteNoCancelo,
 										  ValidarQueGrupoActivo validarQueGrupoActivo) {
-		this.asistenciaRepository = asistenciaRepository;
-		this.estudianteGrupoRepository = estudianteGrupoRepository;
-		this.estudianteRepository = estudianteRepository;
 		this.estudianteExiste = estudianteExiste;
-		this.grupoEstaActivoBySesion = grupoEstaActivoBySesion;
 		this.estudianteEnGrupo = estudianteEnGrupo;
 		this.estudianteNoCancelo = estudianteNoCancelo;
-		this.sesionExiste = sesionExiste;
 		this.profesorAsociadoASesion = profesorAsociadoASesion;
 		this.profesorExiste = profesorExiste;
-		//this.grupoEstaActivo = grupoEstaActivo;
 		this.sesionExiste = sesionExiste;
-		this.estudianteRegistradoAGrupo = estudianteRegistradoAGrupo;
 		this.validarQueGrupoActivo = validarQueGrupoActivo;
 		this.asistenciaNoRegistrada = asistenciaNoRegistrada;
 		this.asistenciaDentroDelPlazo = asistenciaDentroDelPlazo;
-		this.estudianteEntityMapper = estudianteEntityMapper;
 		resultado = new RegistrarAsistenciaResponseVO();
 		//TODO: Inyección de los demás validator.
 	}
@@ -83,7 +57,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 
 
 	@Override
-	public RegistrarAsistenciaResponseVO ejecutar(AsistenciaDomainTest dominio) {
+	public RegistrarAsistenciaResponseVO ejecutar(Asistencia dominio) {
 		
 		// 1. Validar integridad del objeto a nivel de tipo de datos, es defecto, longitud, obligatoriedad, formato, rango...
 		

@@ -13,10 +13,14 @@ public interface GrupoRepository extends JpaRepository<GrupoEntity, UUID>{
 
     boolean existsByProfesor_IdAndId(UUID idProfesor, UUID idGrupo);
 
-    @Query("""
-    SELECT eg.activo
-    FROM EstudianteGrupo eg
-    WHERE eg.grupo.sesion.id = :sesionId
-""")
-    boolean existsBySesionIdAndActivoTrue(@Param(("idSesion")) UUID idSesion);
+    @Query(value = """
+    SELECT EXISTS(
+        SELECT 1
+        FROM estudiante_grupo eg
+        JOIN grupo g ON eg.grupo_id = g.id
+        WHERE g.sesion_id = :idSesion
+          AND eg.activo = true
+    )
+""", nativeQuery = true)
+    boolean existsBySesionActiva(@Param("idSesion") UUID idSesion);
 }

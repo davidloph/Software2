@@ -25,7 +25,6 @@ public final class EstudianteGrupoEntity {
 	@ManyToOne
 	@JoinColumn(name = EstudianteGrupoConstants.COLUMN_ESTUDIANTE)
 	private EstudianteEntity estudiante;
-	@ManyToOne
 	@Column(name = EstudianteGrupoConstants.COLUMN_CANCELO)
 	private boolean cancelo;
 	

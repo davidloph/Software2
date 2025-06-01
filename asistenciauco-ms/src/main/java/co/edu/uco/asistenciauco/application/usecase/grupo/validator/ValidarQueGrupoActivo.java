@@ -25,7 +25,7 @@ public class ValidarQueGrupoActivo implements Validator<UUID, ValidationResultVO
 		
 		var resultadoValidacion = new ValidationResultVO();
 		
-		if(!grupoRepository.existsBySesionIdAndActivoTrue(data)) {
+		if(!grupoRepository.existsBySesionActiva(data)) {
 			//TODO: El mensaje debería estar en el catálogo de mensajes.
 			resultadoValidacion.agregarMensaje("No existe un grupo activo con el identificador " + data);
 		}

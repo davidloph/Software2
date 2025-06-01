@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper.entity;
+/*package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import java.util.List;
 
@@ -25,3 +25,4 @@ public interface SesionEntityMapper {
 	SesionEntity toSesionEntity(Sesion sesion);
 	List<SesionEntity> toSesionsEntity(List<Sesion> sesiones);
 }
+*/

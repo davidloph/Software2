@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper.dto;
+/*package co.edu.uco.asistenciauco.application.mapper.dto;
 
 import java.util.List;
 
@@ -24,3 +24,4 @@ public interface ProfesorDTOMapper {
 	ProfesorDTO toProfesorDTO(Profesor profesor);
 	List<ProfesorDTO> toProfesorDTO(List<Profesor> profesorDTO);
 }
+*/

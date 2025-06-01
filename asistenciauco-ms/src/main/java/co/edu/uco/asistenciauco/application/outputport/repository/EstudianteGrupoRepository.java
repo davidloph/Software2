@@ -18,11 +18,15 @@ public interface EstudianteGrupoRepository extends JpaRepository<EstudianteGrupo
     List<UUID> findEstudiante_IdByGrupo_Id(UUID idGrupo);
 
     @Query("""
-    SELECT COUNT(eg) > 0
-    FROM EstudianteGrupo eg
-    WHERE eg.estudiante.id = :idEstudiante
-      AND eg.grupo.sesion.id = :idSesion
-      AND eg.activo = true
+    SELECT EXISTS (
+        SELECT 1
+        FROM EstudianteGrupoEntity eg
+        WHERE eg.grupo.id = (
+            SELECT s.grupo.id FROM SesionEntity s WHERE s.id = :idSesion
+        )
+        AND eg.estudiante.id = :idEstudiante
+        AND eg.cancelo = true
+    )
 """)
-    boolean existsByEstudiante_IdAndGrupo_IdAndActivoTrue(@Param("idEstudiante") UUID idEstudiante, @Param("idSesion") UUID idSesion);
+    boolean existsBySesionAndEstudianteNoCancelo(@Param("idEstudiante") UUID idEstudiante, @Param("idSesion") UUID idSesion);
 }

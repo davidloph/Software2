@@ -7,7 +7,7 @@ import java.util.UUID;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
-public final class AsistenciaDomainTest {
+public final class Asistencia {
 
 	private UUID id;
 	private Sesion sesion;
@@ -16,7 +16,7 @@ public final class AsistenciaDomainTest {
 
 
 
-	public AsistenciaDomainTest(final UUID id, final Sesion sesion, final Profesor profesor, final List<Estudiante> estudiantes) {
+	public Asistencia(final UUID id, final Sesion sesion, final Profesor profesor, final List<Estudiante> estudiantes) {
 		setId(id);
 		setSesion(sesion);
 		setProfesor(profesor);

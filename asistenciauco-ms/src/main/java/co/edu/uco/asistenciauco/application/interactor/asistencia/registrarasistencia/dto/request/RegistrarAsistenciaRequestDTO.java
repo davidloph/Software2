@@ -1,6 +1,5 @@
 package co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasistencia.dto.request;
 
-import co.edu.uco.asistenciauco.application.outputport.dto.EstudianteDTO;
 import co.edu.uco.crosscutting.helpers.BooleanHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
@@ -11,7 +10,7 @@ public final class RegistrarAsistenciaRequestDTO {
 
 	private UUID sesion;
 	private UUID profesor;
-	private List<EstudianteDTO> estudiantes;
+	private List<EstudianteDTORequest> estudiantes;
 	
 	public RegistrarAsistenciaRequestDTO() {
 		super();
@@ -37,34 +36,34 @@ public final class RegistrarAsistenciaRequestDTO {
 	}
 
 
-	public List<EstudianteDTO> getEstudiantes() {
+	public List<EstudianteDTORequest> getEstudiantes() {
 		return estudiantes;
 	}
 
 
-	public void setEstudiantes(final List<EstudianteDTO> estudiantes) {
+	public void setEstudiantes(final List<EstudianteDTORequest> estudiantes) {
 		this.estudiantes = estudiantes;
 
 	}
 
 
-	public class Estudiante {
+	public class EstudianteDTORequest {
 		private UUID id;
 		private boolean asistio;
 		private boolean asistioFlag = BooleanHelper.FALSE;
 		//TODO: SABER SI EL "ASISTIÓ" FUE POR DEFECTO O REALMENTE NO ASISTIÓ.
 
-		public Estudiante() {
+		public EstudianteDTORequest() {
 			setDefaultId();
 			setDefaultAsistio();
 		}
 		
-		public Estudiante(final UUID id) {
+		public EstudianteDTORequest(final UUID id) {
 			setId(id);
 			setDefaultAsistio();
 		}
 
-		public Estudiante(final UUID id, final boolean asistio) {
+		public EstudianteDTORequest(final UUID id, final boolean asistio) {
 			setId(id);
 			setAsistio(asistio);
 		}
