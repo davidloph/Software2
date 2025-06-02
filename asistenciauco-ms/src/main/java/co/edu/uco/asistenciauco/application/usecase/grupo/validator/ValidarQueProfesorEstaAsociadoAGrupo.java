@@ -1,8 +1,10 @@
 package co.edu.uco.asistenciauco.application.usecase.grupo.validator;
 
+import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.GrupoRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
+import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,11 +14,11 @@ import java.util.UUID;
 public class ValidarQueProfesorEstaAsociadoAGrupo implements Validator<ArrayList<UUID>, ValidationResultVO>{
 
 	private GrupoRepository grupoRepository;
+	private MessageCatalog messageCatalog;
 
-
-
-	public ValidarQueProfesorEstaAsociadoAGrupo(GrupoRepository grupoRepository) {
+	public ValidarQueProfesorEstaAsociadoAGrupo(final GrupoRepository grupoRepository,final MessageCatalog messageCatalog) {
 		this.grupoRepository = grupoRepository;
+		this.messageCatalog=messageCatalog;
 	}
 
 
@@ -27,8 +29,7 @@ public class ValidarQueProfesorEstaAsociadoAGrupo implements Validator<ArrayList
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(!grupoRepository.existsByProfesor_IdAndId(data.get(0), data.get(1))) {
-			//TODO: El mensaje debería estar en el catálogo de mensajes.
-			resultadoValidacion.agregarMensaje("No existe un profesor con el identificador " + data.get(0) + " en el grupo " + data.get(1));
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueprofesorestaasociadoagrupoparteuno") + data.get(0) + messageCatalog.getMessage("validarqueprofesorestaasociadoagrupopartedos") + data.get(1));
 		}
 		
 		return resultadoValidacion;

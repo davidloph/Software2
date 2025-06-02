@@ -1,9 +1,11 @@
 package co.edu.uco.asistenciauco.application.usecase.tipoidentificacion.validator;
 
+import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.TipoIdentificacionRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
+import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -12,11 +14,11 @@ import java.util.UUID;
 public class ValidarQueTipoIdentificacionExista implements Validator<UUID, ValidationResultVO>{
 
 	private TipoIdentificacionRepository tipoIdentificacionRepository;
+	private MessageCatalog messageCatalog;
 
-
-
-	public ValidarQueTipoIdentificacionExista(TipoIdentificacionRepository tipoIdentificacionRepository) {
+	public ValidarQueTipoIdentificacionExista(TipoIdentificacionRepository tipoIdentificacionRepository, MessageCatalog messageCatalog) {
 		this.tipoIdentificacionRepository = tipoIdentificacionRepository;
+		this.messageCatalog = messageCatalog;
 	}
 
 
@@ -27,8 +29,7 @@ public class ValidarQueTipoIdentificacionExista implements Validator<UUID, Valid
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(!tipoIdentificacionRepository.existsById(data)) {
-			//TODO: El mensaje debería estar en el catálogo de mensajes.
-			resultadoValidacion.agregarMensaje("No existe un tipo de identificación con el identificador " + data);
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarquetipoidentificacionexista") + data);
 		}
 		
 		return resultadoValidacion;

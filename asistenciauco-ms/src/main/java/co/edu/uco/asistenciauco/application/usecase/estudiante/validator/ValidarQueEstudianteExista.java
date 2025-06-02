@@ -2,6 +2,8 @@ package co.edu.uco.asistenciauco.application.usecase.estudiante.validator;
 
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
+import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
@@ -12,14 +14,12 @@ import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 public class ValidarQueEstudianteExista implements Validator<UUID, ValidationResultVO>{
 
 	private EstudianteRepository estudianteRepository;
-	
-	
-	
-	public ValidarQueEstudianteExista(EstudianteRepository estudianteRepository) {
+	private MessageCatalog messageCatalog;
+
+	public ValidarQueEstudianteExista(final EstudianteRepository estudianteRepository, final MessageCatalog messageCatalog) {
 		this.estudianteRepository = estudianteRepository;
+		this.messageCatalog=messageCatalog;
 	}
-
-
 
 	@Override
 	public ValidationResultVO validate(UUID data) {
@@ -27,8 +27,7 @@ public class ValidarQueEstudianteExista implements Validator<UUID, ValidationRes
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(!estudianteRepository.existsById(data)) {
-			//TODO: El mensaje debería estar en el catálogo de mensajes.
-			resultadoValidacion.agregarMensaje("No existe un estudiante con el identificador " + data);
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueestudianteexista")+ data);
 		}
 		
 		return resultadoValidacion;

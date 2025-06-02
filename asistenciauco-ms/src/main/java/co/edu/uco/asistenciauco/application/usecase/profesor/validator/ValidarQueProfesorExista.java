@@ -2,6 +2,8 @@ package co.edu.uco.asistenciauco.application.usecase.profesor.validator;
 
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
+import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.ProfesorRepository;
@@ -12,11 +14,13 @@ import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 public class ValidarQueProfesorExista implements Validator<UUID, ValidationResultVO>{
 
 	private ProfesorRepository profesorRepository;
+	private MessageCatalog messageCatalog;
 	
 	
 	
-	public ValidarQueProfesorExista(ProfesorRepository profesorRepository) {
+	public ValidarQueProfesorExista(final ProfesorRepository profesorRepository,final MessageCatalog messageCatalog) {
 		this.profesorRepository = profesorRepository;
+		this.messageCatalog=messageCatalog;
 	}
 
 
@@ -27,8 +31,7 @@ public class ValidarQueProfesorExista implements Validator<UUID, ValidationResul
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(!profesorRepository.existsById(data)) {
-			//TODO: El mensaje debería estar en el catálogo de mensajes.
-			resultadoValidacion.agregarMensaje("No existe un profesor con el identificador " + data);
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueprofesorexista") + data);
 		}
 		
 		return resultadoValidacion;

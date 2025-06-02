@@ -1,8 +1,10 @@
 package co.edu.uco.asistenciauco.application.usecase.asistencia.validator;
 
+import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.AsistenciaRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
+import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -11,15 +13,12 @@ import java.util.UUID;
 public class ValidarQueAsistenciaNoRegistradaParaSesion implements Validator<UUID, ValidationResultVO>{
 
 	private AsistenciaRepository asistenciaRepository;
+	private MessageCatalog messageCatalog;
 
-
-
-	public ValidarQueAsistenciaNoRegistradaParaSesion(AsistenciaRepository asistenciaRepository) {
-
+	public ValidarQueAsistenciaNoRegistradaParaSesion(final AsistenciaRepository asistenciaRepository,final MessageCatalog messageCatalog) {
+		this.messageCatalog=messageCatalog;
 		this.asistenciaRepository = asistenciaRepository;
 	}
-
-
 
 	@Override
 	public ValidationResultVO validate(UUID data) {
@@ -27,8 +26,7 @@ public class ValidarQueAsistenciaNoRegistradaParaSesion implements Validator<UUI
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(asistenciaRepository.existsBySesion_Id(data)) {
-			//TODO: El mensaje debería estar en el catálogo de mensajes.
-			resultadoValidacion.agregarMensaje("Ya existe una asistencia para la sesión con el identificador " + data);
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueasistencianoregistradaparasesion") + data);
 		}
 		
 		return resultadoValidacion;
