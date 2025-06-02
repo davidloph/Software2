@@ -5,7 +5,6 @@ import co.edu.uco.asistenciauco.application.outputport.repository.AsistenciaRepo
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
-import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -13,8 +12,8 @@ import java.util.UUID;
 @Service
 public class ValidarQueAsistenciaNoRegistradaParaSesion implements Validator<UUID, ValidationResultVO>{
 
-	private AsistenciaRepository asistenciaRepository;
-	private MessageCatalog messageCatalog;
+	private final AsistenciaRepository asistenciaRepository;
+	private final MessageCatalog messageCatalog;
 
 	public ValidarQueAsistenciaNoRegistradaParaSesion(final AsistenciaRepository asistenciaRepository,final MessageCatalog messageCatalog) {
 		this.messageCatalog=messageCatalog;

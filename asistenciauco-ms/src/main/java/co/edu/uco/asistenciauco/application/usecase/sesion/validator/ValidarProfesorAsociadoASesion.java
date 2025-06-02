@@ -5,7 +5,6 @@ import co.edu.uco.asistenciauco.application.outputport.repository.SesionReposito
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
-import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,8 +13,8 @@ import java.util.UUID;
 @Service
 public class ValidarProfesorAsociadoASesion implements Validator<ArrayList<UUID>, ValidationResultVO>{
 
-	private SesionRepository sesionRepository;
-	private MessageCatalog messageCatalog;
+	private final SesionRepository sesionRepository;
+	private final MessageCatalog messageCatalog;
 
 
 	public ValidarProfesorAsociadoASesion(final SesionRepository sesionRepository, final MessageCatalog messageCatalog) {

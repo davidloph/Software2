@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
-import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.ProfesorRepository;
@@ -14,8 +13,8 @@ import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 @Service
 public class ValidarQueProfesorExista implements Validator<UUID, ValidationResultVO>{
 
-	private ProfesorRepository profesorRepository;
-	private MessageCatalog messageCatalog;
+	private final ProfesorRepository profesorRepository;
+	private final MessageCatalog messageCatalog;
 	
 	
 	
