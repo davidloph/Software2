@@ -4,6 +4,32 @@
     <meta charset="UTF-8">
     <title>Registrar Asistencia</title>
     <link rel="stylesheet" href="registrarAsistencia.css">
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.hidden {
+            display: none;
+        }
+
+        .modal-contenido {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
     <div class="contenedor">
@@ -31,6 +57,7 @@
         <button id="btnRegistrar">Registrar Asistencia</button>
     </div>
 
+    <!-- Modal para mostrar errores -->
     <div id="modalErrores" class="modal hidden">
         <div class="modal-contenido">
             <h2>Errores al registrar asistencia</h2>
@@ -42,3 +69,4 @@
     <script src="registrarAsistencia.js"></script>
 </body>
 </html>
+

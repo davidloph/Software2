@@ -43,19 +43,20 @@
         const id_token = response.credential;
 
         try {
-          const oauthResp = await fetch('http://localhost:8080/login/oauth', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ idToken: id_token, provider: 'google' })
-          });
+          const oauthResp = await fetch('http://localhost:8080/asisteuco/apigateway/login/oauth', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ idToken: id_token })  // CORREGIDO
+});
+
 
           if (!oauthResp.ok) throw new Error('OAuth inválido');
 
           const { email } = await oauthResp.json();
 
-          const validarResp = await fetch('http://localhost:8080/api/v1/validarProfesor', {
+          const validarResp = await fetch('http://localhost:8080/asisteuco/apigateway/validarProfesor', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
