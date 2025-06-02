@@ -1,6 +1,6 @@
 /*package co.edu.uco.asistenciauco.application.mapper.entity;
 
-import java.util.List;
+import java.util.List;v
 
 import co.edu.uco.asistenciauco.application.outputport.entity.GrupoEntity;
 import org.mapstruct.Mapper;
