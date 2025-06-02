@@ -10,8 +10,7 @@ public class RegistrarAsistenciaResponseDTO {
 	private boolean transaccionExitosa;
 	private boolean transaccionExitosaFlag;
 	private List<String> mensajes;
-	
-	//TODO: TRANSACCIÓN EXITOSA FUE EL DE POR DEFECTO O EL QUE COLOCARON INTENCIONALMENTE
+
 	public RegistrarAsistenciaResponseDTO() {
 		setDefaultTransaccionExitosa();
 		setDefaultMensajes();

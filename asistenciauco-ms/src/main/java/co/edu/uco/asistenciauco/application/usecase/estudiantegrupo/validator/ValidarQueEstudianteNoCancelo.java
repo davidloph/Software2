@@ -26,7 +26,7 @@ public class ValidarQueEstudianteNoCancelo implements Validator<ArrayList<UUID>,
 		
 		var resultadoValidacion = new ValidationResultVO();
 		
-		if(!estudianteGrupoRepository.existsBySesionAndEstudianteNoCancelo(data.get(0), data.get(1))) {
+		if(estudianteGrupoRepository.existsBySesionAndEstudianteNoCancelo(data.get(0), data.get(1))) {
 			//TODO: El mensaje debería estar en el catálogo de mensajes.
 			resultadoValidacion.agregarMensaje("El estudiante con identificador " + data.get(0) + " tiene la materia cancelada.");
 		}

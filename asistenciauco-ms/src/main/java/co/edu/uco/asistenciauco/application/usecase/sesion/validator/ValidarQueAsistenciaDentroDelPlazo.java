@@ -6,9 +6,7 @@ import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+
 import java.util.UUID;
 
 @Service
@@ -22,8 +20,6 @@ public class ValidarQueAsistenciaDentroDelPlazo implements Validator<UUID, Valid
 
 		this.sesionRepository = sesionRepository;
 	}
-
-
 
 	@Override
 	public ValidationResultVO validate(UUID data) {

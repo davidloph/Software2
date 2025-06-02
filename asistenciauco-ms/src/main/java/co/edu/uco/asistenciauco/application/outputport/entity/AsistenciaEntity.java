@@ -27,8 +27,6 @@ public final class AsistenciaEntity {
 	private SesionEntity sesion;
 	@Column(name = AsistenciaConstants.COLUMN_ASISTIO)
 	private boolean asistio;
-	@Column(name = AsistenciaConstants.COLUMN_ASISTIO_IS_DEFAULT)
-	private boolean asistioDefault = BooleanHelper.FALSE;
 	
 	
 	public AsistenciaEntity() {
@@ -91,7 +89,6 @@ public final class AsistenciaEntity {
 	}
 	public void setAsistio(final boolean asistio) {
 		this.asistio = ObjectHelper.getDefault(asistio, BooleanHelper.FALSE);
-		asistioDefault = BooleanHelper.FALSE;
 	}
 	private void setDefaultAsistio() {
 		setAsistio(BooleanHelper.FALSE);
