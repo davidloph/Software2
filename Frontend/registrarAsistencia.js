@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function cargarSesiones() {
         try {
-            const response = await fetch("http://localhost:8080/api/v1/obtenerSesiones", {
+            const response = await fetch("http://localhost:8080/asisteuco/apigateway/obtenerSesiones", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ grupo: grupoId })
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function cargarEstudiantes() {
         try {
-            const response = await fetch("http://localhost:8080/api/v1/obtenerEstudiantes", {
+            const response = await fetch("http://localhost:8080/asisteuco/apigateway/obtenerEstudiantes", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ grupo: grupoId })
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         try {
-            const response = await fetch("http://localhost:8080/api/v1/asistencia", {
+            const response = await fetch("http://localhost:8080/asisteuco/apigateway/asistencias", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -114,8 +114,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const data = await response.json();
 
-            if (data.mensajes && data.mensajes.length > 0) {
-                mostrarModalErrores(data.mensajes);
+            if (data.messages && data.messages.length > 0) {
+                mostrarModalErrores(data.messages);
             } else {
                 alert("✅ Asistencia registrada exitosamente.");
                 location.reload();
