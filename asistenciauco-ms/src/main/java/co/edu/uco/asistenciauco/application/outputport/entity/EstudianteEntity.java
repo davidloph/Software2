@@ -4,20 +4,16 @@ import java.util.UUID;
 
 import co.edu.uco.asistenciauco.application.outputport.entity.constants.EstudianteConstants;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
-import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 import jakarta.persistence.*;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = EstudianteConstants.TABLE_ESTUDIANTE)
 public final class EstudianteEntity{
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = EstudianteConstants.COLUMN_ID)
 	private UUID id;
 	@OneToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = EstudianteConstants.COLUMN_USUARIO)
 	private UsuarioEntity usuario;
 

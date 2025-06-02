@@ -1,5 +1,7 @@
 package co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasistencia.dto.response;
 
+import co.edu.uco.crosscutting.helpers.BooleanHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +10,7 @@ public class RegistrarAsistenciaResponseDTO {
 	private boolean transaccionExitosa;
 	private boolean transaccionExitosaFlag;
 	private List<String> mensajes;
-	
-	//TODO: TRANSACCIÓN EXITOSA FUE EL DE POR DEFECTO O EL QUE COLOCARON INTENCIONALMENTE
+
 	public RegistrarAsistenciaResponseDTO() {
 		setDefaultTransaccionExitosa();
 		setDefaultMensajes();
@@ -24,11 +25,11 @@ public class RegistrarAsistenciaResponseDTO {
 	}
 	
 	public void setTransaccionExitosa(final boolean transaccionExitosa) {
-		this.transaccionExitosaFlag = true;
+		this.transaccionExitosaFlag = BooleanHelper.TRUE;
 		this.transaccionExitosa = transaccionExitosa;
 	}
 	public void setDefaultTransaccionExitosa() {
-		this.transaccionExitosaFlag = false;
+		this.transaccionExitosaFlag = BooleanHelper.FALSE;
 		this.transaccionExitosa = transaccionExitosa;
 	}
 	public List<String> getMensajes() {

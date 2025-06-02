@@ -14,27 +14,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = AsistenciaConstants.TABLE_ASISTENCIA)
 public final class AsistenciaEntity {
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = AsistenciaConstants.COLUMN_ID)
 	private UUID id;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
     @JoinColumn(name = AsistenciaConstants.COLUMN_ESTUDIANTE_GRUPO)
 	private EstudianteGrupoEntity estudianteGrupo;
 	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@JoinColumn(name = AsistenciaConstants.COLUMN_SESION)
 	private SesionEntity sesion;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = AsistenciaConstants.COLUMN_ASISTIO)
 	private boolean asistio;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-	// @Column(name = AsistenciaConstants.COLUMN_ASISTIO_IS_DEFAULT)
-	private boolean asistioDefault = true;
 	
 	
 	public AsistenciaEntity() {
@@ -68,8 +60,6 @@ public final class AsistenciaEntity {
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}
@@ -78,7 +68,6 @@ public final class AsistenciaEntity {
 		return estudianteGrupo;
 	}
 	public void setEstudianteGrupo(final EstudianteGrupoEntity estudianteGrupo) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.estudianteGrupo = ObjectHelper.getDefault(estudianteGrupo, new EstudianteGrupoEntity());
 	}
 	private void setDefaultEstudianteGrupo() {
@@ -89,7 +78,6 @@ public final class AsistenciaEntity {
 		return sesion;
 	}
 	public void setSesion(final SesionEntity sesion) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.sesion = ObjectHelper.getDefault(sesion, new SesionEntity());
 	}
 	private void setDefaultSesion() {
@@ -100,9 +88,7 @@ public final class AsistenciaEntity {
 		return asistio;
 	}
 	public void setAsistio(final boolean asistio) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.asistio = ObjectHelper.getDefault(asistio, BooleanHelper.FALSE);
-		asistioDefault = false;
 	}
 	private void setDefaultAsistio() {
 		setAsistio(BooleanHelper.FALSE);

@@ -13,6 +13,22 @@ import co.edu.uco.asistenciauco.application.outputport.entity.SesionEntity;
 @Repository
 public interface SesionRepository extends JpaRepository<SesionEntity, UUID>{
 
-    @Query("SELECT COUNT(s) > 0 FROM Sesion s WHERE s.id = :id AND s.fechaHora <= :fechaLimite")
-    boolean existsByIdAndFechaBefore(@Param("id") UUID id, @Param("fechaLimite") String fechaLimite);
+    @Query("SELECT COUNT(s) > 0 FROM SesionEntity s WHERE s.id = :id AND s.fechaHora <= :fechaLimite")
+    boolean existsByIdAndFechaBefore(@Param("id") UUID id, @Param("fechaLimite") LocalDateTime fechaLimite);
+
+    @Query("""
+    SELECT g.profesor.id
+    FROM SesionEntity s
+    JOIN s.grupo g
+    WHERE s.id = :idSesion
+""")
+    UUID findProfesorIdBySesionId(@Param("idSesion") UUID idSesion);
+
+    @Query("""
+        SELECT COUNT(s) > 0
+        FROM SesionEntity s
+        WHERE s.id = :idSesion
+          AND s.grupo.activo = true
+    """)
+    boolean isGrupoActivoBySesionId(@Param("idSesion") UUID idSesion);
 }

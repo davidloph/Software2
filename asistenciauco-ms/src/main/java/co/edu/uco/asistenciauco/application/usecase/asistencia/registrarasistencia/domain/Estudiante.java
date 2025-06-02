@@ -2,27 +2,28 @@ package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasisten
 
 import java.util.UUID;
 
+import co.edu.uco.crosscutting.helpers.BooleanHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
-public class Estudiante {
+public final class Estudiante {
 
 	private UUID id;
-	private Usuario usuario;
+	private boolean asistio;
 
 	public Estudiante() {
 		setDefaultId();
-		setDefaultUsuario();
+		setDefaultAsistio();
 	}
 
 	public Estudiante (UUID id) {
 		setId(id);
-		setDefaultUsuario();
+		setDefaultAsistio();
 	}
 
-	public Estudiante(final UUID id, final Usuario usuario) {
+	public Estudiante(final UUID id, final boolean asistio) {
 		setId(id);
-		setUsuario(usuario);
+		setAsistio(asistio);
 	}
 
 	public UUID getId() {
@@ -39,17 +40,15 @@ public class Estudiante {
 		setId(defaultValue);
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public boolean isAsistio() {
+		return asistio;
 	}
 
-	private void setUsuario(Usuario usuario) {
-		this.usuario = ObjectHelper.getDefault(usuario, new Usuario());
+	private void setAsistio(final boolean asistio) {
+		this.asistio = ObjectHelper.getDefault(asistio, BooleanHelper.FALSE);
 	}
 
-	private void setDefaultUsuario() {
-
-		setUsuario(new Usuario());
+	private void setDefaultAsistio() {
+		setAsistio(BooleanHelper.FALSE);
 	}
-	
 }

@@ -5,30 +5,29 @@ import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
-public class ValidarQueProfesorEstaAsociadoAGrupo implements Validator<ArrayList<UUID>, ValidationResultVO>{
+public class ValidarQueGrupoActivo implements Validator<UUID, ValidationResultVO>{
 
 	private GrupoRepository grupoRepository;
 
 
 
-	public ValidarQueProfesorEstaAsociadoAGrupo(GrupoRepository grupoRepository) {
+	public ValidarQueGrupoActivo(GrupoRepository grupoRepository) {
 		this.grupoRepository = grupoRepository;
 	}
 
 
 
 	@Override
-	public ValidationResultVO validate(ArrayList<UUID> data) {
+	public ValidationResultVO validate(UUID data) {
 		
 		var resultadoValidacion = new ValidationResultVO();
 		
-		if(!grupoRepository.existsByProfesor_IdAndId(data.get(0), data.get(1))) {
+		if(!grupoRepository.existsBySesionActiva(data)) {
 			//TODO: El mensaje debería estar en el catálogo de mensajes.
-			resultadoValidacion.agregarMensaje("No existe un profesor con el identificador " + data.get(0) + " en el grupo " + data.get(1));
+			resultadoValidacion.agregarMensaje("No existe un grupo activo con el identificador " + data);
 		}
 		
 		return resultadoValidacion;
