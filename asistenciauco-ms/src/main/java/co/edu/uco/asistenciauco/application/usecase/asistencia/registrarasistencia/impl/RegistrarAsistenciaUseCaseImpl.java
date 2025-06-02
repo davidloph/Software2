@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.AsistenciaRepository;
+import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
 import co.edu.uco.asistenciauco.application.outputport.sendgrid.SendGridService;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
@@ -38,6 +39,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private  RegistrarAsistenciaResponseVO resultado;
 	private final AsistenciaRepository asistenciaRepository;
 	private final SendGridService sendGridService;
+	private final EstudianteRepository estudianteRepository;
 	
 	public RegistrarAsistenciaUseCaseImpl(ValidarQueEstudianteExista estudianteExiste,
 										  ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste,
@@ -45,7 +47,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 										  ValidarProfesorAsociadoASesion profesorAsociadoASesion,
 										  ValidarQueEstudianteEnGrupo estudianteEnGrupo, ValidarQueEstudianteNoCancelo estudianteNoCancelo,
 										  ValidarQueGrupoActivo validarQueGrupoActivo,
-										  AsistenciaRepository asistenciaRepository, SendGridService sendGridService) {
+										  AsistenciaRepository asistenciaRepository, SendGridService sendGridService, EstudianteRepository estudianteRepository) {
 		this.estudianteExiste = estudianteExiste;
 		this.estudianteEnGrupo = estudianteEnGrupo;
 		this.estudianteNoCancelo = estudianteNoCancelo;
@@ -58,6 +60,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		resultado = new RegistrarAsistenciaResponseVO();
 		this.asistenciaRepository = asistenciaRepository;
 		this.sendGridService = sendGridService;
+		this.estudianteRepository = estudianteRepository;
 	}
 
 
@@ -152,8 +155,9 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		
 		// 2. Enviar la notificación de correo al estudiante porque no asistió.
 		if(!estudiante.isAsistio()) {
+			var correoEstudiante =  estudianteRepository.obtenerCorreoPorIdEstudiante(estudiante.getId());
 			EmailMessage message = EmailMessage.create(
-					"juanest006@gmail.com",
+					correoEstudiante,
 					"Correo de prueba",
 					"Hola Juanes, este es un correo de prueba con SendGrid desde Jav:)");
 			sendGridService.send(message);
