@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper.entity;
+/*package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import co.edu.uco.asistenciauco.application.outputport.entity.UsuarioEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Usuario;
@@ -26,3 +26,4 @@ public interface UsuarioEntityMapper {
 	UsuarioEntity toUsuarioEntity(Usuario profesor);
 	List<UsuarioEntity> toUsuariosEntity(List<Usuario> profesores);
 }
+ */
