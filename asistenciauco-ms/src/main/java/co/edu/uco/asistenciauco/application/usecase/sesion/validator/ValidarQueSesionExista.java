@@ -4,6 +4,8 @@ import java.util.UUID;
 
 
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
+import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
+import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.SesionRepository;
@@ -33,8 +35,10 @@ public class ValidarQueSesionExista implements Validator<UUID, ValidationResultV
 		
 		if(!sesionRepository.existsById(data)) {
 			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarquesesionexista") + data);
+			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
+			String technicalMessage = messageCatalog.getMessage("validarquesesionexista") + data;
+			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
-		
 		return resultadoValidacion;
 	}
 

@@ -3,6 +3,7 @@ package co.edu.uco.asistenciauco.application.usecase.estudiante.validator;
 import java.util.UUID;
 
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
+import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
 import org.springframework.stereotype.Service;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;

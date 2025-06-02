@@ -3,6 +3,8 @@ package co.edu.uco.asistenciauco.application.usecase.profesor.validator;
 import java.util.UUID;
 
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
+import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
+import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.ProfesorRepository;
@@ -31,6 +33,9 @@ public class ValidarQueProfesorExista implements Validator<UUID, ValidationResul
 		
 		if(!profesorRepository.existsById(data)) {
 			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueprofesorexista") + data);
+			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
+			String technicalMessage = messageCatalog.getMessage("validarqueprofesorexista") + data;
+			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		return resultadoValidacion;
