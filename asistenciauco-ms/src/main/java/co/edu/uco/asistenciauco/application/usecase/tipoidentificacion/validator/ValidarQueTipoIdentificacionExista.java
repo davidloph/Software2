@@ -5,6 +5,7 @@ import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepo
 import co.edu.uco.asistenciauco.application.outputport.repository.TipoIdentificacionRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
+import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
 import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class ValidarQueTipoIdentificacionExista implements Validator<UUID, Valid
 		
 		if(!tipoIdentificacionRepository.existsById(data)) {
 			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarquetipoidentificacionexista") + data);
+			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
+			String technicalMessage = messageCatalog.getMessage("validarquetipoidentificacionexista") + data;
+			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		return resultadoValidacion;

@@ -15,6 +15,7 @@ import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.Va
 import co.edu.uco.asistenciauco.application.usecase.profesor.validator.ValidarQueProfesorExista;
 import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarProfesorAsociadoASesion;
 import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarQueAsistenciaDentroDelPlazo;
+import co.edu.uco.asistenciauco.crosscutting.exceptions.UseCaseAsisteUcoException;
 import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.EmailMessage;
 import org.springframework.stereotype.Service;
 
@@ -75,31 +76,55 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		// 2. La sesión debe existir.
 		if(resultado.isValidacionCorrecta()) {
 			resultado.agregarMensajes(sesionExiste.validate(dominio.getSesion().getId()).getMensajes());
+		} else {
+			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String technicalMessage = resultado.getMensajes().getFirst();
+			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 3. El profesor que registra la asistencia debe existir.
 		if(resultado.isValidacionCorrecta()) {
 			resultado.agregarMensajes(profesorExiste.validate(dominio.getProfesor().getId()).getMensajes());
+		} else {
+			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String technicalMessage = resultado.getMensajes().getFirst();
+			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 4. El grupo debe estar activo
 		if(resultado.isValidacionCorrecta()) {
 			resultado.agregarMensajes(validarQueGrupoActivo.validate(dominio.getSesion().getId()).getMensajes());
+		} else {
+			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String technicalMessage = resultado.getMensajes().getFirst();
+			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 5. El profesor debe estar asignado al grupo.
 		if(resultado.isValidacionCorrecta()) {
 			resultado.agregarMensajes(profesorAsociadoASesion.validate(new ArrayList<>(List.of(dominio.getSesion().getId(), dominio.getProfesor().getId()))).getMensajes());
+		} else {
+			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String technicalMessage = resultado.getMensajes().getFirst();
+			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 6. No se puede tener una asistencia ya registrada para la sesión.
 		if(resultado.isValidacionCorrecta()) {
 			resultado.agregarMensajes(asistenciaNoRegistrada.validate(dominio.getSesion().getId()).getMensajes());
+		} else {
+			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String technicalMessage = resultado.getMensajes().getFirst();
+			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 7. La asistencia se debe registrar entre los plazos establecidos.
 		if(resultado.isValidacionCorrecta()) {
 			resultado.agregarMensajes(asistenciaDentroDelPlazo.validate(dominio.getSesion().getId()).getMensajes());
+		} else {
+			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String technicalMessage = resultado.getMensajes().getFirst();
+			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 8. Validar que estudiantes sean consistentes para el registro de asistencia.

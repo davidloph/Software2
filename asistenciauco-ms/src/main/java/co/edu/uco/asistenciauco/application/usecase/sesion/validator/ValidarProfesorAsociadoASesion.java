@@ -4,6 +4,7 @@ import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.SesionRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
+import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
 import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class ValidarProfesorAsociadoASesion implements Validator<ArrayList<UUID>
 		
 		if(sesionRepository.findProfesorIdBySesionId(data.get(0)) == data.get(1)) {
 			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarprofesorasociadoasesionparteuno")+ data.get(0) + messageCatalog.getMessage("validarprofesorasociadoasesionpartedos") + data.get(1) + ".");
+			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
+			String technicalMessage = messageCatalog.getMessage("validarprofesorasociadoasesionparteuno")+ data.get(0) + messageCatalog.getMessage("validarprofesorasociadoasesionpartedos") + data.get(1) + ".";
+			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		return resultadoValidacion;

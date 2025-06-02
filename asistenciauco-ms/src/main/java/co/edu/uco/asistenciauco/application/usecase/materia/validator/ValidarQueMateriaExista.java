@@ -5,6 +5,7 @@ import co.edu.uco.asistenciauco.application.outputport.repository.MateriaReposit
 import co.edu.uco.asistenciauco.application.outputport.repository.SesionRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
+import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
 import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,9 @@ public class ValidarQueMateriaExista implements Validator<UUID, ValidationResult
 		
 		if(!materiaRepository.existsById(data)) {
 			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarquemateriaexista") + data);
+			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
+			String technicalMessage = messageCatalog.getMessage("validarquemateriaexista") + data;
+			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		return resultadoValidacion;

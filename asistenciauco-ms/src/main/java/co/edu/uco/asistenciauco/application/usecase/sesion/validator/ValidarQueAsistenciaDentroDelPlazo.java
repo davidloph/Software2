@@ -5,6 +5,7 @@ import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.SesionRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
+import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
 import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class ValidarQueAsistenciaDentroDelPlazo implements Validator<UUID, Valid
 		
 		if(!sesionRepository.existsByIdAndFechaBefore(data, SesionConstants.COLUMN_FECHA_LIMITE)) {
 			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueasistenciadentrodelplazoparteuno") + data + messageCatalog.getMessage("validarqueasistenciadentrodelplazopartedos"));
+			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
+			String technicalMessage = messageCatalog.getMessage("validarqueasistenciadentrodelplazoparteuno") + data + messageCatalog.getMessage("validarqueasistenciadentrodelplazopartedos");
+			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		return resultadoValidacion;

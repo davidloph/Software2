@@ -4,6 +4,7 @@ import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteGrupoRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
+import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -26,6 +27,9 @@ public class ValidarQueEstudianteGrupoExista implements Validator<UUID, Validati
 		
 		if(!estudianteGrupoRepository.existsById(data)) {
 			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueestudiantegrupoexista")+ data);
+			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
+			String technicalMessage = messageCatalog.getMessage("validarqueestudiantegrupoexista")+ data;
+			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		return resultadoValidacion;

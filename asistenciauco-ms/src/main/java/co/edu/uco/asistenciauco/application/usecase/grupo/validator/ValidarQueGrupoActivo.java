@@ -4,6 +4,7 @@ import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.GrupoRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
+import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -29,6 +30,9 @@ public class ValidarQueGrupoActivo implements Validator<UUID, ValidationResultVO
 		
 		if(!grupoRepository.existsBySesionActiva(data)) {
 			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarquegrupoactivo")+ data);
+			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
+			String technicalMessage = messageCatalog.getMessage("validarquegrupoactivo")+ data;
+			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		return resultadoValidacion;
