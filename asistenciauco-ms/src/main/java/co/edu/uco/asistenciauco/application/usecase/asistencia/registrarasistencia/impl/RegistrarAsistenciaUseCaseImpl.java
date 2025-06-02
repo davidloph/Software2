@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.AsistenciaRepository;
+import co.edu.uco.asistenciauco.application.outputport.sendgrid.SendGridService;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
 import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQueGrupoActivo;
@@ -13,6 +14,7 @@ import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.Va
 import co.edu.uco.asistenciauco.application.usecase.profesor.validator.ValidarQueProfesorExista;
 import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarProfesorAsociadoASesion;
 import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarQueAsistenciaDentroDelPlazo;
+import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.EmailMessage;
 import org.springframework.stereotype.Service;
 
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.RegistrarAsistenciaUseCase;
@@ -24,17 +26,18 @@ import co.edu.uco.asistenciauco.application.usecase.sesion.validator.ValidarQueS
 @Service
 public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCase{
 
-	private ValidarQueEstudianteExista estudianteExiste;
-	private ValidarQueSesionExista sesionExiste;
-	private ValidarQueProfesorExista profesorExiste;
-	private ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada;
-	private ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo;
-	private ValidarProfesorAsociadoASesion profesorAsociadoASesion;
-	private ValidarQueEstudianteEnGrupo estudianteEnGrupo;
-	private ValidarQueEstudianteNoCancelo estudianteNoCancelo;
-	private ValidarQueGrupoActivo validarQueGrupoActivo;
-	private RegistrarAsistenciaResponseVO resultado;
-	private AsistenciaRepository asistenciaRepository;
+	private final ValidarQueEstudianteExista estudianteExiste;
+	private final ValidarQueSesionExista sesionExiste;
+	private final ValidarQueProfesorExista profesorExiste;
+	private final ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada;
+	private final ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo;
+	private final ValidarProfesorAsociadoASesion profesorAsociadoASesion;
+	private final ValidarQueEstudianteEnGrupo estudianteEnGrupo;
+	private final ValidarQueEstudianteNoCancelo estudianteNoCancelo;
+	private final ValidarQueGrupoActivo validarQueGrupoActivo;
+	private  RegistrarAsistenciaResponseVO resultado;
+	private final AsistenciaRepository asistenciaRepository;
+	private final SendGridService sendGridService;
 	
 	public RegistrarAsistenciaUseCaseImpl(ValidarQueEstudianteExista estudianteExiste,
 										  ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste,
@@ -42,7 +45,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 										  ValidarProfesorAsociadoASesion profesorAsociadoASesion,
 										  ValidarQueEstudianteEnGrupo estudianteEnGrupo, ValidarQueEstudianteNoCancelo estudianteNoCancelo,
 										  ValidarQueGrupoActivo validarQueGrupoActivo,
-										  AsistenciaRepository asistenciaRepository) {
+										  AsistenciaRepository asistenciaRepository, SendGridService sendGridService) {
 		this.estudianteExiste = estudianteExiste;
 		this.estudianteEnGrupo = estudianteEnGrupo;
 		this.estudianteNoCancelo = estudianteNoCancelo;
@@ -54,6 +57,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		this.asistenciaDentroDelPlazo = asistenciaDentroDelPlazo;
 		resultado = new RegistrarAsistenciaResponseVO();
 		this.asistenciaRepository = asistenciaRepository;
+		this.sendGridService = sendGridService;
 	}
 
 
@@ -148,6 +152,11 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		
 		// 2. Enviar la notificación de correo al estudiante porque no asistió.
 		if(!estudiante.isAsistio()) {
+			EmailMessage message = EmailMessage.create(
+					"juanest006@gmail.com",
+					"Correo de prueba",
+					"Hola Juanes, este es un correo de prueba con SendGrid desde Jav:)");
+			sendGridService.send(message);
 			
 		}
 	}

@@ -1,11 +1,9 @@
 package co.edu.uco.asistenciauco.application.usecase.grupo.validator;
 
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
-import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.GrupoRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
-import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -13,8 +11,8 @@ import java.util.UUID;
 @Service
 public class ValidarQueGrupoExista implements Validator<UUID, ValidationResultVO>{
 
-	private GrupoRepository grupoRepository;
-	private MessageCatalog messageCatalog;
+	private final GrupoRepository grupoRepository;
+	private final MessageCatalog messageCatalog;
 
 	public ValidarQueGrupoExista(final GrupoRepository grupoRepository,final MessageCatalog messageCatalog) {
 		this.grupoRepository = grupoRepository;

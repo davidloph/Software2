@@ -4,7 +4,6 @@ import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteGrupoRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
-import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,8 +12,8 @@ import java.util.UUID;
 @Service
 public class ValidarQueEstudianteNoCancelo implements Validator<ArrayList<UUID>, ValidationResultVO>{
 
-	private EstudianteGrupoRepository estudianteGrupoRepository;
-	private MessageCatalog messageCatalog;
+	private final EstudianteGrupoRepository estudianteGrupoRepository;
+	private final MessageCatalog messageCatalog;
 
 	public ValidarQueEstudianteNoCancelo(final EstudianteGrupoRepository estudianteGrupoRepository, final MessageCatalog messageCatalog) {
 		this.estudianteGrupoRepository = estudianteGrupoRepository;

@@ -4,7 +4,6 @@ import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.GrupoRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
-import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -12,8 +11,8 @@ import java.util.UUID;
 @Service
 public class ValidarQueGrupoActivo implements Validator<UUID, ValidationResultVO>{
 
-	private GrupoRepository grupoRepository;
-	private MessageCatalog messageCatalog;
+	private final GrupoRepository grupoRepository;
+	private final MessageCatalog messageCatalog;
 
 	public ValidarQueGrupoActivo(GrupoRepository grupoRepository,MessageCatalog messageCatalog) {
 
