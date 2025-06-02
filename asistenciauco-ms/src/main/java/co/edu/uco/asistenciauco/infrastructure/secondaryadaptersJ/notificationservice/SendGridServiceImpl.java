@@ -11,7 +11,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
-import
+
 
 public class SendGridServiceImpl implements SendGridService {
 
