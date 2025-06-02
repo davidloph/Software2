@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Asistencia</title>
+    <link rel="stylesheet" href="registrarAsistencia.css">
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Registrar Asistencia</h1>
+
+        <label for="sesionSelect">Selecciona una sesión:</label>
+        <select id="sesionSelect">
+            <option value="">-- Seleccione una sesión --</option>
+        </select>
+
+        <table id="tablaEstudiantes">
+            <thead>
+                <tr>
+                    <th>Tipo de Identificación</th>
+                    <th>Número de Identificación</th>
+                    <th>Nombres Completos</th>
+                    <th>¿Asistió?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se llenará con JS -->
+            </tbody>
+        </table>
+
+        <button id="btnRegistrar">Registrar Asistencia</button>
+    </div>
+
+    <div id="modalErrores" class="modal hidden">
+        <div class="modal-contenido">
+            <h2>Errores al registrar asistencia</h2>
+            <ul id="listaErrores"></ul>
+            <button onclick="cerrarModal()">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="registrarAsistencia.js"></script>
+</body>
+</html>
