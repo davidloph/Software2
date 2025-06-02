@@ -16,13 +16,17 @@ public interface SesionRepository extends JpaRepository<SesionEntity, UUID>{
     @Query("SELECT COUNT(s) > 0 FROM SesionEntity s WHERE s.id = :id AND s.fechaHora <= :fechaLimite")
     boolean existsByIdAndFechaBefore(@Param("id") UUID id, @Param("fechaLimite") LocalDateTime fechaLimite);
 
-    @Query("""
-    SELECT g.profesor.id
-    FROM SesionEntity s
-    JOIN s.grupo g
-    WHERE s.id = :idSesion
-""")
-    UUID findProfesorIdBySesionId(@Param("idSesion") UUID idSesion);
+    @Query(value = """
+            SELECT
+                EXISTS (
+                    SELECT 1
+                    FROM Sesion s
+                    JOIN Grupo g ON s.grupo_id = g.id
+                    WHERE s.id = ?
+                      AND g.profesor_id = ?
+                ) AS profesor_asociado;
+""", nativeQuery = true)
+    boolean findProfesorIdBySesionId(@Param("idSesion") UUID idSesion, @Param("idProfesor") UUID idProfesor);
 
     @Query("""
         SELECT COUNT(s) > 0

@@ -28,7 +28,7 @@ public class ValidarProfesorAsociadoASesion implements Validator<ArrayList<UUID>
 		
 		var resultadoValidacion = new ValidationResultVO();
 		
-		if(sesionRepository.findProfesorIdBySesionId(data.get(0)) == data.get(1)) {
+		if(!sesionRepository.findProfesorIdBySesionId(data.get(0), data.get(1))) {
 			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarprofesorasociadoasesionparteuno")+ data.get(0) + messageCatalog.getMessage("validarprofesorasociadoasesionpartedos") + data.get(1) + ".");
 			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
 			String technicalMessage = messageCatalog.getMessage("validarprofesorasociadoasesionparteuno")+ data.get(0) + messageCatalog.getMessage("validarprofesorasociadoasesionpartedos") + data.get(1) + ".";
