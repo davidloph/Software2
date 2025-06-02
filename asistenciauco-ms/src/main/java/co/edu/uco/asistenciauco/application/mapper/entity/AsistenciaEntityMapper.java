@@ -1,17 +1,14 @@
-package co.edu.uco.asistenciauco.application.mapper.entity;
+/*package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import java.util.List;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.CanceloEntity;
 import co.edu.uco.asistenciauco.application.outputport.entity.GrupoEntity;
-import co.edu.uco.asistenciauco.application.outputport.entity.ProfesorEntity;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import co.edu.uco.asistenciauco.application.outputport.entity.AsistenciaEntity;
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.AsistenciaDomainTest;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 
 @Mapper(componentModel = "spring", uses = {SesionEntityMapper.class, ProfesorEntityMapper.class, EstudianteEntityMapper.class})
 public interface AsistenciaEntityMapper {
@@ -22,15 +19,16 @@ public interface AsistenciaEntityMapper {
 		@Mapping(source = "sesion", target = "sesion"),
 		@Mapping(expression = "java(source.getProfesor())", target = "profesor"),
 	})
-    AsistenciaDomainTest toAsistencia(AsistenciaEntity asistenciaEntity, GrupoEntity grupoEntity);
-	List<AsistenciaDomainTest> toAsistencias(List<AsistenciaEntity> asistenciasEntity, List<GrupoEntity> grupoEntities);
+    Asistencia toAsistencia(AsistenciaEntity asistenciaEntity, GrupoEntity grupoEntity);
+	List<Asistencia> toAsistencias(List<AsistenciaEntity> asistenciasEntity, List<GrupoEntity> grupoEntities);
 
 
 
 	@Mapping(source = "id",target = "id")
-	AsistenciaEntity toAsistenciaEntity(AsistenciaDomainTest asistencia);
+	AsistenciaEntity toAsistenciaEntity(Asistencia asistencia);
 
 	@Mapping(source = "sesion", target = "sesion")
-	AsistenciaEntity toAsistenciasEntity(AsistenciaDomainTest asistencias);
+	AsistenciaEntity toAsistenciasEntity(Asistencia asistencias);
 
 }
+*/

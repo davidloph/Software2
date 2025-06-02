@@ -14,18 +14,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = MateriaConstants.TABLE_MATERIA)
 public final class MateriaEntity {
 	@Id
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 	@Column(name = MateriaConstants.COLUMN_ID)
 	private UUID id;
-	@ManyToOne
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
-    @JoinColumn(name = MateriaConstants.COLUMN_CLAVE)
+
+    @Column(name = MateriaConstants.COLUMN_CLAVE)
 	private String clave;
-	//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
+
 	@Column(name = MateriaConstants.COLUMN_NOMBRE)
 	private String nombre;
 	
@@ -57,8 +54,6 @@ public final class MateriaEntity {
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}
@@ -67,8 +62,8 @@ public final class MateriaEntity {
 		return clave;
 	}
 	public void setClave(final String clave) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
-		this.clave = TextHelper.applyTrim(TextHelper.getDefault(clave));;
+
+		this.clave = TextHelper.applyTrim(TextHelper.getDefault(clave));
 	}
 	private void setDefaultClave() {
 		setClave(TextHelper.EMPTY);
@@ -78,12 +73,10 @@ public final class MateriaEntity {
 		return nombre;
 	}
 	public void setNombre(final String nombre) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
+
 		this.nombre = TextHelper.applyTrim(TextHelper.getDefault(nombre));;
 	}
 	private void setDefaultNombre() {
-		//TODO: OBTENER VALOR POR DEFECTO???
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??
 		String defaultValue = TextHelper.EMPTY;
 		setNombre(defaultValue);
 	}

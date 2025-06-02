@@ -11,14 +11,10 @@ import java.util.UUID;
 @Repository
 public interface GrupoRepository extends JpaRepository<GrupoEntity, UUID>{
 
-    boolean existsByIdAndActivoTrue(UUID idGrupo);
+    boolean existsByProfesor_IdAndId(UUID idProfesor, UUID idGrupo);
 
-    boolean existsByProfesor_IdAndGrupo_Id(UUID idProfesor, UUID idGrupo);
-
-    @Query("""
-    SELECT COUNT(s) > 0
-    FROM SesionEntity s
-    WHERE s.id = :idSesion AND s.grupo IS NOT NULL
-""")
-    boolean existsWithGrupo(@Param("idSesion") UUID idSesion);
+    @Query(value = """
+        SELECT G.ACTIVO FROM GRUPO G JOIN SESION S ON G.ID = S.GRUPO_ID WHERE S.ID = ?
+""", nativeQuery = true)
+    boolean existsBySesionActiva(@Param("idSesion") UUID idSesion);
 }

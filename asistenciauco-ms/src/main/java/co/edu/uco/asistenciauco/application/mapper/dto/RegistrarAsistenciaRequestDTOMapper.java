@@ -1,26 +1,25 @@
 package co.edu.uco.asistenciauco.application.mapper.dto;
 
 import co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasistencia.dto.request.RegistrarAsistenciaRequestDTO;
-import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.AsistenciaDomainTest;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Profesor;
+import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Sesion;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import java.util.List;
+import java.util.UUID;
 
-@Mapper(componentModel = "spring", uses = EstudianteDTOMapper.class)
+@Mapper(componentModel = "spring", imports = {Sesion.class, Profesor.class, UUID.class}, uses = EstudianteDTORequestMapper.class)
 public interface RegistrarAsistenciaRequestDTOMapper {
 
 	@Mappings({
-		@Mapping(source = "sesion", target = "sesion"),
-		@Mapping(source = "profesor", target = "profesor"),
+		@Mapping(target = "sesion", expression = "java(new Sesion(asistenciaRequestDTO.getSesion()))"),
+		@Mapping(target = "profesor", expression = "java(new Profesor(asistenciaRequestDTO.getProfesor()))"),
 		@Mapping(source = "estudiantes", target = "estudiantes")
 	})
-    AsistenciaDomainTest toAsistenciaTest(RegistrarAsistenciaRequestDTO asistenciaRequestDTO);
-	List<AsistenciaDomainTest> toAsistenciasTest(List<RegistrarAsistenciaRequestDTO> asistenciasRequestDTO);
-	
-	@InheritInverseConfiguration
-	RegistrarAsistenciaRequestDTO toAsistenciaRequestDTO(AsistenciaDomainTest asistenciaTest);
-	List<RegistrarAsistenciaRequestDTO> toAsistenciasRequestDTO(List<AsistenciaDomainTest> asistenciasTest);
+	Asistencia toAsistenciaTest(RegistrarAsistenciaRequestDTO asistenciaRequestDTO);
+	List<Asistencia> toAsistenciasTest(List<RegistrarAsistenciaRequestDTO> asistenciasRequestDTO);
 }
