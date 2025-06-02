@@ -54,7 +54,6 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		this.asistenciaDentroDelPlazo = asistenciaDentroDelPlazo;
 		resultado = new RegistrarAsistenciaResponseVO();
 		this.asistenciaRepository = asistenciaRepository;
-		//TODO: Inyección de los demás validator.
 	}
 
 

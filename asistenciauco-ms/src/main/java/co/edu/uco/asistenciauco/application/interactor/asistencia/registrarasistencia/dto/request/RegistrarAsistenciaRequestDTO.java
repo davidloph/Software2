@@ -3,6 +3,7 @@ package co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasis
 import co.edu.uco.crosscutting.helpers.BooleanHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,7 +14,15 @@ public final class RegistrarAsistenciaRequestDTO {
 	private List<EstudianteDTORequest> estudiantes;
 
 	public RegistrarAsistenciaRequestDTO() {
-		super();
+		setdefaultEstudiantes();
+		setDefaultProfesor();
+		setdefaultEstudiantes();
+	}
+
+	public RegistrarAsistenciaRequestDTO(UUID sesion, UUID profesor, List<EstudianteDTORequest> estudiantes) {
+		setSesion(sesion);
+		setProfesor(profesor);
+		setEstudiantes(estudiantes);
 	}
 
 	public UUID getSesion() {
@@ -21,7 +30,7 @@ public final class RegistrarAsistenciaRequestDTO {
 	}
 
 
-	public void setSesion(final UUID sesion) {
+	private void setSesion(final UUID sesion) {
 		this.sesion = sesion;
 	}
 
@@ -32,7 +41,7 @@ public final class RegistrarAsistenciaRequestDTO {
 
 
 	private void setProfesor(final UUID profesor) {
-		this.profesor = profesor;
+		this.profesor = UUIDHelper.getDefault(profesor, UUIDHelper.getDefault());
 	}
 
 
@@ -46,6 +55,20 @@ public final class RegistrarAsistenciaRequestDTO {
 
 	}
 
+	public void setDefaultSesion() {
+		UUID defaultValue = UUIDHelper.getDefault();
+		setSesion(defaultValue);
+	}
+
+	public void setDefaultProfesor() {
+		UUID defaultValue = UUIDHelper.getDefault();
+		setProfesor(defaultValue);
+	}
+
+	public void setdefaultEstudiantes(){
+		this.estudiantes = new ArrayList<>();
+
+	}
 
 	public static class EstudianteDTORequest {
 		private UUID id;

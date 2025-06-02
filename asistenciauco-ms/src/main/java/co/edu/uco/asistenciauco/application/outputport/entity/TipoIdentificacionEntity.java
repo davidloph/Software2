@@ -12,7 +12,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = TipoIdentificacionConstants.TABLE_TIPO_IDENTIFICACION)
 public final class TipoIdentificacionEntity {
 	@Id
@@ -53,31 +52,25 @@ public final class TipoIdentificacionEntity {
 		return clave;
 	}
 	public void setClave(final String clave) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.
 		this.clave = TextHelper.applyTrim(TextHelper.getDefault(clave));
 	}
 	public String getNombre() {
 		return nombre;
 	}
 	public void setNombre(final String nombre) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.
 		this.nombre = TextHelper.applyTrim(TextHelper.getDefault(nombre));
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.******
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}
 	public void setDefaultClave() {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.
 		var defaultValue = TextHelper.EMPTY;
 		setClave(defaultValue);
 	}
 	
 	public void setDefaultNombre() {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.
 		var defaultValue = TextHelper.EMPTY;
 		setNombre(defaultValue);
 	}

@@ -1,6 +1,5 @@
 package co.edu.uco.asistenciauco.application.outputport.dto;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.UsuarioEntity;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 
 public final class ProfesorDTO extends UsuarioDTO{

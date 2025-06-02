@@ -1,17 +1,9 @@
 package co.edu.uco.asistenciauco.application.outputport.dto;
 
-import java.util.UUID;
-
 import co.edu.uco.crosscutting.helpers.BooleanHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
 
 public final class EstudianteGrupoDTO {
 
@@ -24,6 +16,7 @@ public final class EstudianteGrupoDTO {
 		setDefaultId();
 		setDefaultGrupo();
 		setDefaultEstudiante();
+		setDefaultCancelo();
 	}
 	
 	
@@ -31,12 +24,14 @@ public final class EstudianteGrupoDTO {
 		setId(id);
 		setDefaultGrupo();
 		setDefaultEstudiante();
+		setDefaultCancelo();
 	}
 	
-	public EstudianteGrupoDTO(final String id, final GrupoDTO grupo, final EstudianteDTO estudiante) {
+	public EstudianteGrupoDTO(final String id, final GrupoDTO grupo, final EstudianteDTO estudiante, final boolean cancelo) {
 		setId(id);
 		setGrupo(grupo);
 		setEstudiante(estudiante);
+		setCancelo(cancelo);
 	}
 
 	
@@ -48,8 +43,6 @@ public final class EstudianteGrupoDTO {
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		String defaultValue = UUIDHelper.getDefaultAsString();
 		setId(defaultValue);
 	}
@@ -58,7 +51,6 @@ public final class EstudianteGrupoDTO {
 		return grupo;
 	}
 	public void setGrupo(final GrupoDTO grupo) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.grupo = ObjectHelper.getDefault(grupo, new GrupoDTO());
 	}
 	private void setDefaultGrupo() {
@@ -68,8 +60,7 @@ public final class EstudianteGrupoDTO {
 	public EstudianteDTO getEstudiante() {
 		return estudiante;
 	}
-	public void setEstudiante(final EstudianteDTO estudiante) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
+	private void setEstudiante(final EstudianteDTO estudiante) {
 		this.estudiante = ObjectHelper.getDefault(estudiante, new EstudianteDTO());
 	}
 	private void setDefaultEstudiante() {
@@ -80,11 +71,11 @@ public final class EstudianteGrupoDTO {
 		return cancelo;
 	}
 
-	public void setCancelo(final boolean cancelo) {
+	private void setCancelo(final boolean cancelo) {
 		this.cancelo = ObjectHelper.getDefault(cancelo, BooleanHelper.FALSE);
 	}
 
-	public void setDefaultCancelo(final boolean cancelo) {
+	private void setDefaultCancelo() {
 		this.cancelo = BooleanHelper.FALSE;
 	}
 }

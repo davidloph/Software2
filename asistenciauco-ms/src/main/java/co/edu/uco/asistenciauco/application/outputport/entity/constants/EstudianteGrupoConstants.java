@@ -7,4 +7,7 @@ public class EstudianteGrupoConstants {
 	public static final String COLUMN_GRUPO = "grupo_id";
 	public static final String COLUMN_ESTUDIANTE = "estudiante_id";
 	public static final String COLUMN_CANCELO = "cancelo";
+
+	private EstudianteGrupoConstants() {
+	}
 }

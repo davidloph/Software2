@@ -32,7 +32,7 @@ public class RegistrarAsistenciaInteractorImpl implements RegistrarAsistenciaInt
 	@Override
 	@Transactional
 	public RegistrarAsistenciaResponseDTO ejecutar(final RegistrarAsistenciaRequestDTO dto) {
-		System.out.println(dto.getSesion().toString());
+
 		Asistencia asistencia = registrarAsistenciaRequestDTOMapper.toAsistenciaTest(dto);  //OBTENER ASISTENCIA CON UN MAPPER (MAPSTRUCT) DESDE DTO HACEEEER ESTOOOOO********
 		
 		// LLAMAR AL CASO DE USO

@@ -8,4 +8,7 @@ public class GrupoConstants {
 	public static final String COLUMN_MATERIA = "materia_id";
 	public static final String COLUMN_CANTIDADESTUDIANTES = "cantidadEstudiantes";
 	public static final String COLUMN_ACTIVO = "activo";
+
+	private GrupoConstants() {
+	}
 }

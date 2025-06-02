@@ -3,13 +3,10 @@ package co.edu.uco.asistenciauco.application.outputport.entity;
 import java.util.UUID;
 
 import co.edu.uco.asistenciauco.application.outputport.entity.constants.MateriaConstants;
-import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
@@ -74,7 +71,7 @@ public final class MateriaEntity {
 	}
 	public void setNombre(final String nombre) {
 
-		this.nombre = TextHelper.applyTrim(TextHelper.getDefault(nombre));;
+		this.nombre = TextHelper.applyTrim(TextHelper.getDefault(nombre));
 	}
 	private void setDefaultNombre() {
 		String defaultValue = TextHelper.EMPTY;

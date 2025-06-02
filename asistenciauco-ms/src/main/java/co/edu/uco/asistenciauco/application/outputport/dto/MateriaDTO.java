@@ -37,8 +37,6 @@ public final class MateriaDTO {
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		String defaultValue = UUIDHelper.getDefaultAsString();
 		setId(defaultValue);
 	}
@@ -47,7 +45,6 @@ public final class MateriaDTO {
 		return clave;
 	}
 	public void setClave(final String clave) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.clave = TextHelper.applyTrim(clave);
 	}
 	private void setDefaultClave() {
@@ -58,12 +55,9 @@ public final class MateriaDTO {
 		return nombre;
 	}
 	public void setNombre(final String nombre) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
 		this.nombre = TextHelper.applyTrim(nombre);
 	}
 	private void setDefaultNombre() {
-		//TODO: OBTENER VALOR POR DEFECTO???
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??
 		String defaultValue = TextHelper.EMPTY;
 		setNombre(defaultValue);
 	}

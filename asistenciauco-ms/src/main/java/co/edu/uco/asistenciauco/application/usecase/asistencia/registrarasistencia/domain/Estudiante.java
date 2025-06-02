@@ -16,7 +16,7 @@ public final class Estudiante {
 		setDefaultAsistio();
 	}
 
-	public Estudiante (UUID id) {
+	public Estudiante (final UUID id) {
 		setId(id);
 		setDefaultAsistio();
 	}
@@ -34,8 +34,6 @@ public final class Estudiante {
 	}
 
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}

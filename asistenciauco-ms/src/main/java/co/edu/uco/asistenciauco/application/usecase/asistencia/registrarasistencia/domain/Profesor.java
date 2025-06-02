@@ -2,7 +2,6 @@ package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasisten
 
 import java.util.UUID;
 
-import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
 public final class Profesor {
@@ -13,16 +12,11 @@ public final class Profesor {
 		setDefaultId();
 	}
 
-	public Profesor(UUID id) {
-		setId(id);
-	}
-
-	public Profesor(final UUID id, final Usuario usuario) {
+	public Profesor(final UUID id) {
 		setId(id);
 	}
 
 	public UUID getId() {
-
 		return id;
 	}
 	private void setId(final UUID id) {
@@ -31,8 +25,6 @@ public final class Profesor {
 	}
 
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}

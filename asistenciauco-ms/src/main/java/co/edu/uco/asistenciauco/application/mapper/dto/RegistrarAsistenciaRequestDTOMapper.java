@@ -4,7 +4,6 @@ import co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasist
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Profesor;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Sesion;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

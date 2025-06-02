@@ -1,5 +1,7 @@
 package co.edu.uco.asistenciauco.infrastructure.primaryadapters.api.rest.asistencia;
 
+import co.edu.uco.asistenciauco.infrastructure.primaryadapters.api.rest.asistencia.response.concrete.GenericResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +23,11 @@ public class AsistenciaController {
 		this.registrarAsistenciaInteractor = registrarAsistenciaInteractor;
 	}
 
-
-
-	//Quien define qué retorna y cómo lo retorna al usuario es tarea de todos
+	//TODO:Quien define qué retorna y cómo lo retorna al usuario es tarea de todos
 	// Valide objeto ResopnseEntity
 	@PostMapping
-	public String registrarAsistencia(@RequestBody RegistrarAsistenciaRequestDTO dto) {
-		registrarAsistenciaInteractor.ejecutar(dto);
-		return "Success";
+	public ResponseEntity<GenericResponse> registrarAsistencia(@RequestBody RegistrarAsistenciaRequestDTO dto) {
+		var responseRegistrarAsistenciaDTO = registrarAsistenciaInteractor.ejecutar(dto);
+		return null;
 	}
 }

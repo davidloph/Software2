@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 
 @Service
 public class MessageCatalogImpl implements MessageCatalog {
@@ -28,6 +27,6 @@ public class MessageCatalogImpl implements MessageCatalog {
     @Override
     public String getMessageOrDefault(String key) {
         String message = redisTemplate.opsForValue().get(key);
-        return (!Objects.equals(message, null)) ? message : FALLBACK_MESSAGE;
+        return (!ObjectHelper.isNull(message)) ? message : FALLBACK_MESSAGE;
     }
 }

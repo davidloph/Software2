@@ -1,18 +1,11 @@
 package co.edu.uco.asistenciauco.application.outputport.dto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-import co.edu.uco.crosscutting.helpers.NumericHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+
 
 public final class SesionDTO {
 
@@ -48,8 +41,6 @@ public final class SesionDTO {
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		String defaultValue = UUIDHelper.getDefaultAsString();
 		setId(defaultValue);
 	}
@@ -58,7 +49,6 @@ public final class SesionDTO {
 		return grupo;
 	}
 	public void setGrupo(final GrupoDTO grupo) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.grupo = ObjectHelper.getDefault(grupo, new GrupoDTO());
 	}
 	private void setDefaultGrupo() {
@@ -69,12 +59,9 @@ public final class SesionDTO {
 		return fechaHora;
 	}
 	public void setFechaHora(final String fechaHora) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.?????????
 		this.fechaHora = TextHelper.applyTrim(ObjectHelper.getDefault(fechaHora, LocalDateTime.now().toString()));
 	}
 	private void setDefaultFechaHora() {
-		//TODO: OBTENER VALOR POR DEFECTO???????????
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??????
 		String defaultValue = LocalDateTime.now().toString();
 		setFechaHora(defaultValue);
 	}

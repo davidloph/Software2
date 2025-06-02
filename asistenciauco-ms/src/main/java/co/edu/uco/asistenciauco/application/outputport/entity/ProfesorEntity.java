@@ -2,15 +2,13 @@ package co.edu.uco.asistenciauco.application.outputport.entity;
 
 import java.util.UUID;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.constants.EstudianteConstants;
+
 import co.edu.uco.asistenciauco.application.outputport.entity.constants.ProfesorConstants;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
-import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 import jakarta.persistence.*;
 
 @Entity
-//TODO: CUIDADO CON DEJAR QUEMADO EL LITERAL (PONERLO EN CONSTANTS)
 @Table(name = ProfesorConstants.TABLE_PROFESOR)
 public final class ProfesorEntity{
 	@Id
@@ -45,8 +43,6 @@ public final class ProfesorEntity{
 	}
 
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		UUID defaultValue = UUIDHelper.getDefault();
 		setId(defaultValue);
 	}

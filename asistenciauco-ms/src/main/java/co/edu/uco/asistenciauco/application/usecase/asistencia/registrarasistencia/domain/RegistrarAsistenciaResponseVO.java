@@ -6,7 +6,7 @@ import co.edu.uco.crosscutting.helpers.TextHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegistrarAsistenciaResponseVO {
+public final class RegistrarAsistenciaResponseVO {
 
 	private List<String> mensajes;
 
@@ -19,18 +19,16 @@ public class RegistrarAsistenciaResponseVO {
 	}
 
 	private void setMensajes(final List<String> mensajes) {
-		//TODO: Asegurar que los datos no sean nulos y en caso de que lo sean, crear el valor por defecto
-		this.mensajes = mensajes;
+		this.mensajes = ObjectHelper.getDefault(mensajes, new ArrayList<String>());
 	}
 	
 	public void agregarMensajes(final List<String> mensajes) {
-		//TODO: Validar que la lista de mensajes no llegue nula
-		getMensajes().addAll(mensajes);
+		getMensajes().addAll(ObjectHelper.getDefault(mensajes, new ArrayList<String>()));
+
 	}
 	
 	public void agregarMensaje(String mensaje) {
-		//TODO: asegurar que no esté nulo o vacío.
-		getMensajes().add(mensaje);
+		getMensajes().add(TextHelper.getDefault(mensaje));
 	}
 
 	public boolean isValidacionCorrecta() {

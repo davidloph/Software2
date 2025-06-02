@@ -1,12 +1,9 @@
 package co.edu.uco.asistenciauco.application.outputport.dto;
 
-import co.edu.uco.asistenciauco.application.outputport.entity.constants.UsuarioConstants;
+
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.TextHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
-import jakarta.persistence.*;
-
-import java.util.UUID;
 
 public class UsuarioDTO {
 	private String id;
@@ -49,8 +46,6 @@ public class UsuarioDTO {
 	}
 
 	protected void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		String defaultValue = UUIDHelper.getDefaultAsString();
 		setId(defaultValue);
 	}
@@ -59,7 +54,6 @@ public class UsuarioDTO {
 		return tipoIdentificacion;
 	}
 	protected void setTipoIdentificacion(final TipoIdentificacionDTO tipoIdentificacion) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.tipoIdentificacion = ObjectHelper.getDefault(tipoIdentificacion, new TipoIdentificacionDTO());
 	}
 	protected void setDefaultTipoIdentificacion() {
@@ -70,12 +64,9 @@ public class UsuarioDTO {
 		return numeroIdentificacion;
 	}
 	protected void setNumeroIdentificacion(final String numeroIdentificacion) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
 		this.numeroIdentificacion = TextHelper.applyTrim(TextHelper.getDefault(numeroIdentificacion));
 	}
 	protected void setDefaultNumeroIdentificacion() {
-		//TODO: OBTENER VALOR POR DEFECTO???
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??
 		String defaultValue = TextHelper.EMPTY;
 		setNumeroIdentificacion(defaultValue);
 	}
@@ -84,12 +75,9 @@ public class UsuarioDTO {
 		return nombresCompletos;
 	}
 	protected void setNombresCompletos(final String nombresCompletos) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.******
-		this.nombresCompletos = TextHelper.applyTrim(TextHelper.getDefault(nombresCompletos));;
+		this.nombresCompletos = TextHelper.applyTrim(TextHelper.getDefault(nombresCompletos));
 	}
 	protected void setDefaultNombresCompletos() {
-		//TODO: OBTENER VALOR POR DEFECTO???????????
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??????
 		String defaultValue = TextHelper.EMPTY;
 		setNombresCompletos(defaultValue);
 	}
@@ -103,8 +91,6 @@ public class UsuarioDTO {
 	}
 
 	protected void setDefaultCorreo() {
-		//TODO: OBTENER VALOR POR DEFECTO???????????
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.??????
 		String defaultValue = TextHelper.EMPTY;
 		setCorreo(defaultValue);
 	}

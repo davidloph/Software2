@@ -6,4 +6,7 @@ public class TipoIdentificacionConstants {
 	public static final String COLUMN_ID = "id";
 	public static final String COLUMN_CLAVE = "clave";
 	public static final String COLUMN_NOMBRE = "nombre";
+
+	private TipoIdentificacionConstants() {
+	}
 }

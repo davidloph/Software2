@@ -1,6 +1,5 @@
 package co.edu.uco.asistenciauco.application.outputport.dto;
 
-import java.util.UUID;
 
 import co.edu.uco.crosscutting.helpers.BooleanHelper;
 import co.edu.uco.crosscutting.helpers.ObjectHelper;
@@ -47,8 +46,6 @@ public final class AsistenciaDTO {
 	}
 	
 	private void setDefaultId() {
-		//TODO: OBTENER VALOR POR DEFECTO*******
-		//TODO: LO MÁS PROBABLE ES QUE ESTE VALOR ESTÉ EN ALGÚN LUGAR O ALGÚN PARÁMETRO.
 		String defaultValue = UUIDHelper.getDefaultAsString();
 		setId(defaultValue);
 	}
@@ -57,7 +54,7 @@ public final class AsistenciaDTO {
 		return estudianteGrupo;
 	}
 	public void setEstudianteGrupo(final EstudianteGrupoDTO estudianteGrupo) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
+
 		this.estudianteGrupo = ObjectHelper.getDefault(estudianteGrupo, new EstudianteGrupoDTO());
 	}
 	private void setDefaultEstudianteGrupo() {
@@ -68,7 +65,6 @@ public final class AsistenciaDTO {
 		return sesion;
 	}
 	public void setSesion(final SesionDTO sesion) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.sesion = ObjectHelper.getDefault(sesion, new SesionDTO());
 	}
 	private void setDefaultSesion() {
@@ -79,7 +75,6 @@ public final class AsistenciaDTO {
 		return asistio;
 	}
 	public void setAsistio(final boolean asistio) {
-		//TODO: CUIDADO CON LA LIMPIEZA DE DATOS PARA EVITAR DATOS NULOS.*****
 		this.asistio = ObjectHelper.getDefault(asistio, BooleanHelper.FALSE);
 		asistioDefault = false;
 	}
