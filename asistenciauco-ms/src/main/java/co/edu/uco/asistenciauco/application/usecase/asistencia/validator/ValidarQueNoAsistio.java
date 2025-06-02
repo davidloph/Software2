@@ -5,6 +5,8 @@ import co.edu.uco.asistenciauco.application.outputport.notificationservice.SendG
 import co.edu.uco.asistenciauco.application.outputport.repository.AsistenciaRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
+import co.edu.uco.asistenciauco.infrastructure.secondaryadaptersJ.info.EmailMessage;
+import co.edu.uco.asistenciauco.infrastructure.secondaryadaptersJ.notificationservice.SendGridServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -24,8 +26,14 @@ public class ValidarQueNoAsistio implements Validator<UUID, ValidationResultVO> 
         var resultadoValidacion = new ValidationResultVO();
         if(asistenciaRepository.existsByIdAndAsistioFalse(idEstudianteGrupo)){
             resultadoValidacion.agregarMensaje("El estudiante con id: " + idEstudianteGrupo);
-            SendGridService emailService = new SendGridService();
-            emailService.sendEmail("juanest006@gmail.com", "Registro de inasistencia", "Hola , se ha registrado una asistencia");
+            EmailMessage message = EmailMessage.create(
+                    "correo del que falto",
+                    "inasistencia registrada",
+                    "mensaje"
+            );
+
+            SendGridServiceImpl service = new SendGridServiceImpl();
+            service.send(message);
 
         }
         return resultadoValidacion;
