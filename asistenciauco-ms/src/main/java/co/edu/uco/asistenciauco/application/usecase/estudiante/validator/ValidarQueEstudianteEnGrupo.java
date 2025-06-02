@@ -1,5 +1,6 @@
 package co.edu.uco.asistenciauco.application.usecase.estudiante.validator;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
@@ -26,7 +27,7 @@ public class ValidarQueEstudianteEnGrupo implements Validator<ArrayList<UUID>, V
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(!estudianteRepository.existsEstudianteInSesionGrupo(data.get(0), data.get(1))) {
-			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueestudianteengrupoparteuno") + data.get(1) + messageCatalog.getMessage("validarqueestudianteengrupopartedos")+ data.get(0) + ".");
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage(RedisConstants.VALIDARQUEESUDIANTEENGRUPOPARTEUNO) + data.get(1) + messageCatalog.getMessage(RedisConstants.VALIDARQUEESUDIANTEENGRUPOPARTEDOS)+ data.get(0) + ".");
 		}
 
 		return resultadoValidacion;

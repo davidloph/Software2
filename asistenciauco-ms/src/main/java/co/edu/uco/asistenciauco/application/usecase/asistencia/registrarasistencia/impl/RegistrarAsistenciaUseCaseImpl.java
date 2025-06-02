@@ -1,11 +1,18 @@
 package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.mapper.entity.AsistenciaMapper;
+import co.edu.uco.asistenciauco.application.outputport.entity.EstudianteEntity;
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
+import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.AsistenciaRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
+import co.edu.uco.asistenciauco.application.outputport.repository.MateriaRepository;
+import co.edu.uco.asistenciauco.application.outputport.repository.SesionRepository;
 import co.edu.uco.asistenciauco.application.outputport.sendgrid.SendGridService;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
@@ -41,14 +48,21 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private final AsistenciaRepository asistenciaRepository;
 	private final SendGridService sendGridService;
 	private final EstudianteRepository estudianteRepository;
-	
+	private final AsistenciaMapper asistenciaMapper;
+	private MessageCatalog messageCatalog;
+	private final MateriaRepository materiaRepository;
+	private final SesionRepository sesionRepository;
+
+
 	public RegistrarAsistenciaUseCaseImpl(ValidarQueEstudianteExista estudianteExiste,
 										  ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste,
 										  ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada, ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo,
 										  ValidarProfesorAsociadoASesion profesorAsociadoASesion,
 										  ValidarQueEstudianteEnGrupo estudianteEnGrupo, ValidarQueEstudianteNoCancelo estudianteNoCancelo,
 										  ValidarQueGrupoActivo validarQueGrupoActivo,
-										  AsistenciaRepository asistenciaRepository, SendGridService sendGridService, EstudianteRepository estudianteRepository) {
+										  AsistenciaRepository asistenciaRepository, SendGridService sendGridService, EstudianteRepository estudianteRepository,
+										  AsistenciaMapper asistenciaMapper, MateriaRepository materiaRepository,
+										  SesionRepository sesionRepository) {
 		this.estudianteExiste = estudianteExiste;
 		this.estudianteEnGrupo = estudianteEnGrupo;
 		this.estudianteNoCancelo = estudianteNoCancelo;
@@ -62,6 +76,9 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		this.asistenciaRepository = asistenciaRepository;
 		this.sendGridService = sendGridService;
 		this.estudianteRepository = estudianteRepository;
+		this.asistenciaMapper = asistenciaMapper;
+		this.materiaRepository = materiaRepository;
+		this.sesionRepository = sesionRepository;
 	}
 
 
@@ -75,54 +92,54 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		
 		// 2. La sesión debe existir.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(sesionExiste.validate(dominio.getSesion().getId()).getMensajes());
+			resultado.agregarMensajes(sesionExiste.validate(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId()).getMensajes());
 		} else {
-			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGESESIONDEBEEXISTIR);
 			String technicalMessage = resultado.getMensajes().getFirst();
 			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 3. El profesor que registra la asistencia debe existir.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(profesorExiste.validate(dominio.getProfesor().getId()).getMensajes());
+			resultado.agregarMensajes(profesorExiste.validate(asistenciaMapper.toProfesorEntity(dominio.getProfesor()).getId()).getMensajes());
 		} else {
-			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEPROFESORDEBEEXISTIR);
 			String technicalMessage = resultado.getMensajes().getFirst();
 			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 4. El grupo debe estar activo
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(validarQueGrupoActivo.validate(dominio.getSesion().getId()).getMensajes());
+			resultado.agregarMensajes(validarQueGrupoActivo.validate(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId()).getMensajes());
 		} else {
-			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEGRUPOACTIVO);
 			String technicalMessage = resultado.getMensajes().getFirst();
 			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 5. El profesor debe estar asignado al grupo.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(profesorAsociadoASesion.validate(new ArrayList<>(List.of(dominio.getSesion().getId(), dominio.getProfesor().getId()))).getMensajes());
+			resultado.agregarMensajes(profesorAsociadoASesion.validate(new ArrayList<>(List.of(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId(), asistenciaMapper.toProfesorEntity(dominio.getProfesor()).getId()))).getMensajes());
 		} else {
-			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEPROFESORGRUPO);
 			String technicalMessage = resultado.getMensajes().getFirst();
 			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 6. No se puede tener una asistencia ya registrada para la sesión.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(asistenciaNoRegistrada.validate(dominio.getSesion().getId()).getMensajes());
+			resultado.agregarMensajes(asistenciaNoRegistrada.validate(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId()).getMensajes());
 		} else {
-			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEASISTENCIAREGISTRADAPARASESION);
 			String technicalMessage = resultado.getMensajes().getFirst();
 			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		
 		// 7. La asistencia se debe registrar entre los plazos establecidos.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(asistenciaDentroDelPlazo.validate(dominio.getSesion().getId()).getMensajes());
+			resultado.agregarMensajes(asistenciaDentroDelPlazo.validate(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId()).getMensajes());
 		} else {
-			String userMessage = "Se ha presentado un problema inesperado llevando a cabo la operación deseada. Si el problema persiste, comunícate con Farid.";
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEASISTENCIAENPLAZO);
 			String technicalMessage = resultado.getMensajes().getFirst();
 			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
@@ -131,7 +148,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		// SE OBTUVIERON TODOS LOS ESTUDIANTES DE UN GRUPO QUE NO HAN CANCELADO!
 		if(resultado.isValidacionCorrecta()) {
 			// Obtención de estudiantes de un grupo que no cancelaron.
-			registrarAsistenciaEstudiantes(dominio.getEstudiantes(), dominio.getSesion().getId());
+			registrarAsistenciaEstudiantes(dominio.getEstudiantes(), asistenciaMapper.toSesionEntity(dominio.getSesion()).getId());
 		}
 		
 		//Retorno de resultado
@@ -141,15 +158,15 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private void registrarAsistenciaEstudiantes(List<Estudiante> estudiantes, UUID idSesion) {
 
 		for (Estudiante estudiante : estudiantes) {
-
+			EstudianteEntity estudianteEntity = asistenciaMapper.toEstudianteEntity(estudiante);
 			var registrarAsistenciaResponseEstudianteVO = new RegistrarAsistenciaResponseVO();
 			ArrayList<UUID> datos = new ArrayList<>();
-			datos.add(estudiante.getId());
+			datos.add(estudianteEntity.getId());
 			datos.add(idSesion);
 			
 			// 1. Validar que el estudiante exista.
 			if(registrarAsistenciaResponseEstudianteVO.isValidacionCorrecta()){
-				registrarAsistenciaResponseEstudianteVO.agregarMensajes(estudianteExiste.validate(estudiante.getId()).getMensajes());
+				registrarAsistenciaResponseEstudianteVO.agregarMensajes(estudianteExiste.validate(estudianteEntity.getId()).getMensajes());
 			}
 
 			//Se Validó en 8.
@@ -177,14 +194,16 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		// 1. Registrar Asistencia
 
 		asistenciaRepository.insertarAsistencia(estudiante.getId(),sesionId,estudiante.isAsistio());
+		String materia = materiaRepository.findNombreMateriaBySesionId(sesionId);
+		LocalDateTime fecha = sesionRepository.findFechaHoraBySesionId(sesionId);
 		
 		// 2. Enviar la notificación de correo al estudiante porque no asistió.
 		if(!estudiante.isAsistio()) {
 			var correoEstudiante =  estudianteRepository.obtenerCorreoPorIdEstudiante(estudiante.getId());
 			EmailMessage message = EmailMessage.create(
 					correoEstudiante,
-					"Correo de prueba",
-					"Hola Juanes, este es un correo de prueba con SendGrid desde Jav:)");
+					messageCatalog.getMessage(RedisConstants.ASUNTOCORREO),
+					messageCatalog.getMessage(RedisConstants.CONTENIDOEMAILPARTEUNO) + materia + messageCatalog.getMessage(RedisConstants.CONTENIDOEMAILPARTEDOS) + fecha.toString());
 			sendGridService.send(message);
 			
 		}

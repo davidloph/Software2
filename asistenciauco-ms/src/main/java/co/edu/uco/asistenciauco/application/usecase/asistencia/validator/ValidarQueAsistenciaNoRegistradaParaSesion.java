@@ -6,8 +6,10 @@ import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
 import org.springframework.stereotype.Service;
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
 
 import java.util.UUID;
+
 
 @Service
 public class ValidarQueAsistenciaNoRegistradaParaSesion implements Validator<UUID, ValidationResultVO>{
@@ -26,9 +28,9 @@ public class ValidarQueAsistenciaNoRegistradaParaSesion implements Validator<UUI
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(asistenciaRepository.existsBySesion_Id(data)) {
-			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueasistencianoregistradaparasesion") + data);
-			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
-			String technicalMessage = messageCatalog.getMessage("validarqueasistencianoregistradaparasesion") + data;
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage(RedisConstants.VALIDARASISTENCIANOREGISTRADAPARASESION) + data);
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEVALIDATORUSECASE);
+			String technicalMessage = messageCatalog.getMessage(RedisConstants.VALIDARQUEASISTENCIANOREGISTRADAPARASESION) + data;
 			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		

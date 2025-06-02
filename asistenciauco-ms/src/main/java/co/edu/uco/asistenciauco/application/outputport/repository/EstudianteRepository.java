@@ -12,10 +12,14 @@ import co.edu.uco.asistenciauco.application.outputport.entity.EstudianteEntity;
 @Repository
 public interface EstudianteRepository extends JpaRepository<EstudianteEntity, UUID>{
 
-    @Query(value ="""
-        SELECT EXISTS (SELECT 1 FROM SESION WHERE GRUPO_ID = (SELECT GRUPO_ID FROM ESTUDIANTE_GRUPO WHERE ESTUDIANTE_ID = ?) AND ID = ?)
-""", nativeQuery = true)
-    boolean existsEstudianteInSesionGrupo(UUID idSesion, UUID idEstudiante);
+    @Query("""
+    SELECT COUNT(s) > 0
+    FROM SesionEntity s
+    JOIN s.grupo g
+    JOIN EstudianteGrupoEntity eg ON eg.grupo.id = g.id
+    WHERE eg.estudiante.id = :idEstudiante AND s.id = :idSesion
+""")
+    boolean existsEstudianteInSesionGrupo(@Param("idEstudiante") UUID idEstudiante, @Param("idSesion") UUID idSesion);
 
     @Query("""
         SELECT u.correo

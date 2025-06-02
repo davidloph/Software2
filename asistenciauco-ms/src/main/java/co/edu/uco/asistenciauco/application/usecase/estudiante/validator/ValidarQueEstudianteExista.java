@@ -2,6 +2,7 @@ package co.edu.uco.asistenciauco.application.usecase.estudiante.validator;
 
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class ValidarQueEstudianteExista implements Validator<UUID, ValidationRes
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(!estudianteRepository.existsById(data)) {
-			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueestudianteexista")+ data);
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage(RedisConstants.VALIDARQUEESTUDIANTEEXISTA)+ data);
 		}
 		
 		return resultadoValidacion;

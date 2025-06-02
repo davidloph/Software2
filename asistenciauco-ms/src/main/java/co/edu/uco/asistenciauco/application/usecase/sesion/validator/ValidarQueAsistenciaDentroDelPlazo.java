@@ -1,5 +1,6 @@
 package co.edu.uco.asistenciauco.application.usecase.sesion.validator;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
 import co.edu.uco.asistenciauco.application.outputport.entity.constants.SesionConstants;
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.SesionRepository;
@@ -29,9 +30,9 @@ public class ValidarQueAsistenciaDentroDelPlazo implements Validator<UUID, Valid
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(!sesionRepository.existsByIdAndFechaBefore(data, SesionConstants.COLUMN_FECHA_LIMITE)) {
-			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueasistenciadentrodelplazoparteuno") + data + messageCatalog.getMessage("validarqueasistenciadentrodelplazopartedos"));
-			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
-			String technicalMessage = messageCatalog.getMessage("validarqueasistenciadentrodelplazoparteuno") + data + messageCatalog.getMessage("validarqueasistenciadentrodelplazopartedos");
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage(RedisConstants.VALIDARQIEASISTENCIADENTRODEPLAZOPARTEUNO) + data + messageCatalog.getMessage(RedisConstants.VALIDARQIEASISTENCIADENTRODEPLAZOPARTEDOS));
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEVALIDATORUSECASE);
+			String technicalMessage = messageCatalog.getMessage(RedisConstants.VALIDARQIEASISTENCIADENTRODEPLAZOPARTEUNO) + data + messageCatalog.getMessage(RedisConstants.VALIDARQIEASISTENCIADENTRODEPLAZOPARTEDOS);
 			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		

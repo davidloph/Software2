@@ -1,5 +1,7 @@
 package co.edu.uco.asistenciauco.infrastructure.secondaryadapters;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
+import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.sendgrid.SendGridService;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -21,14 +23,15 @@ public class SendGridServiceImpl implements SendGridService {
     @Value("${correoremitente}")
     public String fromEmail;
 
+    private MessageCatalog messageCatalog;
 
     @Override
     public void send(EmailMessage emailMessage) {
         Email from = new Email(fromEmail);
         Email toEmail = new Email(emailMessage.getTo());
-        Content content = new Content("text/html", "<h1 style='color: yellow; background-color: green; text-align: center;'>Asistencia No Registrada</h1>" +
+        Content content = new Content("text/html", "<h1 style='color: yellow; background-color: green; text-align: center;'>" + messageCatalog.getMessage(RedisConstants.ASISTENCIANOREGISTRADA) + "</h1>" +
                 "<p style='color: green; font-weight: bold;'>" + emailMessage.getContent() + "</p>" +
-                "<a href='https://uco.edu.co/' style='color: white; background-color: green; padding: 5px 10px; text-decoration: none;'>Para más información presione aquí</a>");
+                "<a href='" + messageCatalog.getMessage(RedisConstants.LINK) +"' style='color: white; background-color: green; padding: 5px 10px; text-decoration: none;'>" + messageCatalog.getMessage(RedisConstants.ASUNTOCORREO)+ "</a>");
         Mail mail = new Mail(from, emailMessage.getSubject(), toEmail, content);
 
         SendGrid sg = new SendGrid(sendGridAPI);

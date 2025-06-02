@@ -1,5 +1,6 @@
 package co.edu.uco.asistenciauco.application.usecase.grupo.validator;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.GrupoRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
@@ -29,9 +30,9 @@ public class ValidarQueGrupoActivo implements Validator<UUID, ValidationResultVO
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(!grupoRepository.existsBySesionActiva(data)) {
-			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarquegrupoactivo")+ data);
-			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
-			String technicalMessage = messageCatalog.getMessage("validarquegrupoactivo")+ data;
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage(RedisConstants.VALIDARQUEGRUPOACTIVO)+ data);
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEVALIDATORUSECASE);
+			String technicalMessage = messageCatalog.getMessage(RedisConstants.VALIDARQUEGRUPOACTIVO)+ data;
 			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		

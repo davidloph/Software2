@@ -1,5 +1,6 @@
 package co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteGrupoRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
@@ -26,7 +27,7 @@ public class ValidarQueEstudianteNoCancelo implements Validator<ArrayList<UUID>,
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(estudianteGrupoRepository.existsBySesionAndEstudianteNoCancelo(data.get(0), data.get(1))) {
-			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueestudiantenocanceloparteuno") + data.getFirst() + messageCatalog.getMessage("validarqueestudiantenocancelopartedos"));
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage(RedisConstants.VALIDARQUEESTUDIANTENOCANCELOPARTEUNO) + data.getFirst() + messageCatalog.getMessage(RedisConstants.VALIDARQUEESTUDIANTENOCANCELOPARTEDOS));
 		}
 		
 		return resultadoValidacion;

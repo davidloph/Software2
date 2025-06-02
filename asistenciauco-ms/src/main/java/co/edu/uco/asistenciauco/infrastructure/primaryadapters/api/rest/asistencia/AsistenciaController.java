@@ -1,5 +1,7 @@
 package co.edu.uco.asistenciauco.infrastructure.primaryadapters.api.rest.asistencia;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
+import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.crosscutting.exceptions.ApplicationAsisteUcoException;
 import co.edu.uco.asistenciauco.crosscutting.exceptions.AsisteUcoException;
 import co.edu.uco.asistenciauco.infrastructure.primaryadapters.api.rest.asistencia.response.GeneratedResponse;
@@ -21,12 +23,14 @@ import java.util.List;
 public class AsistenciaController {
 
 	private RegistrarAsistenciaInteractor registrarAsistenciaInteractor;
+	private final MessageCatalog messageCatalog;
 	
 	
 	
-	public AsistenciaController(RegistrarAsistenciaInteractor registrarAsistenciaInteractor) {
+	public AsistenciaController(RegistrarAsistenciaInteractor registrarAsistenciaInteractor, MessageCatalog messageCatalog) {
 		super();
 		this.registrarAsistenciaInteractor = registrarAsistenciaInteractor;
+		this.messageCatalog = messageCatalog;
 	}
 
 	@PostMapping
@@ -35,10 +39,10 @@ public class AsistenciaController {
 		try {
 			var responseRegistrarAsistenciaDTO = registrarAsistenciaInteractor.ejecutar(dto);
 			if (responseRegistrarAsistenciaDTO.isTransaccionExitosa()) {
-				responseRegistrarAsistenciaDTO.getMensajes().add("El registro de la asistencia se realizó de forma satisfactoria");
+				responseRegistrarAsistenciaDTO.getMensajes().add(messageCatalog.getMessage(RedisConstants.CONTROLLERSITRANSACCIONESEXITOSA));
 				return GeneratedResponse.generateSuccessResponse(responseRegistrarAsistenciaDTO.getMensajes());
 			} else {
-				responseRegistrarAsistenciaDTO.getMensajes().add("El registro de la asistencia se realizó de forma exitosa. Algunos estudiantes no fueron válidos para el registro.");
+				responseRegistrarAsistenciaDTO.getMensajes().add(messageCatalog.getMessage(RedisConstants.CONTROLLERSITRANSACCIONNOESEXITOSA));
 				return GeneratedResponse.generateSuccessResponse(responseRegistrarAsistenciaDTO.getMensajes());
 			}
 		}catch (ApplicationAsisteUcoException exception){
@@ -51,8 +55,7 @@ public class AsistenciaController {
 			return GeneratedResponse.generateFailedResponse(new ArrayList<>(List.of(exception.getUserMessage())));
 
 		}catch( final Exception exception){
-			message.add(
-					"Se ha presentado un problema inesperado tratando de llevar a cabo la asistencia de los estudiantes...");
+			message.add(messageCatalog.getMessage(RedisConstants.EXCEPTIONASISTENCIACONTROLLER));
 			return GeneratedResponse.generateFailedResponse(message);
 		}
 	}
