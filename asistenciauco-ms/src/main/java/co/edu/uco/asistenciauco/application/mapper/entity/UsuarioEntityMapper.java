@@ -1,4 +1,4 @@
-package co.edu.uco.asistenciauco.application.mapper.entity;
+/*package co.edu.uco.asistenciauco.application.mapper.entity;
 
 import co.edu.uco.asistenciauco.application.outputport.entity.UsuarioEntity;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Usuario;
@@ -9,6 +9,13 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
+<<<<<<<< HEAD:asistenciauco-ms/src/main/java/co/edu/uco/asistenciauco/application/mapper/entity/ProfesorEntityMapper.java
+@Mapper(componentModel = "spring")
+public interface ProfesorEntityMapper {
+
+	@Mappings({
+		@Mapping(source = "id", target = "id")
+========
 @Mapper(componentModel = "spring", uses = TipoIdentificacionEntityMapper.class)
 public interface UsuarioEntityMapper {
 
@@ -18,6 +25,7 @@ public interface UsuarioEntityMapper {
 		@Mapping(source = "numeroIdentificacion", target = "numeroIdentificacion"),
 		@Mapping(source = "nombresCompletos", target = "nombresCompletos"),
 		@Mapping(source = "correo", target = "correo"),
+>>>>>>>> refs/heads/dev:asistenciauco-ms/src/main/java/co/edu/uco/asistenciauco/application/mapper/entity/UsuarioEntityMapper.java
 	})
 	Usuario toUsuario(UsuarioEntity profesorEntity);
 	List<Usuario> toUsuarios(List<UsuarioEntity> profesoresEntity);
@@ -26,3 +34,4 @@ public interface UsuarioEntityMapper {
 	UsuarioEntity toUsuarioEntity(Usuario profesor);
 	List<UsuarioEntity> toUsuariosEntity(List<Usuario> profesores);
 }
+ */

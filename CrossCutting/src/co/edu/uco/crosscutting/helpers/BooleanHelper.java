@@ -7,4 +7,5 @@ public class BooleanHelper {
 	}
 	
 	public static final boolean FALSE = false;
+	public static final boolean TRUE = true;
 }

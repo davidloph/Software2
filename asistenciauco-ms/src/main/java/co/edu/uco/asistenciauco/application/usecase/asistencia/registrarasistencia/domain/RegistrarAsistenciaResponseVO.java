@@ -1,5 +1,8 @@
 package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain;
 
+import co.edu.uco.crosscutting.helpers.ObjectHelper;
+import co.edu.uco.crosscutting.helpers.TextHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 

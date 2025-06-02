@@ -1,6 +1,7 @@
 package co.edu.uco.asistenciauco.application.usecase.grupo.validator;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.GrupoRepository;
+import co.edu.uco.asistenciauco.application.outputport.repository.SesionRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
 import co.edu.uco.asistenciauco.application.usecase.validator.Validator;
 import org.springframework.stereotype.Service;
@@ -9,14 +10,14 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
-public class ValidarQueGrupoEstaActivoBySesion implements Validator<UUID, ValidationResultVO>{
-
-	private GrupoRepository grupoRepository;
+public class ValidarQueGrupoEstaActivoBySesion/*implements Validator<UUID, ValidationResultVO>*/{
+	/*
+	private SesionRepository sesionRepository;
 
 
 
 	public ValidarQueGrupoEstaActivoBySesion(GrupoRepository grupoRepository) {
-		this.grupoRepository = grupoRepository;
+		this.sesionRepository = grupoRepository;
 	}
 
 
@@ -32,6 +33,6 @@ public class ValidarQueGrupoEstaActivoBySesion implements Validator<UUID, Valida
 		}
 		
 		return resultadoValidacion;
-	}
+	}*/
 
 }
