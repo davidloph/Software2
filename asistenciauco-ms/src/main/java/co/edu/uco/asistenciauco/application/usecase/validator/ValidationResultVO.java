@@ -1,5 +1,8 @@
 package co.edu.uco.asistenciauco.application.usecase.validator;
 
+import co.edu.uco.crosscutting.helpers.ObjectHelper;
+import co.edu.uco.crosscutting.helpers.TextHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +19,15 @@ public class ValidationResultVO {
 	}
 
 	private void setMensajes(final List<String> mensajes) {
-		//TODO: Asegurar que los datos no sean nulos y en caso de que lo sean, crear el valor por defecto
-		this.mensajes = mensajes;
+		this.mensajes = ObjectHelper.getDefault(mensajes, new ArrayList<>());
 	}
 	
 	public void agregarMensajes(final List<String> mensajes) {
-		setMensajes(mensajes);
+		setMensajes(ObjectHelper.getDefault(mensajes, new ArrayList<>()));
 	}
 	
 	public void agregarMensaje(String mensaje) {
-		//TODO: asegurar que no esté nulo o vacío.
-		getMensajes().add(mensaje);
+		getMensajes().add(TextHelper.getDefault(mensaje));
 	}
 
 	public boolean isValidacionCorrecta() {

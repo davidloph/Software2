@@ -12,7 +12,6 @@ public final class AsistenciaDTO {
 	private EstudianteGrupoDTO estudianteGrupo;
 	private SesionDTO sesion;
 	private boolean asistio;
-	private boolean asistioDefault = true;
 	
 	
 	public AsistenciaDTO() {
@@ -76,7 +75,6 @@ public final class AsistenciaDTO {
 	}
 	public void setAsistio(final boolean asistio) {
 		this.asistio = ObjectHelper.getDefault(asistio, BooleanHelper.FALSE);
-		asistioDefault = false;
 	}
 	private void setDefaultAsistio() {
 		setAsistio(BooleanHelper.FALSE);

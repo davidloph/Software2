@@ -5,18 +5,17 @@ import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistenc
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface RegistrarAsistenciaResponseDTOMapper {
 
-	@Mappings({
-		@Mapping(source = "mensajes", target = "mensajes"),
-		@Mapping(target = "transaccionExitosa", expression = "java(asistenciaRequestDTO.isValidacionCorrecta())")
-	})
+
+	@Mapping(source = "mensajes", target = "mensajes")
+	@Mapping(target = "transaccionExitosa", expression = "java(asistenciaRequestDTO.isValidacionCorrecta())")
 	RegistrarAsistenciaResponseDTO toAsistenciaTest(RegistrarAsistenciaResponseVO asistenciaRequestDTO);
+
 	List<RegistrarAsistenciaResponseDTO> toAsistenciasTest(List<RegistrarAsistenciaResponseVO> asistenciasRequestDTO);
 	
 	@InheritInverseConfiguration

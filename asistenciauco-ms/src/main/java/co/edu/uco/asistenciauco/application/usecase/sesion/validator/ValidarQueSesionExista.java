@@ -4,7 +4,6 @@ import java.util.UUID;
 
 
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
-import co.edu.uco.asistenciauco.infrastructure.secondaryadapters.MessageCatalogImpl;
 import org.springframework.stereotype.Service;
 
 import co.edu.uco.asistenciauco.application.outputport.repository.SesionRepository;

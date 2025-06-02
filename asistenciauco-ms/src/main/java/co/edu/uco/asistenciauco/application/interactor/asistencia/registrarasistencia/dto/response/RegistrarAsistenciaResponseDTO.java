@@ -30,7 +30,7 @@ public class RegistrarAsistenciaResponseDTO {
 	}
 	public void setDefaultTransaccionExitosa() {
 		this.transaccionExitosaFlag = BooleanHelper.FALSE;
-		this.transaccionExitosa = transaccionExitosa;
+		this.transaccionExitosa = BooleanHelper.FALSE;
 	}
 	public List<String> getMensajes() {
 		return mensajes;

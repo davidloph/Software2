@@ -37,11 +37,8 @@ public class RegistrarAsistenciaInteractorImpl implements RegistrarAsistenciaInt
 		
 		// LLAMAR AL CASO DE USO
 		var resultadoVO = registrarAsistenciaUseCase.ejecutar(asistencia);
-		
-		RegistrarAsistenciaResponseDTO responseDto = registrarAsistenciaResponseDTOMapper.toAsistenciaTest(resultadoVO); // Obtener response DTO a partir del ResponseVO con mapper desde el DTO que retorna el Caso de Uso
-		
-		// TODO Auto-generated method stub
-		return responseDto;
+
+		return registrarAsistenciaResponseDTOMapper.toAsistenciaTest(resultadoVO);
 	}
 
 }

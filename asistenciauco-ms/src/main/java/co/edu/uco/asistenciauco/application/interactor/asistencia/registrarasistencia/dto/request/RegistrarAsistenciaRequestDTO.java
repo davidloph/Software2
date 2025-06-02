@@ -1,6 +1,7 @@
 package co.edu.uco.asistenciauco.application.interactor.asistencia.registrarasistencia.dto.request;
 
 import co.edu.uco.crosscutting.helpers.BooleanHelper;
+import co.edu.uco.crosscutting.helpers.ObjectHelper;
 import co.edu.uco.crosscutting.helpers.UUIDHelper;
 
 import java.util.ArrayList;
@@ -14,12 +15,12 @@ public final class RegistrarAsistenciaRequestDTO {
 	private List<EstudianteDTORequest> estudiantes;
 
 	public RegistrarAsistenciaRequestDTO() {
-		setdefaultEstudiantes();
+		setDefaultSesion();
 		setDefaultProfesor();
 		setdefaultEstudiantes();
 	}
 
-	public RegistrarAsistenciaRequestDTO(UUID sesion, UUID profesor, List<EstudianteDTORequest> estudiantes) {
+	public RegistrarAsistenciaRequestDTO(final UUID sesion, final UUID profesor,final List<EstudianteDTORequest> estudiantes) {
 		setSesion(sesion);
 		setProfesor(profesor);
 		setEstudiantes(estudiantes);
@@ -31,7 +32,7 @@ public final class RegistrarAsistenciaRequestDTO {
 
 
 	private void setSesion(final UUID sesion) {
-		this.sesion = sesion;
+		this.sesion = ObjectHelper.getDefault(sesion, UUIDHelper.getDefault());
 	}
 
 
@@ -51,7 +52,7 @@ public final class RegistrarAsistenciaRequestDTO {
 
 
 	public void setEstudiantes(final List<EstudianteDTORequest> estudiantes) {
-		this.estudiantes = estudiantes;
+		this.estudiantes = ObjectHelper.getDefault(estudiantes,new ArrayList<>());
 
 	}
 
@@ -73,7 +74,6 @@ public final class RegistrarAsistenciaRequestDTO {
 	public static class EstudianteDTORequest {
 		private UUID id;
 		private boolean asistio;
-		private boolean asistioFlag = BooleanHelper.FALSE;
 
 		public EstudianteDTORequest() {
 			setDefaultId();
@@ -95,7 +95,7 @@ public final class RegistrarAsistenciaRequestDTO {
 		}
 
 		public void setId(final UUID id) {
-			this.id = id;
+			this.id = ObjectHelper.getDefault(id, UUIDHelper.getDefault());
 		}
 
 		public void setDefaultId() {
@@ -108,17 +108,11 @@ public final class RegistrarAsistenciaRequestDTO {
 		}
 
 		public void setAsistio(final boolean asistio) {
-			this.asistioFlag = BooleanHelper.TRUE;
-			this.asistio = asistio;
+			this.asistio = ObjectHelper.getDefault(asistio, BooleanHelper.FALSE);
 		}
 
 		public void setDefaultAsistio() {
-			this.asistioFlag = BooleanHelper.FALSE;
-			this.asistio = asistio;
-		}
-
-		public boolean isAsistioFlag() {
-			return asistioFlag;
+			this.asistio = BooleanHelper.FALSE;
 		}
 
 	}
