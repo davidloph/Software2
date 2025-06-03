@@ -16,6 +16,7 @@ import co.edu.uco.asistenciauco.application.outputport.repository.SesionReposito
 import co.edu.uco.asistenciauco.application.outputport.sendgrid.SendGridService;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
+import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarListaEstudiantesNoVacia;
 import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQueGrupoActivo;
 import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarQueEstudianteEnGrupo;
 import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.ValidarQueEstudianteNoCancelo;
@@ -52,6 +53,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private MessageCatalog messageCatalog;
 	private final MateriaRepository materiaRepository;
 	private final SesionRepository sesionRepository;
+	private final ValidarListaEstudiantesNoVacia validarListaEstudiantesNoVacia;
 
 
 	public RegistrarAsistenciaUseCaseImpl(ValidarQueEstudianteExista estudianteExiste,
@@ -62,7 +64,8 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 										  ValidarQueGrupoActivo validarQueGrupoActivo,
 										  AsistenciaRepository asistenciaRepository, SendGridService sendGridService, EstudianteRepository estudianteRepository,
 										  AsistenciaMapper asistenciaMapper, MateriaRepository materiaRepository,
-										  SesionRepository sesionRepository) {
+										  SesionRepository sesionRepository,
+										  ValidarListaEstudiantesNoVacia validarListaEstudiantesNoVacia) {
 		this.estudianteExiste = estudianteExiste;
 		this.estudianteEnGrupo = estudianteEnGrupo;
 		this.estudianteNoCancelo = estudianteNoCancelo;
@@ -79,6 +82,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		this.asistenciaMapper = asistenciaMapper;
 		this.materiaRepository = materiaRepository;
 		this.sesionRepository = sesionRepository;
+		this.validarListaEstudiantesNoVacia = validarListaEstudiantesNoVacia;
 	}
 
 
@@ -89,6 +93,13 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		resultado = new RegistrarAsistenciaResponseVO();
 
 		// 1. Validar integridad del objeto a nivel de tipo de datos, es defecto, longitud, obligatoriedad, formato, rango...
+		if(resultado.isValidacionCorrecta()){
+			resultado.agregarMensajes(validarListaEstudiantesNoVacia.validate(dominio.getEstudiantes()).getMensajes());
+		}else {
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGESLISTAVACIA);
+			String technicalMessage = resultado.getMensajes().getFirst();
+			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
+		}
 		
 		// 2. La sesión debe existir.
 		if(resultado.isValidacionCorrecta()) {
@@ -193,14 +204,14 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private void registrarAsistenciaEstudiante(Estudiante estudiante, UUID sesionId) {
 		// 1. Registrar Asistencia
 
-		asistenciaRepository.insertarAsistencia(estudiante.getId(),sesionId,estudiante.isAsistio());
+		asistenciaRepository.insertarAsistencia(asistenciaMapper.toEstudianteEntity(estudiante).getId(),sesionId,estudiante.isAsistio());
 		String materia = materiaRepository.findNombreMateriaBySesionId(sesionId);
 		LocalDateTime fecha = sesionRepository.findFechaHoraBySesionId(sesionId);
 		
 		// 2. Enviar la notificación de correo al estudiante porque no asistió.
 
 		if(!estudiante.isAsistio()) {
-			var correoEstudiante =  estudianteRepository.obtenerCorreoPorIdEstudiante(estudiante.getId());
+			var correoEstudiante =  estudianteRepository.obtenerCorreoPorIdEstudiante(asistenciaMapper.toEstudianteEntity(estudiante).getId());
 			EmailMessage message = EmailMessage.create(
 					correoEstudiante,
 					"hola",

@@ -1,6 +1,6 @@
 package co.edu.uco.asistenciauco.application.outputport.entity.constants;
 
-public final class RedisConstants {
+public class RedisConstants {
 
     public static final String VALIDARASISTENCIANOREGISTRADAPARASESION = "validarqueasistencianoregistradaparasesion";
     public static final String USERMESSAGEVALIDATORUSECASE = "usermessagevalidatorusecase";
@@ -31,4 +31,10 @@ public final class RedisConstants {
     public static final String ASUNTOCORREO = "asuntocorreo";
     public static final String CONTENIDOEMAILPARTEUNO = "contenidoemailparteuno";
     public static final String CONTENIDOEMAILPARTEDOS = "contenidoemailpartedos";
+    public static  final String CONTROLLERSITRANSACCIONFALLIDA = "controllersitransaccionfallida";
+    public static  final String VALIDACIONLISTAVACIA = "validacionlistavacia";
+    public static  final String USERMESSAGESLISTAVACIA = "usermessageslistavacia";
+    public static  final String EXCEPCIONSENDGRID = "excepcionsendgrid";
+
+    private RedisConstants() {}
 }
