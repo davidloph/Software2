@@ -35,4 +35,12 @@ public interface SesionRepository extends JpaRepository<SesionEntity, UUID>{
           AND s.grupo.activo = true
     """)
     boolean isGrupoActivoBySesionId(@Param("idSesion") UUID idSesion);
+
+    @Query("""
+    SELECT s.fechaHora
+    FROM SesionEntity s
+    WHERE s.id = :idSesion
+""")
+    LocalDateTime findFechaHoraBySesionId(@Param("idSesion") UUID idSesion);
+
 }

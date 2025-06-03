@@ -1,5 +1,7 @@
 package co.edu.uco.asistenciauco.infrastructure.secondaryadapters;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
+import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.sendgrid.SendGridService;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -21,6 +23,7 @@ public class SendGridServiceImpl implements SendGridService {
     @Value("${correoremitente}")
     public String fromEmail;
 
+    private MessageCatalog messageCatalog;
 
     @Override
     public void send(EmailMessage emailMessage) {

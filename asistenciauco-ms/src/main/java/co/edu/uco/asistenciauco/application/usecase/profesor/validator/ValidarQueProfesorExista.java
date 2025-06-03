@@ -2,6 +2,7 @@ package co.edu.uco.asistenciauco.application.usecase.profesor.validator;
 
 import java.util.UUID;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoException;
 import org.springframework.stereotype.Service;
@@ -31,9 +32,9 @@ public class ValidarQueProfesorExista implements Validator<UUID, ValidationResul
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(!profesorRepository.existsById(data)) {
-			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarqueprofesorexista") + data);
-			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
-			String technicalMessage = messageCatalog.getMessage("validarqueprofesorexista") + data;
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage(RedisConstants.VALIDARQUEPROFESOREXISTA) + data);
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEVALIDATORUSECASE);
+			String technicalMessage = messageCatalog.getMessage(RedisConstants.VALIDARQUEPROFESOREXISTA) + data;
 			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		

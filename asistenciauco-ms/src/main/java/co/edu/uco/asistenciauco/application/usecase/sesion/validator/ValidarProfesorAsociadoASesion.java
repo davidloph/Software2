@@ -1,5 +1,6 @@
 package co.edu.uco.asistenciauco.application.usecase.sesion.validator;
 
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.SesionRepository;
 import co.edu.uco.asistenciauco.application.usecase.validator.ValidationResultVO;
@@ -29,9 +30,9 @@ public class ValidarProfesorAsociadoASesion implements Validator<ArrayList<UUID>
 		var resultadoValidacion = new ValidationResultVO();
 		
 		if(!sesionRepository.findProfesorIdBySesionId(data.get(0), data.get(1))) {
-			resultadoValidacion.agregarMensaje(messageCatalog.getMessage("validarprofesorasociadoasesionparteuno")+ data.get(0) + messageCatalog.getMessage("validarprofesorasociadoasesionpartedos") + data.get(1) + ".");
-			String userMessage = messageCatalog.getMessage("usermessagevalidatorusecase");
-			String technicalMessage = messageCatalog.getMessage("validarprofesorasociadoasesionparteuno")+ data.get(0) + messageCatalog.getMessage("validarprofesorasociadoasesionpartedos") + data.get(1) + ".";
+			resultadoValidacion.agregarMensaje(messageCatalog.getMessage(RedisConstants.VALIDARPROFESORASOCIADOASESIONPARTEUNO)+ data.get(0) + messageCatalog.getMessage(RedisConstants.VALIDARPROFESORASOCIADOASESIONPARTEDOS) + data.get(1) + ".");
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEVALIDATORUSECASE);
+			String technicalMessage = messageCatalog.getMessage(RedisConstants.VALIDARPROFESORASOCIADOASESIONPARTEUNO)+ data.get(0) + messageCatalog.getMessage(RedisConstants.VALIDARPROFESORASOCIADOASESIONPARTEDOS) + data.get(1) + ".";
 			throw ValidatorAsisteUcoException.create(userMessage, technicalMessage);
 		}
 		

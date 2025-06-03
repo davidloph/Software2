@@ -13,8 +13,12 @@ public interface EstudianteGrupoRepository extends JpaRepository<EstudianteGrupo
 
     boolean existsByEstudiante_IdAndGrupo_Id(UUID idGrupo, UUID idEstudiante);
 
-    @Query(value ="""
-        SELECT CANCELO FROM ESTUDIANTE_GRUPO WHERE ESTUDIANTE_ID = ? AND GRUPO_ID = (SELECT GRUPO_ID FROM SESION WHERE ID= ?)
-""", nativeQuery = true)
+    @Query("""
+    SELECT eg.cancelo
+    FROM EstudianteGrupoEntity eg
+    JOIN eg.grupo g
+    JOIN SesionEntity s ON s.grupo.id = g.id
+    WHERE eg.estudiante.id = :idEstudiante AND s.id = :idSesion
+""")
     boolean existsBySesionAndEstudianteNoCancelo(@Param("idEstudiante") UUID idEstudiante, @Param("idSesion") UUID idSesion);
 }
