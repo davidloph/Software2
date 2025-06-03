@@ -16,6 +16,7 @@ import co.edu.uco.asistenciauco.application.outputport.repository.SesionReposito
 import co.edu.uco.asistenciauco.application.outputport.sendgrid.SendGridService;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
+import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarListaEstudiantesNoVacia;
 import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQueGrupoActivo;
 import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarQueEstudianteEnGrupo;
 import co.edu.uco.asistenciauco.application.usecase.estudiantegrupo.validator.ValidarQueEstudianteNoCancelo;
@@ -52,6 +53,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private MessageCatalog messageCatalog;
 	private final MateriaRepository materiaRepository;
 	private final SesionRepository sesionRepository;
+	private final ValidarListaEstudiantesNoVacia validarListaEstudiantesNoVacia;
 
 
 	public RegistrarAsistenciaUseCaseImpl(ValidarQueEstudianteExista estudianteExiste,
@@ -62,7 +64,8 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 										  ValidarQueGrupoActivo validarQueGrupoActivo,
 										  AsistenciaRepository asistenciaRepository, SendGridService sendGridService, EstudianteRepository estudianteRepository,
 										  AsistenciaMapper asistenciaMapper, MateriaRepository materiaRepository,
-										  SesionRepository sesionRepository) {
+										  SesionRepository sesionRepository,
+										  ValidarListaEstudiantesNoVacia validarListaEstudiantesNoVacia) {
 		this.estudianteExiste = estudianteExiste;
 		this.estudianteEnGrupo = estudianteEnGrupo;
 		this.estudianteNoCancelo = estudianteNoCancelo;
@@ -79,6 +82,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		this.asistenciaMapper = asistenciaMapper;
 		this.materiaRepository = materiaRepository;
 		this.sesionRepository = sesionRepository;
+		this.validarListaEstudiantesNoVacia = validarListaEstudiantesNoVacia;
 	}
 
 
@@ -89,10 +93,17 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		resultado = new RegistrarAsistenciaResponseVO();
 
 		// 1. Validar integridad del objeto a nivel de tipo de datos, es defecto, longitud, obligatoriedad, formato, rango...
+		if(resultado.isValidacionCorrecta()){
+			resultado.agregarMensajes(validarListaEstudiantesNoVacia.validate(dominio.getEstudiantes()).getMensajes());
+		}else {
+			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGESLISTAVACIA);
+			String technicalMessage = resultado.getMensajes().getFirst();
+			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
+		}
 		
 		// 2. La sesión debe existir.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(sesionExiste.validate(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId()).getMensajes());
+			resultado.agregarMensajes(sesionExiste.validate(dominio.getSesion()).getMensajes());
 		} else {
 			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGESESIONDEBEEXISTIR);
 			String technicalMessage = resultado.getMensajes().getFirst();
@@ -101,7 +112,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		
 		// 3. El profesor que registra la asistencia debe existir.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(profesorExiste.validate(asistenciaMapper.toProfesorEntity(dominio.getProfesor()).getId()).getMensajes());
+			resultado.agregarMensajes(profesorExiste.validate(dominio.getProfesor()).getMensajes());
 		} else {
 			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEPROFESORDEBEEXISTIR);
 			String technicalMessage = resultado.getMensajes().getFirst();
@@ -128,7 +139,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		
 		// 6. No se puede tener una asistencia ya registrada para la sesión.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(asistenciaNoRegistrada.validate(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId()).getMensajes());
+			resultado.agregarMensajes(asistenciaNoRegistrada.validate(dominio.getSesion()).getMensajes());
 		} else {
 			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEASISTENCIAREGISTRADAPARASESION);
 			String technicalMessage = resultado.getMensajes().getFirst();
@@ -137,7 +148,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		
 		// 7. La asistencia se debe registrar entre los plazos establecidos.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(asistenciaDentroDelPlazo.validate(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId()).getMensajes());
+			resultado.agregarMensajes(asistenciaDentroDelPlazo.validate(dominio.getSesion()).getMensajes());
 		} else {
 			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEASISTENCIAENPLAZO);
 			String technicalMessage = resultado.getMensajes().getFirst();
@@ -166,7 +177,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 			
 			// 1. Validar que el estudiante exista.
 			if(registrarAsistenciaResponseEstudianteVO.isValidacionCorrecta()){
-				registrarAsistenciaResponseEstudianteVO.agregarMensajes(estudianteExiste.validate(estudianteEntity.getId()).getMensajes());
+				registrarAsistenciaResponseEstudianteVO.agregarMensajes(estudianteExiste.validate(estudiante).getMensajes());
 			}
 
 			//Se Validó en 8.
