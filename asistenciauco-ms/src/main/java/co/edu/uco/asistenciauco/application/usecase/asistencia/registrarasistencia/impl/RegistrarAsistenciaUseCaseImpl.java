@@ -1,9 +1,7 @@
 package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.impl;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -175,11 +173,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		}
 
 		// 8. Validar que estudiantes sean consistentes para el registro de asistencia.
-		// SE OBTUVIERON TODOS LOS ESTUDIANTES DE UN GRUPO QUE NO HAN CANCELADO!
 		if(resultado.isValidacionCorrecta()) {
-			// Obtención de estudiantes de un grupo que no cancelaron.
-			LinkedHashSet<Estudiante> estudiantesSinRepetir = new LinkedHashSet<>(dominio.getEstudiantes());
-			ArrayList<Estudiante> estudiantes = new ArrayList<>(estudiantesSinRepetir);
 			registrarAsistenciaEstudiantes(dominio.getEstudiantes(), asistenciaMapper.toSesionEntity(dominio.getSesion()).getId());
 		}
 		

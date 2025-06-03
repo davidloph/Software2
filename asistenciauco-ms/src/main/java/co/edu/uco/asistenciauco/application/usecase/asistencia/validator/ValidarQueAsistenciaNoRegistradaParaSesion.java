@@ -11,8 +11,6 @@ import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoExcept
 import org.springframework.stereotype.Service;
 import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
 
-import java.util.UUID;
-
 
 @Service
 public class ValidarQueAsistenciaNoRegistradaParaSesion implements Validator<Sesion, ValidationResultVO>{

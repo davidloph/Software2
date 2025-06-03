@@ -1,6 +1,5 @@
 package co.edu.uco.asistenciauco.application.usecase.estudiante.validator;
 
-import java.util.UUID;
 
 import co.edu.uco.asistenciauco.application.mapper.entity.AsistenciaMapper;
 import co.edu.uco.asistenciauco.application.outputport.entity.EstudianteEntity;

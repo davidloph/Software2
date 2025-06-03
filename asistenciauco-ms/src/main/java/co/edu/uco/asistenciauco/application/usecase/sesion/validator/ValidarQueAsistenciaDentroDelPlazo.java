@@ -13,7 +13,6 @@ import co.edu.uco.asistenciauco.crosscutting.exceptions.ValidatorAsisteUcoExcept
 import org.springframework.stereotype.Service;
 
 
-import java.util.UUID;
 
 @Service
 public class ValidarQueAsistenciaDentroDelPlazo implements Validator<Sesion, ValidationResultVO>{
