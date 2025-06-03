@@ -26,11 +26,6 @@ public class RedisConstants {
     public static final String CONTROLLERSITRANSACCIONESEXITOSA = "controllersitransaccionesexitosa";
     public static final String CONTROLLERSITRANSACCIONNOESEXITOSA = "controllersitransaccionnoesexitosa";
     public static final String EXCEPTIONASISTENCIACONTROLLER = "exceptionasistenciacontroller";
-    public static final String LINK = "link";
-    public static final String ASISTENCIANOREGISTRADA = "asistencianoregistrada";
-    public static final String ASUNTOCORREO = "asuntocorreo";
-    public static final String CONTENIDOEMAILPARTEUNO = "contenidoemailparteuno";
-    public static final String CONTENIDOEMAILPARTEDOS = "contenidoemailpartedos";
     public static  final String CONTROLLERSITRANSACCIONFALLIDA = "controllersitransaccionfallida";
     public static  final String VALIDACIONLISTAVACIA = "validacionlistavacia";
     public static  final String USERMESSAGESLISTAVACIA = "usermessageslistavacia";
