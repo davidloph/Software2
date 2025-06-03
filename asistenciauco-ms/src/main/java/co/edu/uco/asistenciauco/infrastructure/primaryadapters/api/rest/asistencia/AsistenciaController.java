@@ -25,8 +25,6 @@ public class AsistenciaController {
 	private RegistrarAsistenciaInteractor registrarAsistenciaInteractor;
 	private final MessageCatalog messageCatalog;
 	
-	
-	
 	public AsistenciaController(RegistrarAsistenciaInteractor registrarAsistenciaInteractor, MessageCatalog messageCatalog) {
 		super();
 		this.registrarAsistenciaInteractor = registrarAsistenciaInteractor;
@@ -35,15 +33,22 @@ public class AsistenciaController {
 
 	@PostMapping
 	public ResponseEntity<GenericResponse> registrarAsistencia(@RequestBody RegistrarAsistenciaRequestDTO dto) {
+
 		var message = new ArrayList<String>();
+
 		try {
 			var responseRegistrarAsistenciaDTO = registrarAsistenciaInteractor.ejecutar(dto);
-			if (responseRegistrarAsistenciaDTO.isTransaccionExitosa()) {
+			boolean isTransaccionExitosa = responseRegistrarAsistenciaDTO.isTransaccionExitosa();
+			var cantidadEstudiantes = dto.getEstudiantes().size();
+			if (isTransaccionExitosa) {
 				responseRegistrarAsistenciaDTO.getMensajes().add(messageCatalog.getMessage(RedisConstants.CONTROLLERSITRANSACCIONESEXITOSA));
 				return GeneratedResponse.generateSuccessResponse(responseRegistrarAsistenciaDTO.getMensajes());
-			} else {
+			} else if (cantidadEstudiantes > responseRegistrarAsistenciaDTO.getMensajes().size()) {
 				responseRegistrarAsistenciaDTO.getMensajes().add(messageCatalog.getMessage(RedisConstants.CONTROLLERSITRANSACCIONNOESEXITOSA));
 				return GeneratedResponse.generateSuccessResponse(responseRegistrarAsistenciaDTO.getMensajes());
+			} else {
+				responseRegistrarAsistenciaDTO.getMensajes().add(messageCatalog.getMessage(RedisConstants.CONTROLLERSITRANSACCIONFALLIDA));
+				return GeneratedResponse.generateFailedResponse(responseRegistrarAsistenciaDTO.getMensajes());
 			}
 		}catch (ApplicationAsisteUcoException exception){
 			message.add(exception.getUserMessage());
