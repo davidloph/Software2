@@ -1,6 +1,6 @@
 package co.edu.uco.asistenciauco.application.outputport.entity.constants;
 
-public final class RedisConstants {
+public class RedisConstants {
 
     public static final String VALIDARASISTENCIANOREGISTRADAPARASESION = "validarqueasistencianoregistradaparasesion";
     public static final String USERMESSAGEVALIDATORUSECASE = "usermessagevalidatorusecase";
