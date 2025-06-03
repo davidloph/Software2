@@ -103,7 +103,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		
 		// 2. La sesión debe existir.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(sesionExiste.validate(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId()).getMensajes());
+			resultado.agregarMensajes(sesionExiste.validate(dominio.getSesion()).getMensajes());
 		} else {
 			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGESESIONDEBEEXISTIR);
 			String technicalMessage = resultado.getMensajes().getFirst();
@@ -112,7 +112,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		
 		// 3. El profesor que registra la asistencia debe existir.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(profesorExiste.validate(asistenciaMapper.toProfesorEntity(dominio.getProfesor()).getId()).getMensajes());
+			resultado.agregarMensajes(profesorExiste.validate(dominio.getProfesor()).getMensajes());
 		} else {
 			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEPROFESORDEBEEXISTIR);
 			String technicalMessage = resultado.getMensajes().getFirst();
@@ -139,7 +139,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		
 		// 6. No se puede tener una asistencia ya registrada para la sesión.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(asistenciaNoRegistrada.validate(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId()).getMensajes());
+			resultado.agregarMensajes(asistenciaNoRegistrada.validate(dominio.getSesion()).getMensajes());
 		} else {
 			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEASISTENCIAREGISTRADAPARASESION);
 			String technicalMessage = resultado.getMensajes().getFirst();
@@ -148,7 +148,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		
 		// 7. La asistencia se debe registrar entre los plazos establecidos.
 		if(resultado.isValidacionCorrecta()) {
-			resultado.agregarMensajes(asistenciaDentroDelPlazo.validate(asistenciaMapper.toSesionEntity(dominio.getSesion()).getId()).getMensajes());
+			resultado.agregarMensajes(asistenciaDentroDelPlazo.validate(dominio.getSesion()).getMensajes());
 		} else {
 			String userMessage = messageCatalog.getMessage(RedisConstants.USERMESSAGEASISTENCIAENPLAZO);
 			String technicalMessage = resultado.getMensajes().getFirst();
@@ -177,7 +177,7 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 			
 			// 1. Validar que el estudiante exista.
 			if(registrarAsistenciaResponseEstudianteVO.isValidacionCorrecta()){
-				registrarAsistenciaResponseEstudianteVO.agregarMensajes(estudianteExiste.validate(estudianteEntity.getId()).getMensajes());
+				registrarAsistenciaResponseEstudianteVO.agregarMensajes(estudianteExiste.validate(estudiante).getMensajes());
 			}
 
 			//Se Validó en 8.
