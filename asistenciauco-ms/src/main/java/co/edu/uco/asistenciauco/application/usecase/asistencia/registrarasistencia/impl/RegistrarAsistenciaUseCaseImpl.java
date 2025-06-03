@@ -193,14 +193,14 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private void registrarAsistenciaEstudiante(Estudiante estudiante, UUID sesionId) {
 		// 1. Registrar Asistencia
 
-		asistenciaRepository.insertarAsistencia(estudiante.getId(),sesionId,estudiante.isAsistio());
+		asistenciaRepository.insertarAsistencia(asistenciaMapper.toEstudianteEntity(estudiante).getId(),sesionId,estudiante.isAsistio());
 		String materia = materiaRepository.findNombreMateriaBySesionId(sesionId);
 		LocalDateTime fecha = sesionRepository.findFechaHoraBySesionId(sesionId);
 		
 		// 2. Enviar la notificación de correo al estudiante porque no asistió.
 
 		if(!estudiante.isAsistio()) {
-			var correoEstudiante =  estudianteRepository.obtenerCorreoPorIdEstudiante(estudiante.getId());
+			var correoEstudiante =  estudianteRepository.obtenerCorreoPorIdEstudiante(asistenciaMapper.toEstudianteEntity(estudiante).getId());
 			EmailMessage message = EmailMessage.create(
 					correoEstudiante,
 					"hola",
