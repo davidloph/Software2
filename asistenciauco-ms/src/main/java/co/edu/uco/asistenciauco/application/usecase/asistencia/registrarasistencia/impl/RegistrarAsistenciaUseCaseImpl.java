@@ -198,14 +198,14 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		LocalDateTime fecha = sesionRepository.findFechaHoraBySesionId(sesionId);
 		
 		// 2. Enviar la notificación de correo al estudiante porque no asistió.
+
 		if(!estudiante.isAsistio()) {
 			var correoEstudiante =  estudianteRepository.obtenerCorreoPorIdEstudiante(estudiante.getId());
 			EmailMessage message = EmailMessage.create(
 					correoEstudiante,
-					messageCatalog.getMessage(RedisConstants.ASUNTOCORREO),
-					messageCatalog.getMessage(RedisConstants.CONTENIDOEMAILPARTEUNO) + materia + messageCatalog.getMessage(RedisConstants.CONTENIDOEMAILPARTEDOS) + fecha.toString());
+					"hola",
+					"funciona" + materia + "sdsdsd" + fecha.toString());
 			sendGridService.send(message);
-			
 		}
 	}
 

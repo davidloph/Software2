@@ -29,9 +29,9 @@ public class SendGridServiceImpl implements SendGridService {
     public void send(EmailMessage emailMessage) {
         Email from = new Email(fromEmail);
         Email toEmail = new Email(emailMessage.getTo());
-        Content content = new Content("text/html", "<h1 style='color: yellow; background-color: green; text-align: center;'>" + messageCatalog.getMessage(RedisConstants.ASISTENCIANOREGISTRADA) + "</h1>" +
+        Content content = new Content("text/html", "<h1 style='color: yellow; background-color: green; text-align: center;'>Asistencia No Registrada</h1>" +
                 "<p style='color: green; font-weight: bold;'>" + emailMessage.getContent() + "</p>" +
-                "<a href='" + messageCatalog.getMessage(RedisConstants.LINK) +"' style='color: white; background-color: green; padding: 5px 10px; text-decoration: none;'>" + messageCatalog.getMessage(RedisConstants.ASUNTOCORREO)+ "</a>");
+                "<a href='https://uco.edu.co/' style='color: white; background-color: green; padding: 5px 10px; text-decoration: none;'>Para más información presione aquí</a>");
         Mail mail = new Mail(from, emailMessage.getSubject(), toEmail, content);
 
         SendGrid sg = new SendGrid(sendGridAPI);
