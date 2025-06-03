@@ -9,6 +9,8 @@ import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.io.IOException;
 @Service
 public class SendGridServiceImpl implements SendGridService {
 
+    private static final Logger logger = LoggerFactory.getLogger(SendGridServiceImpl.class);
+    private static MessageCatalog messageCatalog;
 
     @Value("${apisengrid}")
     public String sendGridAPI;
@@ -23,7 +27,6 @@ public class SendGridServiceImpl implements SendGridService {
     @Value("${correoremitente}")
     public String fromEmail;
 
-    private MessageCatalog messageCatalog;
 
     @Override
     public void send(EmailMessage emailMessage) {
@@ -44,7 +47,7 @@ public class SendGridServiceImpl implements SendGridService {
             sg.api(request);
 
         } catch (IOException exception) {
-            System.out.println();
+            logger.error(messageCatalog.getMessage(RedisConstants.EXCEPCIONSENDGRID), exception);
         }
 
     }

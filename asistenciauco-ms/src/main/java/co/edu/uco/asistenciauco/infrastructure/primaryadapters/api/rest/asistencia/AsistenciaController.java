@@ -60,6 +60,7 @@ public class AsistenciaController {
 			return GeneratedResponse.generateFailedResponse(new ArrayList<>(List.of(exception.getUserMessage())));
 
 		}catch( final Exception exception){
+			exception.printStackTrace();
 			message.add(messageCatalog.getMessage(RedisConstants.EXCEPTIONASISTENCIACONTROLLER));
 			return GeneratedResponse.generateFailedResponse(message);
 		}
