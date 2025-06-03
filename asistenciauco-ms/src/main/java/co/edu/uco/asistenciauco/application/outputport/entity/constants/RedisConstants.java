@@ -35,6 +35,5 @@ public class RedisConstants {
     public static  final String VALIDACIONLISTAVACIA = "validacionlistavacia";
     public static  final String USERMESSAGESLISTAVACIA = "usermessageslistavacia";
     public static  final String EXCEPCIONSENDGRID = "excepcionsendgrid";
-
     private RedisConstants() {}
 }

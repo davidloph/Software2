@@ -8,6 +8,7 @@ import java.util.UUID;
 import co.edu.uco.asistenciauco.application.mapper.entity.AsistenciaMapper;
 import co.edu.uco.asistenciauco.application.outputport.entity.EstudianteEntity;
 import co.edu.uco.asistenciauco.application.outputport.entity.constants.RedisConstants;
+import co.edu.uco.asistenciauco.application.outputport.entity.constants.SendGridConstants;
 import co.edu.uco.asistenciauco.application.outputport.redis.MessageCatalog;
 import co.edu.uco.asistenciauco.application.outputport.repository.AsistenciaRepository;
 import co.edu.uco.asistenciauco.application.outputport.repository.EstudianteRepository;
@@ -208,16 +209,14 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		String materia = materiaRepository.findNombreMateriaBySesionId(sesionId);
 		LocalDateTime fecha = sesionRepository.findFechaHoraBySesionId(sesionId);
 		
-		// 2. Enviar la notificación de correo al estudiante porque no asistió.
 
 		if(!estudiante.isAsistio()) {
 			var correoEstudiante =  estudianteRepository.obtenerCorreoPorIdEstudiante(asistenciaMapper.toEstudianteEntity(estudiante).getId());
 			EmailMessage message = EmailMessage.create(
 					correoEstudiante,
-					"hola",
-					"funciona" + materia + "sdsdsd" + fecha.toString());
+					SendGridConstants.SUBJECT,
+					SendGridConstants.CONTENTFIRST + materia + SendGridConstants.CONTENTLAST + fecha.toString());
 			sendGridService.send(message);
 		}
 	}
-
 }

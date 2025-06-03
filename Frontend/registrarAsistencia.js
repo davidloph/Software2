@@ -1,6 +1,15 @@
 document.addEventListener("DOMContentLoaded", async () => {
+    const usuarioValido = sessionStorage.getItem("usuarioValido");
+    if (!usuarioValido) {
+        alert("Debe iniciar sesión para continuar.");
+        window.location.href = "Login.html";
+        return;
+    }
+
     const grupoId = sessionStorage.getItem("grupoSeleccionado");
     const profesorId = sessionStorage.getItem("profesorId");
+
+    const validarCampos = true;
 
     if (!grupoId) {
         alert("No se encontró el grupo seleccionado. Por favor, vuelve a seleccionarlo.");
@@ -32,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             data.sesiones.forEach(s => {
                 const option = document.createElement("option");
                 option.value = s.id;
-                option.textContent = new Date(s.fechaHora).toLocaleString("es-CO");
+                option.textContent = new Date(s.fecha_hora || s.fechaHora).toLocaleString("es-CO");
                 sesionSelect.appendChild(option);
             });
         } catch (error) {
@@ -52,9 +61,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             const data = await response.json();
             estudiantes = data.estudiantes;
 
-            data.estudiantes.forEach(est => {
+            estudiantes.forEach(est => {
                 const fila = document.createElement("tr");
-
                 fila.innerHTML = `
                     <td>${est.tipoIdentificacion}</td>
                     <td>${est.numeroIdentificacion}</td>
@@ -67,7 +75,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                         </select>
                     </td>
                 `;
-
                 tablaBody.appendChild(fila);
             });
         } catch (error) {
@@ -90,32 +97,39 @@ document.addEventListener("DOMContentLoaded", async () => {
             const id = select.dataset.id;
             const valor = select.value;
 
-            if (valor === "") {
+            if (validarCampos && valor === "") {
                 alert("Debes seleccionar asistencia para todos los estudiantes.");
                 return;
             }
 
-            asistencia.push({
-                id: id,
-                asistio: valor === "true"
-            });
+            if (valor !== "") {
+                asistencia.push({
+                    id: id,
+                    asistio: valor === "true"
+                });
+            }
         }
+
+        const payload = {
+            sesion: sesionId,
+            profesor: profesorId,
+            estudiantes: asistencia
+        };
+
+        console.log("🔁 Enviando POST a /asistencias con payload:", payload);
 
         try {
             const response = await fetch("http://localhost:8080/asisteuco/apigateway/asistencias", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    sesion: sesionId,
-                    profesor: profesorId,
-                    estudiantes: asistencia
-                })
+                body: JSON.stringify(payload)
             });
 
             const data = await response.json();
+            console.log("📥 Respuesta del backend:", data);
 
             if (data.messages && data.messages.length > 0) {
-                mostrarModalErrores(data.messages);
+                mostrarModalMensajes(data.messages);
             } else {
                 alert("✅ Asistencia registrada exitosamente.");
                 location.reload();
@@ -126,20 +140,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    function mostrarModalErrores(mensajes) {
-        const modal = document.getElementById("modalErrores");
-        const lista = document.getElementById("listaErrores");
+    function mostrarModalMensajes(mensajes) {
+        const modal = document.getElementById("modalInformacion");
+        const lista = document.getElementById("listaMensajes");
         lista.innerHTML = "";
+
         mensajes.forEach(msg => {
             const li = document.createElement("li");
             li.textContent = msg;
             lista.appendChild(li);
         });
+
         modal.classList.remove("hidden");
     }
 
     window.cerrarModal = () => {
-        document.getElementById("modalErrores").classList.add("hidden");
+        document.getElementById("modalInformacion").classList.add("hidden");
     };
 
     await cargarSesiones();
