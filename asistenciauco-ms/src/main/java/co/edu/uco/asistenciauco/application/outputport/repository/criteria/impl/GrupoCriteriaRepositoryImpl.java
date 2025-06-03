@@ -21,18 +21,19 @@ public class GrupoCriteriaRepositoryImpl implements GrupoCriteriaRepository {
 
     @Override
     public boolean existsBySesionActiva(UUID idSesion) {
-        CriteriaBuilder cb= entityManager.getCriteriaBuilder();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Boolean> query = cb.createQuery(Boolean.class);
 
-        Root<SesionEntity> sesionRoot = query.from(SesionEntity.class);
-        Join<SesionEntity, GrupoEntity> grupoJoin = sesionRoot.join("grupo");
+        Root<SesionEntity> sesion = query.from(SesionEntity.class);
+        Join<?, ?> grupo = sesion.join("grupo");
 
-        query.select(grupoJoin.get("activo"))
-                .where(cb.equal(sesionRoot.get("id"), idSesion));
-        Boolean resultado = entityManager.createQuery(query)
-                .setMaxResults(1) // Por si acaso
+        query.select(grupo.get("activo").as(Boolean.class))
+                .where(cb.equal(sesion.get("id"), idSesion));
+
+        Boolean activo = entityManager.createQuery(query)
+                .setMaxResults(1)
                 .getSingleResult();
 
-        return Boolean.TRUE.equals(resultado);
+        return Boolean.TRUE.equals(activo);
     }
 }

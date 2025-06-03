@@ -4,12 +4,11 @@ import co.edu.uco.asistenciauco.application.outputport.entity.AsistenciaEntity;
 import co.edu.uco.asistenciauco.application.outputport.entity.EstudianteGrupoEntity;
 import co.edu.uco.asistenciauco.application.outputport.entity.SesionEntity;
 import co.edu.uco.asistenciauco.application.outputport.repository.criteria.AsistenciaCriteriaRepository;
+import co.edu.uco.crosscutting.helpers.UUIDHelper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
@@ -21,24 +20,33 @@ public class AsistenciaCriteriaRepositoryImpl implements AsistenciaCriteriaRepos
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public void insertarAsistencia(UUID idEstudiante, UUID idSesion, boolean asistio) {
-
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<EstudianteGrupoEntity> query = cb.createQuery(EstudianteGrupoEntity.class);
-        Root<EstudianteGrupoEntity> root = query.from(EstudianteGrupoEntity.class);
 
-        Predicate predicate = cb.equal(root.get("estudiante").get("id"), idEstudiante);
-        query.select(root).where(predicate);
+        Root<EstudianteGrupoEntity> eg = query.from(EstudianteGrupoEntity.class);
+        Join<?, ?> grupo = eg.join("grupo");
+        Root<SesionEntity> sesion = query.from(SesionEntity.class);
+
+        Predicate estudianteMatch = cb.equal(eg.get("estudiante").get("id"), idEstudiante);
+        Predicate sesionMatch = cb.equal(sesion.get("id"), idSesion);
+        Predicate grupoMatch = cb.equal(sesion.get("grupo").get("id"), grupo.get("id"));
+
+        query.select(eg)
+                .where(cb.and(estudianteMatch, sesionMatch, grupoMatch));
 
         EstudianteGrupoEntity estudianteGrupo = entityManager.createQuery(query)
                 .setMaxResults(1)
                 .getSingleResult();
 
-        SesionEntity sesion = entityManager.getReference(SesionEntity.class, idSesion);
+        // Obtener referencia directa a la sesión
+        SesionEntity sesionRef = entityManager.getReference(SesionEntity.class, idSesion);
 
+        // Crear y persistir la asistencia
         AsistenciaEntity asistencia = new AsistenciaEntity();
-        asistencia.setId(UUID.randomUUID());
-        asistencia.setSesion(sesion);
+        asistencia.setId(UUIDHelper.generate());
+        asistencia.setSesion(sesionRef);
         asistencia.setEstudianteGrupo(estudianteGrupo);
         asistencia.setAsistio(asistio);
 

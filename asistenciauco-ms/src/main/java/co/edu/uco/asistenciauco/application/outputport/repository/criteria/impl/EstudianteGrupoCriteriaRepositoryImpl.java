@@ -19,22 +19,23 @@ public class EstudianteGrupoCriteriaRepositoryImpl implements EstudianteGrupoCri
     @Override
     public boolean existsBySesionAndEstudianteNoCancelo(UUID idEstudiante, UUID idSesion) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> query = cb.createQuery(Long.class);
+        CriteriaQuery<Boolean> query = cb.createQuery(Boolean.class);
 
-        Root<EstudianteGrupoEntity> root = query.from(EstudianteGrupoEntity.class);
-        Join<EstudianteGrupoEntity, ?> grupo = root.join("grupo");
-        Subquery<UUID> subquerySesion = query.subquery(UUID.class);
-        Root<SesionEntity> sesionRoot = subquerySesion.from(SesionEntity.class);
+        Root<EstudianteGrupoEntity> eg = query.from(EstudianteGrupoEntity.class);
+        Join<?, ?> grupo = eg.join("grupo");
+        Root<SesionEntity> sesion = query.from(SesionEntity.class);
 
-        subquerySesion.select(sesionRoot.get("grupo").get("id"))
-                .where(cb.equal(sesionRoot.get("id"), idSesion));
+        Predicate estudianteMatch = cb.equal(eg.get("estudiante").get("id"), idEstudiante);
+        Predicate sesionMatch = cb.equal(sesion.get("id"), idSesion);
+        Predicate grupoMatch = cb.equal(sesion.get("grupo").get("id"), grupo.get("id"));
 
-        query.select(cb.count(root)).where(cb.and(
-                cb.equal(root.get("estudiante").get("id"), idEstudiante),
-                cb.equal(grupo.get("id"), subquerySesion),
-                cb.isFalse(root.get("cancelo"))
-        ));
+        query.select(eg.get("cancelo").as(Boolean.class))
+                .where(cb.and(estudianteMatch, sesionMatch, grupoMatch));
 
-        return entityManager.createQuery(query).getSingleResult() > 0;
+        Boolean cancelo = entityManager.createQuery(query)
+                .setMaxResults(1)
+                .getSingleResult();
+
+        return cancelo != null && cancelo;
     }
 }

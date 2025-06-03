@@ -4,10 +4,7 @@ import co.edu.uco.asistenciauco.application.outputport.entity.SesionEntity;
 import co.edu.uco.asistenciauco.application.outputport.repository.criteria.MateriaCriteriaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
@@ -23,13 +20,17 @@ public class MateriaCriteriaRepositoryImpl implements MateriaCriteriaRepository 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<String> query = cb.createQuery(String.class);
 
-        Root<SesionEntity> sesionRoot = query.from(SesionEntity.class);
-        Join<?, ?> grupo = sesionRoot.join("grupo");
-        Join<?, ?> materia = grupo.join("materia");
+        Root<SesionEntity> sesion = query.from(SesionEntity.class);
+        Path<String> nombreMateria = sesion
+                .get("grupo")        // Relación a GrupoEntity
+                .get("materia")      // Relación a MateriaEntity
+                .get("nombre");      // Atributo nombre
 
-        query.select(materia.get("nombre").as(String.class))
-                .where(cb.equal(sesionRoot.get("id"), idSesion));
+        query.select(nombreMateria)
+                .where(cb.equal(sesion.get("id"), idSesion));
 
-        return entityManager.createQuery(query).getSingleResult();
+        return entityManager.createQuery(query)
+                .setMaxResults(1)
+                .getSingleResult();
     }
 }

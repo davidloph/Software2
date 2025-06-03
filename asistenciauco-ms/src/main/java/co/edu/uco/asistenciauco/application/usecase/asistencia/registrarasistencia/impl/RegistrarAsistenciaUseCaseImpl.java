@@ -1,7 +1,9 @@
 package co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.impl;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +18,7 @@ import co.edu.uco.asistenciauco.application.outputport.repository.SesionReposito
 import co.edu.uco.asistenciauco.application.outputport.sendgrid.SendGridService;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.registrarasistencia.domain.Asistencia;
 import co.edu.uco.asistenciauco.application.usecase.asistencia.validator.ValidarQueAsistenciaNoRegistradaParaSesion;
+import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarListaEstudiantesNoRepetidos;
 import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarListaEstudiantesNoVacia;
 import co.edu.uco.asistenciauco.application.usecase.grupo.validator.ValidarQueGrupoActivo;
 import co.edu.uco.asistenciauco.application.usecase.estudiante.validator.ValidarQueEstudianteEnGrupo;
@@ -54,18 +57,19 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 	private final MateriaRepository materiaRepository;
 	private final SesionRepository sesionRepository;
 	private final ValidarListaEstudiantesNoVacia validarListaEstudiantesNoVacia;
+	private final ValidarListaEstudiantesNoRepetidos validarListaEstudiantesNoRepetidos;
 
 
 	public RegistrarAsistenciaUseCaseImpl(ValidarQueEstudianteExista estudianteExiste,
-										  ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste,
-										  ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada, ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo,
-										  ValidarProfesorAsociadoASesion profesorAsociadoASesion,
-										  ValidarQueEstudianteEnGrupo estudianteEnGrupo, ValidarQueEstudianteNoCancelo estudianteNoCancelo,
-										  ValidarQueGrupoActivo validarQueGrupoActivo,
-										  AsistenciaRepository asistenciaRepository, SendGridService sendGridService, EstudianteRepository estudianteRepository,
-										  AsistenciaMapper asistenciaMapper, MateriaRepository materiaRepository,
-										  SesionRepository sesionRepository,
-										  ValidarListaEstudiantesNoVacia validarListaEstudiantesNoVacia) {
+                                          ValidarQueSesionExista sesionExiste, ValidarQueProfesorExista profesorExiste,
+                                          ValidarQueAsistenciaNoRegistradaParaSesion asistenciaNoRegistrada, ValidarQueAsistenciaDentroDelPlazo asistenciaDentroDelPlazo,
+                                          ValidarProfesorAsociadoASesion profesorAsociadoASesion,
+                                          ValidarQueEstudianteEnGrupo estudianteEnGrupo, ValidarQueEstudianteNoCancelo estudianteNoCancelo,
+                                          ValidarQueGrupoActivo validarQueGrupoActivo,
+                                          AsistenciaRepository asistenciaRepository, SendGridService sendGridService, EstudianteRepository estudianteRepository,
+                                          AsistenciaMapper asistenciaMapper, MateriaRepository materiaRepository,
+                                          SesionRepository sesionRepository,
+                                          ValidarListaEstudiantesNoVacia validarListaEstudiantesNoVacia, ValidarListaEstudiantesNoRepetidos validarListaEstudiantesNoRepetidos) {
 		this.estudianteExiste = estudianteExiste;
 		this.estudianteEnGrupo = estudianteEnGrupo;
 		this.estudianteNoCancelo = estudianteNoCancelo;
@@ -75,7 +79,8 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 		this.validarQueGrupoActivo = validarQueGrupoActivo;
 		this.asistenciaNoRegistrada = asistenciaNoRegistrada;
 		this.asistenciaDentroDelPlazo = asistenciaDentroDelPlazo;
-		resultado = new RegistrarAsistenciaResponseVO();
+        this.validarListaEstudiantesNoRepetidos = validarListaEstudiantesNoRepetidos;
+        resultado = new RegistrarAsistenciaResponseVO();
 		this.asistenciaRepository = asistenciaRepository;
 		this.sendGridService = sendGridService;
 		this.estudianteRepository = estudianteRepository;
@@ -154,11 +159,26 @@ public class RegistrarAsistenciaUseCaseImpl implements RegistrarAsistenciaUseCas
 			String technicalMessage = resultado.getMensajes().getFirst();
 			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
 		}
-		
+
+		// Validar que la lista de estudiantes no tenga un mismo estudiantes más de una vez.
+		if(resultado.isValidacionCorrecta()) {
+			ArrayList<UUID> idEstudiantes = new ArrayList<>();
+			for (Estudiante estudiante : dominio.getEstudiantes()) {
+				idEstudiantes.add(estudiante.getId());
+			}
+			resultado.agregarMensajes(validarListaEstudiantesNoRepetidos.validate(idEstudiantes).getMensajes());
+		} else {
+			String userMessage = messageCatalog.getMessage(RedisConstants.VALIDARESTUDIANTESREPETIDOS);
+			String technicalMessage = resultado.getMensajes().getFirst();
+			throw UseCaseAsisteUcoException.create(userMessage, technicalMessage);
+		}
+
 		// 8. Validar que estudiantes sean consistentes para el registro de asistencia.
 		// SE OBTUVIERON TODOS LOS ESTUDIANTES DE UN GRUPO QUE NO HAN CANCELADO!
 		if(resultado.isValidacionCorrecta()) {
 			// Obtención de estudiantes de un grupo que no cancelaron.
+			LinkedHashSet<Estudiante> estudiantesSinRepetir = new LinkedHashSet<>(dominio.getEstudiantes());
+			ArrayList<Estudiante> estudiantes = new ArrayList<>(estudiantesSinRepetir);
 			registrarAsistenciaEstudiantes(dominio.getEstudiantes(), asistenciaMapper.toSesionEntity(dominio.getSesion()).getId());
 		}
 		
