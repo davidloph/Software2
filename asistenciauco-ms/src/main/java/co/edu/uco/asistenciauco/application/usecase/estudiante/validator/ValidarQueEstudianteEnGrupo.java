@@ -26,7 +26,7 @@ public class ValidarQueEstudianteEnGrupo implements Validator<ArrayList<UUID>, V
 		
 		var resultadoValidacion = new ValidationResultVO();
 		
-		if(!estudianteRepository.existsEstudianteInSesionGrupo(data.get(0), data.get(1))) {
+		if(!estudianteRepository.existsEstudianteInSesionGrupo(data.get(1), data.get(0))) {
 			resultadoValidacion.agregarMensaje(messageCatalog.getMessage(RedisConstants.VALIDARQUEESUDIANTEENGRUPOPARTEUNO) + data.get(1) + messageCatalog.getMessage(RedisConstants.VALIDARQUEESUDIANTEENGRUPOPARTEDOS)+ data.get(0) + ".");
 		}
 
